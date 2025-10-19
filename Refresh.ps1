@@ -11,6 +11,10 @@ for $process in (Get-Process -Name "msedge" -ErrorAction SilentlyContinue) {
         # wait here if you want
     $process.Close()  # close all the processes, not just the one that has the mainwindow
 }
+
+# Wait 5 seconds
+Start-Sleep -Seconds 5
+
 # Kill any extra left overs
 Get-Process -Name "msedge" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 
@@ -19,8 +23,7 @@ Get-Process -Name "msedge" -ErrorAction SilentlyContinue | Stop-Process -Force -
 $sessionPath = "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Sessions\*"
 Remove-Item $sessionPath -Force -ErrorAction SilentlyContinue
 
-# Wait 5 seconds
-Start-Sleep -Seconds 5
+
 
 $edgeArguments = @(
     "--kiosk c:\www\index.html"
