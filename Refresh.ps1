@@ -9,6 +9,7 @@ for $process in (Get-Process -Name "msedge" -ErrorAction SilentlyContinue) {
     if ($process.MainWindowHandle -ne 0) {
         $process.CloseMainWindow()
         # wait here if you want
+    }
     $process.Close()  # close all the processes, not just the one that has the mainwindow
 }
 # Kill any extra left overs
@@ -33,5 +34,6 @@ $edgeArguments = @(
     "--disable-features=TouchpadOverscrollHistoryNavigation,TouchDragAndDrop"
 ) 
 Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -ArgumentList $edgeArguments
+
 
 exit 0
