@@ -50,8 +50,9 @@ Dim MyDevice As Integer() = {1224, -1, 1} 'Device Descriptor [MWTAG8]
 Dim AppName As String = "" 'Active application name
 Dim AppTitle As String = "" 'Active application title
 Dim Layer_Red As Integer = 0 'Red,3
-    Dim PS_ScriptPath_Open As String = "C:\www\Scripts\open-button.ps1" ' <-- set this to your PowerShell script path for open
-    Dim PS_ScriptPath_Closed As String = "C:\www\Scripts\closed-button.ps1" ' <-- set this to your PowerShell script path for closed
+    Dim PS_ScriptPath_1 As String = "C:\www\Scripts\refresh.ps1" ' <-- set this to your PowerShell script path
+    Dim PS_ScriptPath_2 As String = "C:\www\Scripts\refresh.ps1" ' <-- set this to your PowerShell script path
+    Dim PS_ScriptPath_3 As String = "C:\www\Scripts\refresh.ps1" ' <-- set this to your PowerShell script path
 '=↑=↑=↑= Initialize Varibles End  =↑=↑=↑=↑=↑=↑=↑=↑=↑=[/MWTAG3]
     '=== Helper: run a PowerShell script hidden and wait for completion ===
     Private Function RunPowerShellHidden(ps1Path As String, Optional extraArgs As String = "") As Integer
@@ -96,19 +97,21 @@ End Sub
 Public Sub XKEvent(CID As Integer, State As Boolean, Repeat As Integer, TimeStamp as Long, MessageData As Integer) Implements Interfaces.IScript.XKEvent
 Select Case CID 'Button Check Start [MWTAG9]
 Case 1001 'SW1
-If State 'Pressed [MWTAG10]
+If State AndAlso Repeat = 0 Then 'Pressed [MWTAG10]
+                ' Run the PowerShell script silently (hidden) and wait for completion
+                RunPowerShellHidden(PS_ScriptPath_1)
 Else 'Released [MWTAG11]
 End If 'Press-Release [/MWTAG10/MWTAG11]
 Case 1002 'SW2
 If State AndAlso Repeat = 0 Then 'Pressed [MWTAG10]
                 ' Run the PowerShell script silently (hidden) and wait for completion
-                RunPowerShellHidden(PS_ScriptPath_Open)
+                RunPowerShellHidden(PS_ScriptPath_2)
 Else 'Released [MWTAG11]
 End If 'Press-Release [/MWTAG10/MWTAG11]
 Case 1003 'SW3
 If State AndAlso Repeat = 0 Then 'Pressed [MWTAG10]
                 ' Run the PowerShell script silently (hidden) and wait for completion
-                RunPowerShellHidden(PS_ScriptPath_Closed)
+                RunPowerShellHidden(PS_ScriptPath_3)
 Else 'Released [MWTAG11]
 End If 'Press-Release [/MWTAG10/MWTAG11]
 
