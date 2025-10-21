@@ -20,7 +20,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
+    }	
 	/* Position the overlay image to the top left */
     #overlay-image {
       position: fixed;
@@ -34,19 +34,19 @@
     #Leftpatch-image {
       position: fixed;
       top: 849px;
-      left: 1799px;
+      left: 1785px;
       width: 390px;
       height: 389px;
-      z-index: 6;
+      z-index: 101;
     }
 	/* Right patch */
     #Rightpatch-image {
       position: fixed;
       top: 849px;
-      left: 3420px;
+      left: 3450px;
       width: 390px;
       height: 389px;
-      z-index: 6;
+      z-index: 101;
     }
 	/* Sendpic */
     #sendpic-image {
@@ -60,26 +60,23 @@
 	/* rope1 */
     #Rope1-image {
       position: fixed;
-      top: 1063px;
-      left: 1935px;
-      z-index: 4;
+      top: 1013px;
+      left: 1853px;
+      z-index: 100;
     }
 	/* rope2 */
     #Rope2-image {
       position: fixed;
-    top: 1340px;
-    left: 1900px;
-      z-index: 4;
+    top: 1290px;
+    left: 1853px;
+      z-index: 100;
     }
 	/* rope3 */
     #Rope3-image {
       position: fixed;
-      top: 1590px;
-    left: 1910px;
-	width: 1800px;
-	height: 26px;
-	overflow: hidden;
-      z-index: 4;
+      top: 1550px;
+    left: 1853px;
+      z-index: 100;
     }
 		/* AF Times */
 		#AFTimes-image {
@@ -89,7 +86,17 @@
 		width: 476px;
 		height: 56px;
 		z-index: 7;
-		} 
+		}
+	/* Slideshow */
+	 .slideshow-container {
+      position: fixed;
+      top: 101px;
+      left: 1959px;
+      width: 1735px;
+      height: 950px;
+      overflow: hidden;
+	  z-index: 6;
+    }
 	.google-container {
 	position: absolute;
     top: 114px;
@@ -153,7 +160,7 @@
 	.google4-container iframe {
 	width: 410px;
 	height: 545px;
-	}
+	}	
 	.google5-container {
 	position: absolute;
 	top: 813px;
@@ -273,19 +280,16 @@
 	z-index: 3;
 	}
 	.google12-container iframe {
-
 	}
 	.time-container {
 	position: absolute;
-    top: 53px;
-    left: 1890px;
+    top: 40px;
+    left: 2300px;
 	overflow: hidden;
 	background: none;
 	border: none;
 	outline: none;
-	z-index: 8;
-	}
-	.time-container iframe {
+	z-index: 99;
 	}
 	.RSS-container {
 	position: absolute;
@@ -306,54 +310,15 @@
   </style>
 </head>
 <body>
- <!--------------------- Weather --------------------------------------->
-<script>
-        (function(d, s, id) {
-            if (d.getElementById(id)) {
-                if (window.__TOMORROW__) {
-                    window.__TOMORROW__.renderWidget();
-                }
-                return;
-            }
-            const fjs = d.getElementsByTagName(s)[0];
-            const js = d.createElement(s);
-            js.id = id;
-            js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
-
-            fjs.parentNode.insertBefore(js, fjs);
-        })(document, 'script', 'tomorrow-sdk');
-        </script>
-
-        <div class="tomorrow"
-           data-location-id="111305"
-           data-language="EN"
-           data-unit-system="IMPERIAL"
-           data-skin="dark"
-           data-widget-type="upcoming"
-           style="position:absolute;top:2008px;left:2200px;z-index:11;width:917px;">
-          <a
-            href="https://www.tomorrow.io/weather-api/"
-            rel="nofollow noopener noreferrer"
-            target="_blank"
-            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
-          >
-            <img
-              alt="Powered by the Tomorrow.io Weather API"
-              src="https://weather-website-client.tomorrow.io/img/powered-by.svg"
-              width="250"
-              height="18"
-            />
-          </a>
-        </div>
- <!--------------------- countdown
+ <!--------------------- countdown 
 <div class="EOY"
            style="position:absolute;top:1025px;left:750px;z-index:13;">
-<iframe src="https://free.timeanddate.com/countdown/i90rpfgt/n18/cf12/cm0/cu5/ct0/cs1/ca0/co1/cr0/ss0/cacf00/cpcf00/pct/tcfff/fn2/fs350/szw576/szh243/tatTime%20Left%20to%20New%20Year/tacf00/tptHappy%20New%20Year!/tpcf00/iso2024-10-01T00:00:00" allowtransparency="true" frameborder="0" width="964" height="286"></iframe>
+<iframe src="https://free.timeanddate.com/countdown/i90rpfgt/n18/cf12/cm0/cu5/ct0/cs1/ca0/co1/cr0/ss0/cacf00/cpcf00/pct/tcfff/fn2/fs350/szw576/szh243/tatTime%20Left%20to%20New%20Year/tacf00/tptHappy%20New%20Year!/tpcf00/iso2025-10-01T00:00:00" allowtransparency="true" frameborder="0" width="964" height="286"></iframe>
 </div>
 --------------------------------------->
  <!--------------------- time  --------------------------------------->
  <div class="time-container">
-  <iframe src="https://free.timeanddate.com/clock/i8v3fk82/n18/fn15/fs48/tct/pct/ftb/tt0/tw1/tm1/ts1/ta1" frameborder="0" width="1000" height="100" allowtransparency="true"></iframe>
+  <iframe src="https://free.timeanddate.com/clock/i8v3fk82/n18/fn15/fs48/fcfff/tct/pct/ftb/tt0/tw1/tm1/ts1" frameborder="0" width="1000" height="100" allowtransparency="true"></iframe>
 </div>
  <!--------------------- video walpaper --------------------------------------->
   <div id="video-container">
@@ -367,12 +332,12 @@
 	<img id="Rightpatch-image" src="Mpatch.png" alt="Right patch">
 	<img id="AFTimes-image" src="aftimes.png" alt="Right patch">
 	<img id="sendpic-image" src="sendpics.png" alt="sendpics">
-    <img id="Rope1-image" src="Rope.png" alt="Rope">
-    <img id="Rope2-image" src="Rope.png" alt="Rope">
-    <img id="Rope3-image" src="Rope.png" alt="Rope">
+<img id="Rope1-image" src="Rope.png" alt="Rope">
+<img id="Rope2-image" src="Rope.png" alt="Rope">
+<img id="Rope3-image" src="Rope.png" alt="Rope">
 <!--------------------- RSS --------------------------------------->
-	<div class="RSS-container">
-  <iframe src="C:\www\RSS.html" frameborder="0" width="1550" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+<div class="RSS-container">
+  <iframe src="C:\inetpub\wwwroot\RSS.html" frameborder="0" width="1550" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </div>
 <!--------------------- Google Slides --------------------------------------->
 <div class="google-container">
