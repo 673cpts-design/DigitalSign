@@ -1,60 +1,71 @@
-# Variables
-$url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTeGA9mhaIGzKltMaNol_ZpGSTWb3zn9aflqht7rgQ8GULU9pGVxMN7vfand7fUoHscMkdm3WzM372h/pub?output=csv"
-$htmlPath = "C:\www\lowleft.html"
-$topPx = 0
-$leftPx = 0
-
-# Download and parse CSV
-$csvText = Invoke-WebRequest -Uri $url | Select-Object -ExpandProperty Content
-$allLines = $csvText -split "`r?`n" | Where-Object { $_.Trim() -ne "" }
-$lines = $allLines | Select-Object -Skip 1  # Skip header
-
-$rows = @()
-
-foreach ($line in $lines) {
-    # CSV parse (supports quoted fields and "" escaping)
-    $fields = [regex]::Matches($line, '(?<=^|,)(?:"((?:[^"]|"")*)"|([^",]*))') | ForEach-Object {
-        if ($_.Groups[1].Success) { $_.Groups[1].Value.Replace('""','"') } else { $_.Groups[2].Value }
-    }
-
-    # Dynamic row skip: ignore blank/near-blank rows; also require at least 3 trailer fields
-    if ($fields.Count -lt 4 -or $fields[0].Trim() -eq "") { continue }
-
-    # Extract last 3 fields: alpha, bgColor, textColor
-    $textColor = $fields[-1]
-    $bgColor   = $fields[-2]
-    $alpha     = $fields[-3]
-
-    # Remove last 3 fields to leave only the data columns
-    $dataOnly = $fields[0..($fields.Count - 4)]
-
-    # Convert hex to rgba
-    if ($bgColor -match '^#([0-9a-fA-F]{6})$') {
-        $r = [convert]::ToInt32($bgColor.Substring(1,2), 16)
-        $g = [convert]::ToInt32($bgColor.Substring(3,2), 16)
-        $b = [convert]::ToInt32($bgColor.Substring(5,2), 16)
-        $bgColorRgba = "rgba($r, $g, $b, $alpha)"
-    } else {
-        $bgColorRgba = $bgColor  # fallback if not hex
-    }
-
-    # ===== Dynamic number of columns (stop at first empty) =====
-    $dataFields = @()
-    foreach ($field in $dataOnly) {
-        if ($null -eq $field -or $field -eq "") { break }
-        $escapedField = '"' + ($field -replace '"','\"') + '"'
-        $dataFields += $escapedField
-    }
-    # ===========================================================
-
-    if ($dataFields.Count -gt 0) {
-        $jsonRow = "{ `"data`": [" + ($dataFields -join ", ") + "], `"color`": `"$textColor`", `"background`": `"$bgColorRgba`" }"
-        $rows += $jsonRow
-    }
+# ====== Google Sheet URLs ======
+$pages = @{
+    lowleft   = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTeGA9mhaIGzKltMaNol_ZpGSTWb3zn9aflqht7rgQ8GULU9pGVxMN7vfand7fUoHscMkdm3WzM372h/pub?output=csv"
+    lowmiddle = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTo3GfdBaLSQbsIiBO1puMBdbB9PgXPNmNed-6v1Faj4WjXVIw_ywW0HndsuOE7JN8GRKzP7pPQyAiW/pub?output=csv"
+    lowright  = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTu7xnxAh8ihmwQcIiBDyMzTMKcQDgBhP5KRsZrkaySsJ-Jp0m4r1xP5VCeszesz_yaZY2fTOoNY367/pub?output=csv"
+    topleft   = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ0q0UCaSZEsh1EO2jkzlJv1aRBaBILYwwo00nt8cm1bTkbgr_rwZWk0f6plQlEEkgCTsfDZLyLA5W/pub?output=csv"
+    topmiddle = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRPZ7oPrZdyPccQi2KqtRHpb3Qr_-_m1hJvFLU-6ROIHbw_hc1F_dMp7OSsfXWH-yT81LwCPgzONF-s/pub?output=csv"
+    topright  = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSoEB9y3EqxH4Ikjpi7ccjyraTEhcAil_7m4rT0WTpNxp5hwxh0RcyLhVXCdUkBG1FRntzApHM_VO_S/pub?output=csv"
 }
 
-# HTML Template
-$htmlContent = @'
+# ====== Process Each Page ======
+foreach ($entry in $pages.GetEnumerator()) {
+    $name = $entry.Key
+    $url = $entry.Value
+    $htmlPath = "C:\www\$name.html"
+
+    Write-Host "Building $htmlPath ..."
+
+    # Download and parse CSV
+    $csvText = Invoke-WebRequest -Uri $url -UseBasicParsing | Select-Object -ExpandProperty Content
+    $allLines = $csvText -split "`r?`n" | Where-Object { $_.Trim() -ne "" }
+    $lines = $allLines | Select-Object -Skip 1  # Skip header
+
+    $rows = @()
+
+    foreach ($line in $lines) {
+        # CSV parse (handles quotes and commas)
+        $fields = [regex]::Matches($line, '(?<=^|,)(?:"((?:[^"]|"")*)"|([^",]*))') | ForEach-Object {
+            if ($_.Groups[1].Success) { $_.Groups[1].Value.Replace('""','"') } else { $_.Groups[2].Value }
+        }
+
+        # Skip blank rows or malformed
+        if ($fields.Count -lt 4 -or $fields[0].Trim() -eq "") { continue }
+
+        # Extract last 3 fields: alpha, bgColor, textColor
+        $textColor = $fields[-1]
+        $bgColor   = $fields[-2]
+        $alpha     = $fields[-3]
+
+        # Remove last 3 fields to leave data columns
+        $dataOnly = $fields[0..($fields.Count - 4)]
+
+        # Convert hex to rgba
+        if ($bgColor -match '^#([0-9a-fA-F]{6})$') {
+            $r = [convert]::ToInt32($bgColor.Substring(1,2), 16)
+            $g = [convert]::ToInt32($bgColor.Substring(3,2), 16)
+            $b = [convert]::ToInt32($bgColor.Substring(5,2), 16)
+            $bgColorRgba = "rgba($r, $g, $b, $alpha)"
+        } else {
+            $bgColorRgba = $bgColor
+        }
+
+        # Dynamic number of columns (stop at first empty)
+        $dataFields = @()
+        foreach ($field in $dataOnly) {
+            if ($null -eq $field -or $field -eq "") { break }
+            $escapedField = '"' + ($field -replace '"','\"') + '"'
+            $dataFields += $escapedField
+        }
+
+        if ($dataFields.Count -gt 0) {
+            $jsonRow = "{ `"data`": [" + ($dataFields -join ", ") + "], `"color`": `"$textColor`", `"background`": `"$bgColorRgba`" }"
+            $rows += $jsonRow
+        }
+    }
+
+    # HTML Template
+    $htmlContent = @'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,14 +87,14 @@ $htmlContent = @'
       top: 0px;
       left: 0px;
       width: 690;
-      height: calc(1.2em * 8); /* show 8 lines */
+      height: calc(1.2em * 8);
       overflow: hidden;
       background: transparent;
     }
     #marquee {
       font-size: 1.7em;
       font-weight: bold;
-      line-height: 0.9em;  /* reduced line spacing */
+      line-height: 0.9em;
       display: block;
       white-space: nowrap;
     }
@@ -91,36 +102,26 @@ $htmlContent = @'
       0% { transform: translateY(0); }
       100% { transform: translateY(-50%); }
     }
-    span.email {
-      color: blue;
-    }
+    span.email { color: blue; }
   </style>
 </head>
 <body>
-
-<div id="marquee-container">
-  <div id="marquee">Loading...</div>
-</div>
-
+  <div id="marquee-container">
+    <div id="marquee">Loading...</div>
+  </div>
 <script>
 const rows = [
 ROWS_PLACEHOLDER
 ];
-
 function highlightEmails(text) {
   return text.replace(
     /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g,
     '<span class="email">$&</span>'
   );
 }
-
 function startMarquee() {
   const marquee = document.getElementById('marquee');
-  if (rows.length === 0) {
-    marquee.innerText = "No data.";
-    return;
-  }
-
+  if (rows.length === 0) { marquee.innerText = "No data."; return; }
   const htmlLines = rows.map(row => {
     const content = row.data.join('   ');
     const color = row.color?.trim() || "black";
@@ -128,10 +129,8 @@ function startMarquee() {
     const line = highlightEmails(content);
     return `<div style="color: ${color}; background-color: ${bg}">${line}</div>`;
   });
-
   const fullContent = htmlLines.concat(htmlLines).join("<br>");
   marquee.innerHTML = fullContent;
-
   requestAnimationFrame(() => {
     const scrollHeight = marquee.scrollHeight;
     marquee.style.animationDuration = `${scrollHeight / 20}s`;
@@ -140,18 +139,17 @@ function startMarquee() {
     marquee.style.animationIterationCount = "infinite";
   });
 }
-
 window.onload = startMarquee;
 </script>
-
 </body>
 </html>
 '@
 
-# Insert the row data into the HTML
-$htmlContent = $htmlContent -replace "ROWS_PLACEHOLDER", ($rows -join ",`n")
+    # Insert the data
+    $htmlContent = $htmlContent -replace "ROWS_PLACEHOLDER", ($rows -join ",`n")
+    $htmlContent | Out-File -FilePath $htmlPath -Encoding utf8
 
-# Save to output.html
-$htmlContent | Out-File -FilePath $htmlPath -Encoding utf8
+    Write-Host "✅ Wrote $htmlPath"
+}
 
-Write-Host "✅ Compact marquee with reduced line spacing written to $htmlPath"
+Write-Host "✅ All six marquees built successfully."
