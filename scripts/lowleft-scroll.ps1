@@ -12,18 +12,20 @@ $lines = $allLines | Select-Object -Skip 1  # Skip header
 $rows = @()
 
 foreach ($line in $lines) {
+    # CSV parse (supports quoted fields and "" escaping)
     $fields = [regex]::Matches($line, '(?<=^|,)(?:"((?:[^"]|"")*)"|([^",]*))') | ForEach-Object {
         if ($_.Groups[1].Success) { $_.Groups[1].Value.Replace('""','"') } else { $_.Groups[2].Value }
     }
 
-    if ($fields.Count -lt 4 -or $fields[0] -eq "") { continue }
+    # Dynamic row skip: ignore blank/near-blank rows; also require at least 3 trailer fields
+    if ($fields.Count -lt 4 -or $fields[0].Trim() -eq "") { continue }
 
     # Extract last 3 fields: alpha, bgColor, textColor
     $textColor = $fields[-1]
     $bgColor   = $fields[-2]
     $alpha     = $fields[-3]
 
-    # Remove last 3 fields
+    # Remove last 3 fields to leave only the data columns
     $dataOnly = $fields[0..($fields.Count - 4)]
 
     # Convert hex to rgba
@@ -36,13 +38,14 @@ foreach ($line in $lines) {
         $bgColorRgba = $bgColor  # fallback if not hex
     }
 
-    # Escape and format row data
+    # ===== Dynamic number of columns (stop at first empty) =====
     $dataFields = @()
     foreach ($field in $dataOnly) {
-        if ($field -eq "") { break }
+        if ($null -eq $field -or $field -eq "") { break }
         $escapedField = '"' + ($field -replace '"','\"') + '"'
         $dataFields += $escapedField
     }
+    # ===========================================================
 
     if ($dataFields.Count -gt 0) {
         $jsonRow = "{ `"data`": [" + ($dataFields -join ", ") + "], `"color`": `"$textColor`", `"background`": `"$bgColorRgba`" }"
