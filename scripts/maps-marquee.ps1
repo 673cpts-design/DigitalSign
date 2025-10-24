@@ -13,8 +13,6 @@ foreach ($entry in $pages.GetEnumerator()) {
     $url = $entry.Value
     $htmlPath = "C:\www\$name.html"
 
-    Write-Host "Building $htmlPath ..."
-
     # Download and parse CSV
     $csvText  = Invoke-WebRequest -Uri $url -UseBasicParsing | Select-Object -ExpandProperty Content
     $allLines = $csvText -split "`r?`n" | Where-Object { $_.Trim() -ne "" }
@@ -23,31 +21,27 @@ foreach ($entry in $pages.GetEnumerator()) {
     $rows = @()
 
     foreach ($line in $lines) {
-        # CSV parse (handles quotes and commas)
         $fields = [regex]::Matches($line, '(?<=^|,)(?:"((?:[^"]|"")*)"|([^",]*))') | ForEach-Object {
             if ($_.Groups[1].Success) { $_.Groups[1].Value.Replace('""','"') } else { $_.Groups[2].Value }
         }
 
-        # Skip blank/malformed rows (need at least 1 data col + 3 trailer cols)
         if ($fields.Count -lt 4 -or $fields[0].Trim() -eq "") { continue }
 
-        # Last 3 fields: alpha, bgColor, textColor
         $textColor = $fields[-1]
         $bgColor   = $fields[-2]
         $alpha     = $fields[-3]
+        $dataOnly  = $fields[0..($fields.Count - 4)]
 
-        # Data columns (dynamic, stop at first empty)
-        $dataOnly = $fields[0..($fields.Count - 4)]
+        # Dynamic number of columns
         $dataFields = @()
         foreach ($field in $dataOnly) {
             if ($null -eq $field -or $field -eq "") { break }
             $escapedField = '"' + ($field -replace '"','\"') + '"'
             $dataFields += $escapedField
         }
-
         if ($dataFields.Count -eq 0) { continue }
 
-        # Hex -> rgba for background using alpha
+        # Hex → RGBA conversion
         if ($bgColor -match '^#([0-9a-fA-F]{6})$') {
             $r = [convert]::ToInt32($bgColor.Substring(1,2), 16)
             $g = [convert]::ToInt32($bgColor.Substring(3,2), 16)
@@ -61,7 +55,7 @@ foreach ($entry in $pages.GetEnumerator()) {
         $rows += $jsonRow
     }
 
-    # --- Templates ---
+    # --- HTML Templates ---
     $htmlMarqueeTemplate = @'
 <!DOCTYPE html>
 <html lang="en">
@@ -99,7 +93,6 @@ foreach ($entry in $pages.GetEnumerator()) {
       0% { transform: translateY(0); }
       100% { transform: translateY(-50%); }
     }
-    span.email { color: blue; }
   </style>
 </head>
 <body>
@@ -110,12 +103,6 @@ foreach ($entry in $pages.GetEnumerator()) {
 const rows = [
 ROWS_PLACEHOLDER
 ];
-function highlightEmails(text) {
-  return text.replace(
-    /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g,
-    '<span class="email">$&</span>'
-  );
-}
 function startMarquee() {
   const marquee = document.getElementById('marquee');
   if (rows.length === 0) { marquee.innerText = "No data."; return; }
@@ -123,8 +110,7 @@ function startMarquee() {
     const content = row.data.join('   ');
     const color = row.color?.trim() || "black";
     const bg = row.background?.trim() || "transparent";
-    const line = highlightEmails(content);
-    return `<div style="color: ${color}; background-color: ${bg}">${line}</div>`;
+    return `<div style="color: ${color}; background-color: ${bg}">${content}</div>`;
   });
   const fullContent = htmlLines.concat(htmlLines).join("<br>");
   marquee.innerHTML = fullContent;
@@ -147,7 +133,7 @@ window.onload = startMarquee;
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CSV Vertical Marquee</title>
+  <title>CSV Vertical List</title>
   <style>
     body {
       background: transparent;
@@ -175,7 +161,6 @@ window.onload = startMarquee;
       display: block;
       white-space: nowrap;
     }
-    span.email { color: blue; }
   </style>
 </head>
 <body>
@@ -186,12 +171,6 @@ window.onload = startMarquee;
 const rows = [
 ROWS_PLACEHOLDER
 ];
-function highlightEmails(text) {
-  return text.replace(
-    /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g,
-    '<span class="email">$&</span>'
-  );
-}
 function renderList() {
   const marquee = document.getElementById('marquee');
   if (rows.length === 0) { marquee.innerText = "No data."; return; }
@@ -199,8 +178,7 @@ function renderList() {
     const content = row.data.join('   ');
     const color = row.color?.trim() || "black";
     const bg = row.background?.trim() || "transparent";
-    const line = highlightEmails(content);
-    return `<div style="color: ${color}; background-color: ${bg}">${line}</div>`;
+    return `<div style="color: ${color}; background-color: ${bg}">${content}</div>`;
   });
   marquee.innerHTML = htmlLines.join("<br>");
 }
@@ -210,18 +188,14 @@ window.onload = renderList;
 </html>
 '@
 
-    # Choose template based on number of rows
+    # Choose template based on row count
     if ($rows.Count -ge 5) {
         $htmlContent = $htmlMarqueeTemplate
     } else {
         $htmlContent = $htmlListTemplate
     }
 
-    # Insert data and write file
     $htmlContent = $htmlContent -replace "ROWS_PLACEHOLDER", ($rows -join ",`n")
     $htmlContent | Out-File -FilePath $htmlPath -Encoding utf8
 
-    Write-Host "✅ Wrote $htmlPath ($($rows.Count) rows; mode: $([string]::Copy($(if ($rows.Count -ge 5) {'marquee'} else {'list'}))))"
 }
-
-Write-Host "✅ All six outputs built."
