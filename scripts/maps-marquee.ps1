@@ -117,7 +117,6 @@ function startMarquee() {
     const content = row.data.join('   ');
     const color = row.color?.trim() || "black";
     const bg = row.background?.trim() || "transparent";
-    const line = highlightEmails(content);
     return `<div style="color: ${color}; background-color: ${bg}">${line}</div>`;
   });
   const fullContent = htmlLines.concat(htmlLines).join("<br>");
@@ -187,7 +186,6 @@ function renderList() {
     const content = row.data.join('   ');
     const color = row.color?.trim() || "black";
     const bg = row.background?.trim() || "transparent";
-    const line = highlightEmails(content);
     return `<div style="color: ${color}; background-color: ${bg}">${line}</div>`;
   });
   marquee.innerHTML = htmlLines.join("<br>");
