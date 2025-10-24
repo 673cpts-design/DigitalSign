@@ -110,6 +110,12 @@ foreach ($entry in $pages.GetEnumerator()) {
 const rows = [
 ROWS_PLACEHOLDER
 ];
+function highlightEmails(text) {
+  return text.replace(
+    /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g,
+    '<span class="email">$&</span>'
+  );
+}
 function startMarquee() {
   const marquee = document.getElementById('marquee');
   if (rows.length === 0) { marquee.innerText = "No data."; return; }
@@ -117,6 +123,7 @@ function startMarquee() {
     const content = row.data.join('   ');
     const color = row.color?.trim() || "black";
     const bg = row.background?.trim() || "transparent";
+    const line = highlightEmails(content);
     return `<div style="color: ${color}; background-color: ${bg}">${line}</div>`;
   });
   const fullContent = htmlLines.concat(htmlLines).join("<br>");
@@ -179,6 +186,12 @@ window.onload = startMarquee;
 const rows = [
 ROWS_PLACEHOLDER
 ];
+function highlightEmails(text) {
+  return text.replace(
+    /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g,
+    '<span class="email">$&</span>'
+  );
+}
 function renderList() {
   const marquee = document.getElementById('marquee');
   if (rows.length === 0) { marquee.innerText = "No data."; return; }
@@ -186,6 +199,7 @@ function renderList() {
     const content = row.data.join('   ');
     const color = row.color?.trim() || "black";
     const bg = row.background?.trim() || "transparent";
+    const line = highlightEmails(content);
     return `<div style="color: ${color}; background-color: ${bg}">${line}</div>`;
   });
   marquee.innerHTML = htmlLines.join("<br>");
@@ -207,6 +221,7 @@ window.onload = renderList;
     $htmlContent = $htmlContent -replace "ROWS_PLACEHOLDER", ($rows -join ",`n")
     $htmlContent | Out-File -FilePath $htmlPath -Encoding utf8
 
+    Write-Host "✅ Wrote $htmlPath ($($rows.Count) rows; mode: $([string]::Copy($(if ($rows.Count -ge 5) {'marquee'} else {'list'}))))"
 }
 
-
+Write-Host "✅ All six outputs built."
