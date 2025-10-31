@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* Set the video container to the desired size and align to top left */
+    #video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 3840px;
+      height: 2160px;
+      overflow: hidden;
+      z-index: -1; /* Move the video behind other elements */
+    }
+    /* Center the video */
+    #video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }	
+	/* Position the overlay image to the top left */
+    #overlay-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 3840px;
+      height: 2160px;
+      z-index: 5;
+    }
+	/* Left patch */
+    #Leftpatch-image {
+      position: fixed;
+      top: 849px;
+      left: 1785px;
+      width: 390px;
+      height: 389px;
+      z-index: 101;
+    }
+	/* Right patch */
+    #Rightpatch-image {
+      position: fixed;
+      top: 849px;
+      left: 3450px;
+      width: 390px;
+      height: 389px;
+      z-index: 101;
+    }
+	/* Sendpic */
+    #sendpic-image {
+      position: fixed;
+      top: 1800px;
+      left: 3350px;
+      width: 300px;
+      height: 300px;
+      z-index: 18;
+    }
+	/* rope1 */
+    #Rope1-image {
+      position: fixed;
+      top: 1013px;
+      left: 1853px;
+      z-index: 100;
+    }
+	/* rope2 */
+    #Rope2-image {
+      position: fixed;
+    top: 1290px;
+    left: 1853px;
+      z-index: 100;
+    }
+	/* rope3 */
+    #Rope3-image {
+      position: fixed;
+      top: 1550px;
+    left: 1853px;
+      z-index: 100;
+    }
+		/* AF Times */
+		#AFTimes-image {
+		position: fixed;
+		top: 1630px;
+		left: 1946px;
+		width: 476px;
+		height: 56px;
+		z-index: 7;
+		}
+	/* Slideshow */
+	 .slideshow-container {
+      position: fixed;
+      top: 101px;
+      left: 1959px;
+      width: 1735px;
+      height: 950px;
+      overflow: hidden;
+	  z-index: 6;
+    }
+	.google-container {
+	position: absolute;
+    top: 114px;
+    left: 122px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+	.google-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+	.google2-container {
+	position: absolute;
+	top: 114px;
+    left: 725px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+	.google2-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+	.google3-container {
+	position: absolute;
+    top: 114px;
+    left: 1325px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+	.google3-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+	.google4-container {
+	position: absolute;
+    top: 813px;
+    left: 122px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+	.google4-container iframe {
+	width: 410px;
+	height: 545px;
+	}	
+	.google5-container {
+	position: absolute;
+	top: 813px;
+    left: 725px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+	.google5-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+	.google6-container {
+	position: absolute;
+	top: 813px;
+    left: 1325px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+	.google6-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+ 	.google7-container {
+	position: absolute;
+	top: 1509px;
+    left: 122px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+	.google7-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+	.google8-container {
+	position: absolute;
+    top: 1509px;
+    left: 725px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+	.google8-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+	.google9-container {
+	position: absolute;
+    top: 1509px;
+    left: 1325px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+	.google9-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+	.google10-container {
+	position: absolute;
+    top: 106px;
+    left: 1953px;
+	width: 1744px;
+	height: 1017px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+	.google10-container iframe {
+	width: 1744px;
+	height: 1017px;
+	}
+	.google11-container {
+	position: absolute;
+    top: 1080px;
+    left: 1935px;	
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 2;
+	}
+	.google11-container iframe {
+	}
+	.google12-container {
+	position: absolute;
+    top: 1350px;
+    left: 1935px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 3;
+	}
+	.google12-container iframe {
+	}
+	.time-container {
+	position: absolute;
+    top: 40px;
+    left: 2300px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 99;
+	}
+	.RSS-container {
+	position: absolute;
+    top: 1630px;
+    left: 1990px;
+    width: 1550px;
+    height: 450px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 9;
+	}
+	.RSS-container iframe {
+	width: 1550px;
+	height: 450px;
+	}
+  </style>
+</head>
+<body>
+ <!--------------------- countdown 
+<div class="EOY"
+           style="position:absolute;top:1025px;left:750px;z-index:13;">
+<iframe src="https://free.timeanddate.com/countdown/i90rpfgt/n18/cf12/cm0/cu5/ct0/cs1/ca0/co1/cr0/ss0/cacf00/cpcf00/pct/tcfff/fn2/fs350/szw576/szh243/tatTime%20Left%20to%20New%20Year/tacf00/tptHappy%20New%20Year!/tpcf00/iso2025-10-01T00:00:00" allowtransparency="true" frameborder="0" width="964" height="286"></iframe>
+</div>
+--------------------------------------->
+ <!--------------------- time  --------------------------------------->
+ <div class="time-container">
+  <iframe src="https://free.timeanddate.com/clock/i8v3fk82/n18/fn15/fs48/fcfff/tct/pct/ftb/tt0/tw1/tm1/ts1" frameborder="0" width="1000" height="100" allowtransparency="true"></iframe>
+</div>
+ <!--------------------- video walpaper --------------------------------------->
+  <div id="video-container">
+    <video id="video" autoplay loop muted>
+      <source src="flagb4.webm" type="video/webm">
+    </video>
+  </div>
+<!--------------------- Template Images --------------------------------------->
+	<img id="overlay-image" src="Template.png" alt="Overlay Image">
+	<img id="Leftpatch-image" src="Opatch.png" alt="Left patch">
+	<img id="Rightpatch-image" src="Mpatch.png" alt="Right patch">
+	<img id="AFTimes-image" src="aftimes.png" alt="Right patch">
+	<img id="sendpic-image" src="sendpics.png" alt="sendpics">
+<img id="Rope1-image" src="Rope.png" alt="Rope">
+<img id="Rope2-image" src="Rope.png" alt="Rope">
+<img id="Rope3-image" src="Rope.png" alt="Rope">
+<!--------------------- RSS --------------------------------------->
+<div class="RSS-container">
+  <iframe src="C:\inetpub\wwwroot\RSS.html" frameborder="0" width="1550" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<!--------------------- Google Slides --------------------------------------->
+<div class="google-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTjviM8HSOzrD5_mYeeyuUURzSiuBPVJeYNeNXeYX4HA7Xc9are2JhbMlIBPTBFBOSSEe4C1RUjUIIl/embed?start=true&loop=true&delayms=60000" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google2-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTSbQPjIYbxsH-DASJFupPTVIs8OdfEFvNtZ9AShAP81DLxQmVbS1Ruw6pdFglaOkGSSAWX-L-KBWCS/embed?start=true&loop=true&delayms=60000" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google3-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSFrNs4HLDo1oxLobg4v6Xu1pbJ97h82K9RNc2rmQfn3z7YFtfiQQNmoCqLEWWyuss8fYiXEC8r6TCo/embed?start=true&loop=true&delayms=60000" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google4-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQS8cW6HdBB4ACrz8Ua8jOTi7HQXgdlZER6yHiiVz3OptihOYT2IctHi9XdnnhdbEjDiI5YnZpqzAmb/embed?start=true&loop=true&delayms=60000" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google5-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQ5bQvYIb4h8P4S89nZwXQ8MaX1zBBGQkB_2E2w_HW9V06w_ihHuF_82-HFUL-H_FzRo03DkCDa0TGk/embed?start=true&loop=true&delayms=60000" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google6-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR-MfNObNvCoZjgwqIaw_v1bUPLBXlCgSfRavdfbA7AVAPQguGOOOzfTH_zhGFAUkdonHIYg4uBMrvC/embed?start=true&loop=true&delayms=60000" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google7-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR1ZQi0EXtwtPqtd1WoOYmOvXnlGfecsN-6SZ2gQRmZTFFJshpQoSEr_qzKAPb5DE_gpW_t7FTJWImY/embed?start=true&loop=true&delayms=60000" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google8-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRAZdgmh2IwvlSjW5ZaAq66HAI28XBI14PSfjwpQk9gRWg63B-mUf9kZLZsdL_yJc_M9ZhoFcB-1_-U/embed?start=true&loop=true&delayms=60000" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google9-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQ7uxkVML6JGDnidbHu5JDLAGSfPY-_VdiZqTYEX-RDPTH7oP2KRWAVRBSJKO_icxAfuzXhmvFI0OcE/embed?start=true&loop=true&delayms=60000" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google10-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR_rN6Z8g9EiTrprK4o9tImyOpsFqw6Z-juPk5ppDvrPVzzBeFWxdpvmuxuILsUwbxNbz1860KcM4nh/embed?start=true&loop=true&delayms=3000" frameborder="0" width="1744" height="1017" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+ <div class="google11-container">
+ <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTu18Jh-mdeT-m1WlhGelZro9nsHnJoTJFjkrlfVTx2Pl5nk6ZT24PyZ9VWOiEYdpxD99wHUscqqWiK/embed?start=true&loop=true&delayms=60000" frameborder="0" width="1768" height="316" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div> 
+ <div class="google12-container">
+ <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vS02GHAROIaqGn8i0frOeEIkE3XVjZ99RHrbG9XCXyib-YBFgCLNXwmFzVgEpQOzU99Ia78TbzO5k_Q/embed?start=true&loop=true&delayms=3000" frameborder="0" width="1770" height="302" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div> 
+</body>
+</html>
