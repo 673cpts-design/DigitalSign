@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* Styles for the container */
+    .container {
+      position: relative;
+      width: 900px;
+      margin: 100px auto 0 auto;
+      perspective: 10000px;
+    }
+
+    /* Styles for the carousel */
+    .carousel {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      background-size: auto;
+      image-rendering: pixelated; 
+      
+      /* Animation settings for carousel rotation */
+      animation: rotate360 100s infinite forwards linear;
+    }
+
+    /* Styles for each face of the carousel */
+    .carousel__face { 
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      background-size: cover;
+      
+      /* Creates a background shadow effect */
+      box-shadow: inset 0 0 0 2000px rgba(0,0,0,0.0);
+      
+      /* Enables flexbox for centering content */
+      display: flex;
+    }
+
+    /* Styles for the centering of content in each face */
+    span {
+      margin: auto;
+      font-size: 2rem;
+    }
+
+    /* Rotation angles for each face of the carousel */
+    .carousel__face:nth-child(1) {
+      /* Face 1 is rotated to face the viewer directly */
+      transform: rotateY(  0deg) translateZ(900px);
+    }
+    .carousel__face:nth-child(2) { 
+      /* Face 2 is rotated to create a 3D effect around the Y-axis */
+      transform: rotateY( 51.42deg) translateZ(900px);
+    }
+    .carousel__face:nth-child(3) {
+      /* Face 3 is rotated to create a 3D effect around the Y-axis */
+      transform: rotateY(102.85deg) translateZ(900px);
+    }
+    .carousel__face:nth-child(4) {
+      /* Face 4 is rotated to create a 3D effect around the Y-axis */
+      transform: rotateY(154.28deg) translateZ(900px);
+    }
+    .carousel__face:nth-child(5) { 
+      /* Face 5 is rotated to create a 3D effect around the Y-axis */
+      transform: rotateY(205.71deg) translateZ(900px);
+    }
+    .carousel__face:nth-child(6) { 
+      /* Face 6 is rotated to create a 3D effect around the Y-axis */
+      transform: rotateY(257.14deg) translateZ(900px);
+    }
+    .carousel__face:nth-child(7) { 
+      /* Face 7 is rotated to create a 3D effect around the Y-axis */
+      transform: rotateY(308.57deg) translateZ(900px);
+    }
+
+    /* Keyframes for carousel rotation animation */
+    @keyframes rotate360 {
+      /* Starting point of the animation - facing forward */
+      from {
+        transform: rotateY(0deg);
+      }
+      /* Ending point of the animation - full 360-degree rotation */
+      to {
+        transform: rotateY(-360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Container for the carousel -->
+<div class="container">
+  <!-- Carousel with multiple faces -->
+  <div class="carousel">
+    <!-- Face 1 - Front -->
+    <div class="carousel__face">
+      <!-- Content of Face 1 (You can replace this with your content) -->
+      <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQO9LGEPY4yBx5H4HX8TJ0Ee5V1HUb0nT_alD1EIFXaoonXqSMvmKhnw1etqxjeEw3kBjw3k3O_rAhM/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="750" height="894" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    </div>
+   
+    <!-- Face 2 -->
+    <div class="carousel__face"> 
+      <!-- Content of Face 2 (You can replace this with your content) -->
+      <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQukAD0jW6o5njKdAK4VRFk0Jyz-KhMvW4vFY_zHmlVRglh_TtUYEDdxySY_KgA8ZbBxHDmKstFBvsQ/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="750" height="894" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    </div>
+    
+    <!-- Face 3 -->
+    <div class="carousel__face">
+      <!-- Content of Face 3 (You can replace this with your content) -->
+      <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSKeLw8l_eh3NGBD1Efcd1ELAmLYwvZFUlvXgnAThDFNlO2-7bhSL81r9Yz1qZ-oRVaeLyTMqMgxs-n/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="750" height="894" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    </div>
+
+    <!-- Face 4 -->
+    <div class="carousel__face">   
+      <!-- Content of Face 5 (You can replace this with your content) -->
+      <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSEIq7Ln4bHH4fKRGkiYKgWJIojxlbGAegTmm1hVx6fEZMcs2x86sLVL-aViraNH1NuuL4-euCLPPH4/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="750" height="894" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    </div>
+ 
+    <!-- Face 5 -->
+	<div class="carousel__face">
+      <!-- Content of Face 4 (You can replace this with your content) -->
+      <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQnWUSEBZ_29PmnQVB8gXbF6TRlzDJhj6D-2hfdNO5sTjwKsmyzS_3UssYC-WqbgNbk5-Oxk_Cg0c7v/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="750" height="894" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    </div>
+
+    <!-- Face 6 -->
+    <div class="carousel__face">
+      <!-- Content of Face 6 (You can replace this with your content) -->
+      <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRpfb09YHlImdtnPVzgkLjmTErzLXqyNkzhvOE-0dzEZzzNpUu2Cl6rQiAA_FTZnI5dUQb3dhNhOLDb/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="750" height="894" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    </div>
+
+    <!-- Face 7 - Back -->
+    <div class="carousel__face">    
+      <!-- Content of Face 7 (You can replace this with your content) -->
+      <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRPzk13DlPxgatAECfdTbt8KHbTRY54MErofONsUkbAcJlYC5RqmvgqlAJ5J-Y1D7FiS3r6yyoKJR9d/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="750" height="894" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
