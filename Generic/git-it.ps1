@@ -1,6 +1,7 @@
 # === EDIT ME (public repo only) ===
 $RepoUrl  = "https://github.com/673cpts-design/DigitalSign.git"  # repo URL
 $Branch   = "main"                                               # main or master
+$SubPath  = ""                                                   # "" = whole repo; or e.g. "deploy/kiosk"
 
 # === NO EDIT BELOW THIS LINE ===
 $TargetPath = "C:\www"
@@ -38,14 +39,10 @@ function Run-External {
 
   $oldEAP = $ErrorActionPreference
   try {
-    $ErrorActionPreference = 'Continue'  # avoid NativeCommandError on stderr
+    $ErrorActionPreference = 'Continue'
     if ($WorkDir) {
       Push-Location $WorkDir
-      try {
-        $output = & $Exe @Args 2>&1
-      } finally {
-        Pop-Location
-      }
+      try { $output = & $Exe @Args 2>&1 } finally { Pop-Location }
     } else {
       $output = & $Exe @Args 2>&1
     }
@@ -59,7 +56,6 @@ function Run-External {
   return ($output -join "`n")
 }
 
-# convenience wrapper for git with -C
 function GitC {
   param(
     [Parameter(Mandatory=$true)][string]$WorkDir,
@@ -76,6 +72,12 @@ foreach ($p in @($CacheRoot, $RepoRoot, $TargetPath)) {
   if (-not (Test-Path $p)) { New-Item -ItemType Directory -Force -Path $p | Out-Null }
 }
 
+# normalize SubPath for later
+$SubPath = [string]$SubPath
+if ($SubPath) {
+  $SubPath = ($SubPath -replace '\\','/').Trim('/')
+}
+
 # ---------- Clone or configure ----------
 if (-not (Test-Path (Join-Path $RepoRoot ".git"))) {
   Write-Log ("Fresh clone -> {0}" -f $RepoUrl)
@@ -89,7 +91,6 @@ if (-not (Test-Path (Join-Path $RepoRoot ".git"))) {
   $curBranch = (GitC -WorkDir $RepoRoot -GitArgs @("rev-parse","--abbrev-ref","HEAD")).Trim()
   if ($curBranch -ne $Branch) {
     GitC -WorkDir $RepoRoot -GitArgs @("fetch","origin",$Branch)
-    # make sure tracking branch exists then switch
     Run-External -Exe $gitExe -Args @("-C",$RepoRoot,"checkout","-B",$Branch,"--track","origin/$Branch") -LogCmd
   }
 }
@@ -108,10 +109,22 @@ if ($localHash -ne $remoteHash) {
   Write-Log ("Already up-to-date at commit: {0}" -f $localHash)
 }
 
-# ---------- Mirror to C:\www (exclude .git) ----------
-$excludeGit = Join-Path $RepoRoot ".git"
-Write-Log ("Mirroring {0} -> {1} ..." -f $RepoRoot, $TargetPath)
-$null = robocopy $RepoRoot $TargetPath *.* /MIR /R:1 /W:1 /NFL /NDL /NP /NJH /NJS /XD $excludeGit
+# ---------- Mirror selection -> C:\www ----------
+$source = $RepoRoot
+if ($SubPath) {
+  $source = Join-Path $RepoRoot $SubPath
+  if (-not (Test-Path $source)) {
+    Write-Log ("ERROR: SubPath not found in repo: {0}" -f $source)
+    throw ("SubPath does not exist on branch '{0}': {1}" -f $Branch, $SubPath)
+  }
+  Write-Log ("Mirroring SUBFOLDER {0} -> {1} ..." -f $source, $TargetPath)
+  # when copying a subfolder, .git is not inside $source, so no /XD needed
+  $null = robocopy $source $TargetPath *.* /MIR /R:1 /W:1 /NFL /NDL /NP /NJH /NJS
+} else {
+  Write-Log ("Mirroring WHOLE REPO {0} -> {1} ..." -f $RepoRoot, $TargetPath)
+  $excludeGit = Join-Path $RepoRoot ".git"
+  $null = robocopy $RepoRoot $TargetPath *.* /MIR /R:1 /W:1 /NFL /NDL /NP /NJH /NJS /XD $excludeGit
+}
 $rc = $LASTEXITCODE
 Write-Log ("Robocopy exit code: {0}" -f $rc)
 if ($rc -ge 8) { throw ("Robocopy failed with code {0}" -f $rc) }
