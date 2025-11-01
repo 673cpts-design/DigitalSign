@@ -3,16 +3,55 @@
 <head>
 <style>
 
-#marquee-frame {
+	#marquee-frameLL {
       position: absolute;
-      top: 3280px;      /* distance from the top of the page */
-      left: 100px;     /* distance from the left of the page */
-      width: 700px;    /* width of the iframe */
-      height: 180px;   /* height of the iframe */
+      top: 3275px;      /* distance from the top of the page */
+      left: 21px;     /* distance from the left of the page */
+      width: 690px;
       border: none;    /* remove default border */
       z-index: 50;
     }
-	
+
+	#marquee-frameLM {
+      position: absolute;
+      top: 3275px;      /* distance from the top of the page */
+      left: 731px;     /* distance from the left of the page */
+      width: 690px;
+      border: none;    /* remove default border */
+      z-index: 50;
+    }
+	#marquee-frameLR {
+      position: absolute;
+      top: 3275px;      /* distance from the top of the page */
+      left: 1441px;     /* distance from the left of the page */
+      width: 690px;
+      border: none;    /* remove default border */
+      z-index: 50;
+    }
+	#marquee-frameTL {
+      position: absolute;
+      top: 2980px;      /* distance from the top of the page */
+      left: 21px;     /* distance from the left of the page */
+      width: 690px;
+      border: none;    /* remove default border */
+      z-index: 50;
+    }
+	#marquee-frameTM {
+      position: absolute;
+      top: 2980px;      /* distance from the top of the page */
+      left: 731px;     /* distance from the left of the page */
+      width: 690px;
+      border: none;    /* remove default border */
+      z-index: 50;
+    }
+	#marquee-frameTR {
+      position: absolute;
+      top: 2980px;      /* distance from the top of the page */
+      left: 1441px;     /* distance from the left of the page */
+      width: 690px;
+      border: none;    /* remove default border */
+      z-index: 50;
+    }
         .google1-container {
 	position: absolute;
 	top: 0px;
@@ -45,21 +84,26 @@
       z-index: 10;
 	}
 
-	.time-container iframe {
+.time-container iframe {
          position: fixed;
          top: 3480px;
          left: 1300px;         
          z-index: 15;
 	}
+        
+
 	</style>
 </head>
 <body>
  <!--------------------- Overlay image to hide borders of the slide --------------------------------------->
-<img id="Template-image" src="c:\www\People-Center-Template.png" alt="Overlay Image">
+<img id="Template-image" src="\People-Center-Template.png" alt="Overlay Image">
 
-
-<iframe id="marquee-frame" src="output.html"></iframe>
-
+<iframe id="marquee-frameLL" src="lowleft.html"></iframe>
+<iframe id="marquee-frameLM" src="lowmiddle.html"></iframe>
+<iframe id="marquee-frameLR" src="lowright.html"></iframe>
+<iframe id="marquee-frameTL" src="topleft.html"></iframe>
+<iframe id="marquee-frameTM" src="topmiddle.html"></iframe>
+<iframe id="marquee-frameTR" src="topright.html"></iframe>
 
  <!--------------------- You are here pin --------------------------------------->
 <img id="Here-image" src="c:\www\here.gif" alt="You are here.">
