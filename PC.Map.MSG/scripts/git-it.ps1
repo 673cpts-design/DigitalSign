@@ -1,7 +1,7 @@
 # === EDIT ME (public repo only) ===
 $RepoUrl  = "https://github.com/673cpts-design/DigitalSign.git"  # repo URL
 $Branch   = "main"                                               # main or master
-$SubPath  = "PC.Maps.CPTS"                                                   # "" = whole repo; or e.g. "deploy/kiosk"
+$SubPath  = "PC.Map.MSG"                                                   # "" = whole repo; or e.g. "deploy/kiosk"
 
 # === NO EDIT BELOW THIS LINE ===
 $TargetPath = "C:\www"
@@ -133,3 +133,4 @@ if ($rc -ge 8) { throw ("Robocopy failed with code {0}" -f $rc) }
 $newHash = (GitC -WorkDir $RepoRoot -GitArgs @("rev-parse","HEAD")).Trim()
 Write-Log ("Sync complete - now at commit {0}" -f $newHash)
 exit 0
+
