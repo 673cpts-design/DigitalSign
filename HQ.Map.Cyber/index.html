@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+	#marquee-frameLL {
+      position: absolute;
+      top: 3275px;      /* distance from the top of the page */
+      left: 21px;     /* distance from the left of the page */
+      width: 690px;
+      border: none;    /* remove default border */
+      z-index: 50;
+    }
+
+	#marquee-frameLM {
+      position: absolute;
+      top: 3275px;      /* distance from the top of the page */
+      left: 731px;     /* distance from the left of the page */
+      width: 690px;
+      border: none;    /* remove default border */
+      z-index: 50;
+    }
+	#marquee-frameLR {
+      position: absolute;
+      top: 3275px;      /* distance from the top of the page */
+      left: 1441px;     /* distance from the left of the page */
+      width: 690px;
+      border: none;    /* remove default border */
+      z-index: 50;
+    }
+        .google1-container {
+	position: absolute;
+	top: 0px;
+   	left: 12px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	scrolling: no;
+	z-index: 1;
+		}
+	.google1-container iframe {
+	overflow: hidden;
+	scrolling: no;
+		}
+
+      #Template-image {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      z-index: 9;
+	}
+
+      #Here-image {
+      position: fixed;
+      top: 1775px;
+      left: 370px;
+      height: 90px;
+      width: 90px;
+      z-index: 10;
+	}
+
+.time-container iframe {
+         position: fixed;
+         top: 3480px;
+         left: 1300px;         
+         z-index: 15;
+	}
+        
+
+	</style>
+</head>
+<body>
+ <!--------------------- Overlay image to hide borders of the slide --------------------------------------->
+<img id="Template-image" src="\Headquarters-Template.png" alt="Overlay Image">
+
+<iframe id="marquee-frameLL" src="lowleft.html"></iframe>
+<iframe id="marquee-frameLM" src="lowmiddle.html"></iframe>
+<iframe id="marquee-frameLR" src="lowright.html"></iframe>
+
+
+ <!--------------------- You are here pin --------------------------------------->
+<img id="Here-image" src="c:\www\here.gif" alt="You are here.">
+
+ <!--------------------- time --------------------------------------->
+ <div class="time-container">
+  <iframe src="https://free.timeanddate.com/clock/i8v3fk82/n18/fn2/fs40/tct/pct/tt0/tw1/tm1/ts1/ta1" frameborder="0" width="800" height="50" allowtransparency="true"></iframe>
+</div>
+
+ <!--------------------- Google Slide --------------------------------------->
+<div class="google1-container">
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSMFonUM2cyWSKuTEY8O2sMhkJcnG5H0RD4DLYW8fu4C70IN7M0JO6F_2P-Hlr0-Rwb7Pp6KIqjjdIJ/pubembed?start=true&loop=true&delayms=60000" frameborder="0" width="2136" height="3519" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+
+<div class="container" style="position: relative;">
+  <p class="text" style="position: absolute; top: 3433px; left: 118px; z-index: 20; font-size: 40px; font-family: Arial, sans-serif; font-weight: 900;">Welcome to Building 10471</p>
+</div>
+
+
+
+</body>
+</html>
