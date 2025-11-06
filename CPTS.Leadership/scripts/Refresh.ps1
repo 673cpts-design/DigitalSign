@@ -176,6 +176,14 @@ Write-Host "CSV file path: $outputCsvPath"
 Write-Host "HTML slideshow path: $outputHtmlPath"
 
 
+# Save the HTML slideshow file
+$htmlContent | Out-File -FilePath $outputHtmlPath
+
+Write-Host "CSV file and HTML slideshow have been generated successfully."
+Write-Host "CSV file path: $outputCsvPath"
+Write-Host "HTML slideshow path: $outputHtmlPath"
+
+
 # Close all Edge browser windows and reload Edge in KIOSK mode, refreshing the information/covering up popups
 # Graceful Edge shutdown attempt by closing the windowed parent allows child processes to wind down naturally to -
 # Prevents “Edge didn’t shut down correctly” banners.
@@ -215,6 +223,7 @@ $edgeArguments = @(
 Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -ArgumentList $edgeArguments
 
 exit 0
+
 
 
 
