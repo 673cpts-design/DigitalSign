@@ -1,16 +1,11 @@
-# === NO EDIT BELOW THIS LINE ===
-$TargetPath = "C:\www"
-$CacheRoot  = "C:\ProgramData\GitCache"
-$LogPath    = "C:\Logs\GitToWWW.log"
-$ErrorActionPreference = "Stop"
-# === EDIT ME (public repo only) ===
-$RepoUrl  = "https://github.com/673cpts-design/DigitalSign.git"  # repo URL (public)
+ === EDIT ME ===
+$RepoUrl  = "https://github.com/673cpts-design/DigitalSign.git"  # public repo URL
 $Branch   = "main"                                               # main or master
-$SubPath  = "PC.Map.CPTS"                                                   # "" = whole repo; e.g. "deploy/kiosk" for subfolder
+$SubPath  = "PC.Map.CPTS"                                       # "" = whole repo; e.g. "deploy/kiosk" (FLATTEN into C:\www)
 
 # === NO EDIT BELOW THIS LINE ===
-$TargetPath = "C:\www"                          # destination (never purged)
-$CacheRoot  = "C:\ProgramData\GitCache"         # local git working copy
+$TargetRoot = "C:\www"
+$CacheRoot  = "C:\ProgramData\GitCache"
 $LogPath    = "C:\Logs\GitToWWW.log"
 $ErrorActionPreference = "Stop"
 
@@ -27,7 +22,7 @@ if ([string]::IsNullOrWhiteSpace($Branch))  { throw "Branch is empty." }
 $gitExe = (Get-Command git.exe -ErrorAction SilentlyContinue).Source
 if (-not $gitExe) { throw "Git not found. Install Git for Windows." }
 
-# ---------- Helper: native command runner (PS5-safe) ----------
+# ---------- Helper: run native safely ----------
 function Run-External {
   param(
     [Parameter(Mandatory=$true)][string]$Exe,
@@ -42,7 +37,7 @@ function Run-External {
 
   $oldEAP = $ErrorActionPreference
   try {
-    $ErrorActionPreference = 'Continue'  # avoid NativeCommandError on stderr
+    $ErrorActionPreference = 'Continue'
     if ($WorkDir) { Push-Location $WorkDir; try { $output = & $Exe @Args 2>&1 } finally { Pop-Location } }
     else { $output = & $Exe @Args 2>&1 }
     $code = $LASTEXITCODE
@@ -52,66 +47,96 @@ function Run-External {
   if ($code -ne 0) { throw "External failed ($code): $cmdForLog`n$($output -join "`n")" }
   return ($output -join "`n")
 }
-
-# Git with -C
 function GitC { param([string]$WorkDir,[string[]]$GitArgs) Run-External -Exe $gitExe -Args (@("-C",$WorkDir)+$GitArgs) -LogCmd }
 
 # ---------- Paths ----------
 $RepoName = (($RepoUrl -replace '^https?://github\.com/','') -replace '\.git$','') -replace '[^A-Za-z0-9._-]','_'
 $RepoRoot = Join-Path $CacheRoot $RepoName
-foreach ($p in @($CacheRoot, $RepoRoot, $TargetPath)) { if (-not (Test-Path $p)) { New-Item -ItemType Directory -Force -Path $p | Out-Null } }
+foreach ($p in @($CacheRoot,$RepoRoot,$TargetRoot)) { if (-not (Test-Path $p)) { New-Item -ItemType Directory -Force -Path $p | Out-Null } }
 
-# normalize SubPath for later
+# Normalize subpath
 $SubPath = [string]$SubPath
-if ($SubPath) { $SubPath = ($SubPath -replace '\\','/').Trim('/') }
+$WantSparse = $false
+if ($SubPath) { $SubPath = ($SubPath -replace '\\','/').Trim('/'); $WantSparse = $true }
 
-# ---------- Clone or configure (cache only; never touches C:\www directly) ----------
+# ---------- Clone (partial) or ensure config ----------
 if (-not (Test-Path (Join-Path $RepoRoot ".git"))) {
-  Write-Log ("Fresh clone -> {0}" -f $RepoUrl)
+  Write-Log ("Fresh partial clone -> {0}" -f $RepoUrl)
   $parent = Split-Path -Parent $RepoRoot
   if (-not (Test-Path $parent)) { New-Item -ItemType Directory -Force -Path $parent | Out-Null }
-  Run-External -Exe $gitExe -Args @("clone","--depth=1","--branch",$Branch,"--single-branch",$RepoUrl,$RepoRoot) -WorkDir $parent -LogCmd
+
+  if ($WantSparse) {
+    Run-External -Exe $gitExe -Args @(
+      "clone","--filter=blob:none","--no-checkout","--no-tags",
+      "--branch",$Branch,"--single-branch",$RepoUrl,$RepoRoot
+    ) -WorkDir $parent -LogCmd
+    GitC $RepoRoot @("sparse-checkout","init","--cone")
+    GitC $RepoRoot @("sparse-checkout","set",$SubPath)
+  } else {
+    Run-External -Exe $gitExe -Args @(
+      "clone","--filter=blob:none","--no-tags",
+      "--branch",$Branch,"--single-branch",$RepoUrl,$RepoRoot
+    ) -WorkDir $parent -LogCmd
+  }
 } else {
   Write-Log "Existing repo detected."
   GitC $RepoRoot @("remote","set-url","origin",$RepoUrl)
-  $cur = (GitC $RepoRoot @("rev-parse","--abbrev-ref","HEAD")).Trim()
-  if ($cur -ne $Branch) {
-    GitC $RepoRoot @("fetch","origin",$Branch)
-    Run-External -Exe $gitExe -Args @("-C",$RepoRoot,"checkout","-B",$Branch,"--track","origin/$Branch") -LogCmd
+  if ($WantSparse) {
+    $cfg = ""
+    try { $cfg = (GitC $RepoRoot @("config","--get","core.sparseCheckout")).Trim() } catch {}
+    if ($cfg -ne "true") { GitC $RepoRoot @("sparse-checkout","init","--cone") }
+    GitC $RepoRoot @("sparse-checkout","set",$SubPath)
+  } else {
+    try { GitC $RepoRoot @("sparse-checkout","disable") } catch {}
   }
 }
 
-# ---------- Fetch & update cache (remote wins) ----------
-GitC $RepoRoot @("fetch","--depth=1","origin",$Branch)
-$localHash  = (GitC $RepoRoot @("rev-parse","HEAD")).Trim()
-$remoteHash = (GitC $RepoRoot @("rev-parse","origin/$Branch")).Trim()
-if ($localHash -ne $remoteHash) {
-  Write-Log ("Update detected. Local: {0} Remote: {1}" -f $localHash,$remoteHash)
-  GitC $RepoRoot @("reset","--hard","origin/$Branch")
-  GitC $RepoRoot @("clean","-fdx")   # cleans ONLY the cache under ProgramData, never C:\www
-} else {
-  Write-Log ("Already up-to-date at commit: {0}" -f $localHash)
-}
+# ---------- Fetch latest (shallow, no tags) & reset ----------
+GitC $RepoRoot @("fetch","--depth=1","--no-tags","origin",$Branch)
+GitC $RepoRoot @("reset","--hard","origin/$Branch")
 
-# ---------- NON-DESTRUCTIVE copy into C:\www (never purge) ----------
-if ($SubPath) {
-  $source = Join-Path $RepoRoot $SubPath
-  if (-not (Test-Path $source)) { throw ("SubPath does not exist on branch '{0}': {1}" -f $Branch, $SubPath) }
-  Write-Log ("Copying SUBFOLDER {0} -> {1} (no deletions)..." -f $source, $TargetPath)
-  $null = robocopy $source $TargetPath *.* /E /XO /XN /XC /R:1 /W:1 /NFL /NDL /NP /NJH /NJS
-  # /E  = include subdirs
-  # /XO /XN /XC = skip older, newer, or same files (copies when different)
+# ---------- Define source/destination ----------
+if ($WantSparse) {
+  # SOURCE = the subpath inside the repo; DESTINATION = C:\www (FLATTEN)
+  $src = Join-Path $RepoRoot $SubPath
+  if (-not (Test-Path $src)) { throw ("SubPath does not exist on branch '{0}': {1}" -f $Branch,$SubPath) }
+  $dst = $TargetRoot      # <— FLATTEN: copy contents of $SubPath into C:\www
 } else {
-  $source = $RepoRoot
-  $excludeGit = Join-Path $RepoRoot ".git"
-  Write-Log ("Copying WHOLE REPO {0} -> {1} (no deletions)..." -f $source, $TargetPath)
-  $null = robocopy $source $TargetPath *.* /E /XO /XN /XC /R:1 /W:1 /NFL /NDL /NP /NJH /NJS /XD $excludeGit
+  # Whole repo → C:\www
+  $src = $RepoRoot
+  $dst = $TargetRoot
 }
-$rc = $LASTEXITCODE
-Write-Log ("Robocopy exit code: {0}" -f $rc)
-if ($rc -ge 8) { throw ("Robocopy failed with code {0}" -f $rc) }
+if (-not (Test-Path $dst)) { New-Item -ItemType Directory -Force -Path $dst | Out-Null }
+
+# ---------- HASH-BASED, NON-DESTRUCTIVE COPY (remote overwrites changed files only) ----------
+$srcFiles = Get-ChildItem $src -Recurse -File -ErrorAction Stop
+foreach ($f in $srcFiles) {
+  # Skip .git metadata if copying whole repo
+  if (-not $WantSparse) {
+    $gitMeta = Join-Path $RepoRoot ".git"
+    if ($f.FullName.StartsWith($gitMeta,[System.StringComparison]::OrdinalIgnoreCase)) { continue }
+  }
+
+  $rel = $f.FullName.Substring($src.Length).TrimStart('\','/')
+  $destFile = Join-Path $dst $rel
+  $destDir  = Split-Path $destFile
+  if (-not (Test-Path $destDir)) { New-Item -ItemType Directory -Force -Path $destDir | Out-Null }
+
+  $copy = $true
+  if (Test-Path $destFile) {
+    try {
+      $hSrc = (Get-FileHash $f.FullName -Algorithm SHA256).Hash
+      $hDst = (Get-FileHash $destFile -Algorithm SHA256).Hash
+      if ($hSrc -eq $hDst) { $copy = $false }
+    } catch { $copy = $true }
+  }
+  if ($copy) {
+    Write-Log ("Updating {0}" -f $rel)
+    Copy-Item $f.FullName $destFile -Force
+  }
+}
 
 # ---------- Done ----------
-$newHash = (GitC $RepoRoot @("rev-parse","HEAD")).Trim()
-Write-Log ("Safe sync complete - now at commit {0}" -f $newHash)
+$new = (GitC $RepoRoot @("rev-parse","HEAD")).Trim()
+Write-Log ("SAFE HASH SYNC (FLATTEN SUBPATH) COMPLETE @ {0}" -f $new)
 exit 0
