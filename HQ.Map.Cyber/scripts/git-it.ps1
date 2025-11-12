@@ -1,4 +1,3 @@
- === EDIT ME ===
 $RepoUrl  = "https://github.com/673cpts-design/DigitalSign.git"  # public repo URL
 $Branch   = "main"                                               # main or master
 $SubPath  = "HQ.Map.Cyber"                                       # "" = whole repo; e.g. "deploy/kiosk" (FLATTEN into C:\www)
@@ -140,3 +139,4 @@ foreach ($f in $srcFiles) {
 $new = (GitC $RepoRoot @("rev-parse","HEAD")).Trim()
 Write-Log ("SAFE HASH SYNC (FLATTEN SUBPATH) COMPLETE @ {0}" -f $new)
 exit 0
+
