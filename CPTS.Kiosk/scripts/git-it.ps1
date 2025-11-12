@@ -1,4 +1,3 @@
- === EDIT ME ===
 $RepoUrl  = "https://github.com/673cpts-design/DigitalSign.git"  # public repo URL
 $Branch   = "main"                                               # main or master
 $SubPath  = "CPTS.Kiosk"                                       # "" = whole repo; e.g. "deploy/kiosk" (FLATTEN into C:\www)
