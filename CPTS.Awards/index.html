@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* Set the video container to the desired size and align to top left */
+    #video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 3840px;
+      height: 2160px;
+      overflow: hidden;
+      z-index: -1; /* Move the video behind other elements */
+    }
+
+    /* Center the video */
+    #video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+	
+	/* Position the overlay image to the top left */
+    #overlay-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 3840px;
+      height: 2160px;
+      z-index: 2;
+    }
+
+	
+	.google-container {
+	position: absolute;
+   	top: 114px;
+    	left: 122px;
+    	width: 410px;
+    	height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+
+	.google-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+
+	.google2-container {
+	position: absolute;
+	top: 114px;
+    left: 725px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+
+	.google2-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+	
+	.google3-container {
+	position: absolute;
+    top: 114px;
+    left: 1325px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+
+	.google3-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+
+	.google4-container {
+	position: absolute;
+    top: 813px;
+    left: 122px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+
+	.google4-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+		
+	.google5-container {
+	position: absolute;
+	top: 813px;
+    left: 725px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+
+	.google5-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+	
+	.google6-container {
+	position: absolute;
+	top: 813px;
+    left: 1325px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+
+	.google6-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+ 
+ 	.google7-container {
+	position: absolute;
+	top: 1509px;
+    left: 122px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+
+	.google7-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+	
+	.google8-container {
+	position: absolute;
+    top: 1509px;
+    left: 725px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+
+	.google8-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+	
+	.google9-container {
+	position: absolute;
+    top: 1509px;
+    left: 1325px;
+    width: 410px;
+    height: 545px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+
+	.google9-container iframe {
+	width: 410px;
+	height: 545px;
+	}
+
+	.Awards-container {
+	position: absolute;
+    top: 0px;
+    left: 1810px;
+    width: 2020px;
+    height: 1100px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 9;
+	}
+
+
+	.Awards-container iframe {
+	width: 2020px;
+	height:1100px;
+	}
+	
+
+
+	.Awards-container2 {
+	position: absolute;
+    top: 1000px;
+    left: 1810px;
+    width: 2020px;
+    height: 1100px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 10;
+	}
+
+
+	.Awards-container2 iframe {
+	width: 2020px;
+	height:1100px;
+	}
+	
+  </style>
+</head>
+<body>
+
+
+  
+ 
+ 
+
+ <!--------------------- video walpaper --------------------------------------->
+  <div id="video-container">
+    <video id="video" autoplay loop muted>
+      <source src="flagb4.webm" type="video/webm">
+    </video>
+  </div>
+
+
+<!--------------------- Template Images --------------------------------------->
+	<img id="overlay-image" src="AwardTemplate.png" alt="Overlay Image">
+	
+  
+
+
+
+<div class="google-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTjviM8HSOzrD5_mYeeyuUURzSiuBPVJeYNeNXeYX4HA7Xc9are2JhbMlIBPTBFBOSSEe4C1RUjUIIl/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google2-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTSbQPjIYbxsH-DASJFupPTVIs8OdfEFvNtZ9AShAP81DLxQmVbS1Ruw6pdFglaOkGSSAWX-L-KBWCS/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google3-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSFrNs4HLDo1oxLobg4v6Xu1pbJ97h82K9RNc2rmQfn3z7YFtfiQQNmoCqLEWWyuss8fYiXEC8r6TCo/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google4-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQS8cW6HdBB4ACrz8Ua8jOTi7HQXgdlZER6yHiiVz3OptihOYT2IctHi9XdnnhdbEjDiI5YnZpqzAmb/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google5-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQ5bQvYIb4h8P4S89nZwXQ8MaX1zBBGQkB_2E2w_HW9V06w_ihHuF_82-HFUL-H_FzRo03DkCDa0TGk/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google6-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR-MfNObNvCoZjgwqIaw_v1bUPLBXlCgSfRavdfbA7AVAPQguGOOOzfTH_zhGFAUkdonHIYg4uBMrvC/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google7-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR1ZQi0EXtwtPqtd1WoOYmOvXnlGfecsN-6SZ2gQRmZTFFJshpQoSEr_qzKAPb5DE_gpW_t7FTJWImY/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google8-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRAZdgmh2IwvlSjW5ZaAq66HAI28XBI14PSfjwpQk9gRWg63B-mUf9kZLZsdL_yJc_M9ZhoFcB-1_-U/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="google9-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQ7uxkVML6JGDnidbHu5JDLAGSfPY-_VdiZqTYEX-RDPTH7oP2KRWAVRBSJKO_icxAfuzXhmvFI0OcE/embed?start=true&loop=true&delayms=60000&amp;rm=minimal" frameborder="0" width="410" height="545" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="Awards-container">
+  <iframe src="C:\www\Awards2.html" frameborder="0" width="1620" height="1100" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<div class="Awards-container2">
+  <iframe src="C:\www\Awards.html" frameborder="0" width="1620" height="1100" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+
+</body>
+</html>
