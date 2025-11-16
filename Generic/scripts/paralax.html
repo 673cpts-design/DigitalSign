@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kiosk Parallax Slider with Sidebar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.7.0/swiper-bundle.min.css">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      cursor: none;          /* hide mouse in kiosk */
+      user-select: none;     /* no text selection */
+    }
+
+    [class^=swiper-button-] {
+      transition: all 0.3s ease;
+    }
+
+    .swiper-slide {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    *, *:before, *:after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Layout: main on left, nav on right */
+    .swiper-container {
+      height: 100vh;
+      transition: opacity 0.6s ease, transform 0.3s ease;
+      position: relative;
+    }
+
+    .main-slider {
+      width: 80%;
+      float: left;
+    }
+
+    .nav-slider {
+      width: 20%;
+      float: left;
+      padding-left: 5px;
+    }
+
+    .nav-slider .swiper-slide {
+      cursor: default;          /* no pointer */
+      opacity: 0.4;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-slider .swiper-slide.swiper-slide-active {
+      opacity: 1;
+    }
+
+    .nav-slider .swiper-slide .content {
+      width: 100%;
+    }
+
+    .nav-slider .swiper-slide .content .title {
+      font-size: 20px;
+    }
+
+    /* Hide nav arrows (and disable interaction) */
+    .swiper-button-prev,
+    .swiper-button-next {
+      width: 44px;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+
+    .swiper-slide {
+      overflow: hidden;
+    }
+
+    .swiper-slide .slide-bgimg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-position: center;
+      background-size: cover;
+    }
+
+    .swiper-slide .entity-img {
+      display: none;
+    }
+
+    .swiper-slide .content {
+      position: absolute;
+      top: 40%;
+      left: 0;
+      width: 50%;
+      padding-left: 5%;
+      color: #fff;
+      text-shadow: 0 0 8px rgba(0,0,0,0.6);
+    }
+
+    .swiper-slide .content .title {
+      font-size: 2.6em;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+
+    .swiper-slide .content .caption {
+      display: block;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    /* We’ll keep .loading here but not rely on it to hide anything */
+    .swiper-container.loading {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Extra safety: no pointer events on sliders at all */
+    .swiper-container,
+    .swiper-wrapper,
+    .swiper-slide {
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Main slider -->
+<div class="swiper-container main-slider loading">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(https://images.unsplash.com/photo-1483985988355-763728e1935b?crop=entropy&cs=srgb&fm=jpg&q=85)" data-swiper-parallax-x="50%">
+        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?crop=entropy&cs=srgb&fm=jpg&q=85" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Shaun Matthews</p>
+        <span class="caption" data-swiper-parallax-x="30%" data-swiper-parallax-opacity="0">
+          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        </span>
+      </div>
+    </div>
+
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(https://images.unsplash.com/photo-1500643752441-4dc90cda350a?crop=entropy&cs=srgb&fm=jpg&q=85)" data-swiper-parallax-x="50%">
+        <img src="https://images.unsplash.com/photo-1500643752441-4dc90cda350a?crop=entropy&cs=srgb&fm=jpg&q=85" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Alexis Berry</p>
+        <span class="caption" data-swiper-parallax-x="30%" data-swiper-parallax-opacity="0">
+          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        </span>
+      </div>
+    </div>
+
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(https://images.unsplash.com/photo-1465408953385-7c4627c29435?crop=entropy&cs=srgb&fm=jpg&q=85)" data-swiper-parallax-x="50%">
+        <img src="https://images.unsplash.com/photo-1465408953385-7c4627c29435?crop=entropy&cs=srgb&fm=jpg&q=85" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Billie Pierce</p>
+        <span class="caption" data-swiper-parallax-x="30%" data-swiper-parallax-opacity="0">
+          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        </span>
+      </div>
+    </div>
+
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(https://images.unsplash.com/photo-1538329972958-465d6d2144ed?crop=entropy&cs=srgb&fm=jpg&q=85)" data-swiper-parallax-x="50%">
+        <img src="https://images.unsplash.com/photo-1538329972958-465d6d2144ed?crop=entropy&cs=srgb&fm=jpg&q=85" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Trevor Copeland</p>
+        <span class="caption" data-swiper-parallax-x="30%" data-swiper-parallax-opacity="0">
+          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        </span>
+      </div>
+    </div>
+
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(https://images.unsplash.com/photo-1583292650898-7d22cd27ca6f?crop=entropy&cs=srgb&fm=jpg&q=85)" data-swiper-parallax-x="50%">
+        <img src="https://images.unsplash.com/photo-1583292650898-7d22cd27ca6f?crop=entropy&cs=srgb&fm=jpg&q=85" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Bernadette Newman</p>
+        <span class="caption" data-swiper-parallax-x="30%" data-swiper-parallax-opacity="0">
+          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Arrows exist in DOM but are fully disabled/hidden -->
+  <div class="swiper-button-prev swiper-button-white"></div>
+  <div class="swiper-button-next swiper-button-white"></div>
+</div>
+
+<!-- Sidebar / thumbnail nav slider (visual only, not interactive) -->
+<div class="swiper-container nav-slider">
+  <div class="swiper-wrapper" role="navigation">
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(https://images.unsplash.com/photo-1483985988355-763728e1935b?crop=entropy&cs=srgb&fm=jpg&q=85)">
+        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?crop=entropy&cs=srgb&fm=jpg&q=85" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Shaun Matthews</p>
+      </div>
+    </div>
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(https://images.unsplash.com/photo-1500643752441-4dc90cda350a?crop=entropy&cs=srgb&fm=jpg&q=85)">
+        <img src="https://images.unsplash.com/photo-1500643752441-4dc90cda350a?crop=entropy&cs=srgb&fm=jpg&q=85" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Alexis Berry</p>
+      </div>
+    </div>
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(https://images.unsplash.com/photo-1465408953385-7c4627c29435?crop=entropy&cs=srgb&fm=jpg&q=85)">
+        <img src="https://images.unsplash.com/photo-1465408953385-7c4627c29435?crop=entropy&cs=srgb&fm=jpg&q=85" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Billie Pierce</p>
+      </div>
+    </div>
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(https://images.unsplash.com/photo-1538329972958-465d6d2144ed?crop=entropy&cs=srgb&fm=jpg&q=85)">
+        <img src="https://images.unsplash.com/photo-1538329972958-465d6d2144ed?crop=entropy&cs=srgb&fm=jpg&q=85" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Trevor Copeland</p>
+      </div>
+    </div>
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(https://images.unsplash.com/photo-1583292650898-7d22cd27ca6f?crop=entropy&cs=srgb&fm=jpg&q=85)">
+        <img src="https://images.unsplash.com/photo-1583292650898-7d22cd27ca6f?crop=entropy&cs=srgb&fm=jpg&q=85" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Bernadette Newman</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.7.0/swiper-bundle.min.js"></script>
+<script>
+  // Main Slider
+  const mainSlider = new Swiper('.main-slider', {
+    loop: true,
+    speed: 1000,
+    parallax: true,
+    autoplay: {
+      delay: 8000,              // 8 seconds per slide
+      disableOnInteraction: false
+    },
+    loopAdditionalSlides: 10,
+    grabCursor: false,
+
+    // Disable all user interactions
+    allowTouchMove: false,
+    simulateTouch: false,
+    keyboard: { enabled: false },
+    mousewheel: false
+  });
+
+  // Nav Slider (visual only, synced with main)
+  const navSlider = new Swiper('.nav-slider', {
+    loop: true,
+    loopAdditionalSlides: 10,
+    speed: 1000,
+    spaceBetween: 5,
+    slidesPerView: 5,
+    centeredSlides: true,
+    direction: 'vertical',
+
+    // No interaction
+    allowTouchMove: false,
+    simulateTouch: false,
+    slideToClickedSlide: false
+  });
+
+  // Sync sliders
+  mainSlider.controller.control = navSlider;
+  navSlider.controller.control = mainSlider;
+</script>
+</body>
+</html>

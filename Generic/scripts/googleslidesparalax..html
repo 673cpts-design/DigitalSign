@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kiosk Google Slides with Sidebar + Parallax + Rewind</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.7.0/swiper-bundle.min.css">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    body {
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+      font-family: system-ui, Arial, sans-serif;
+      cursor: none;          /* hide mouse in kiosk */
+      user-select: none;     /* no text selection */
+    }
+
+    /* Flex container for main + sidebar */
+    .slider-shell {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .swiper-container {
+      height: 100vh;
+      position: relative;
+    }
+
+    .main-slider {
+      flex: 0 0 80%;
+    }
+
+    .nav-slider {
+      flex: 0 0 20%;
+      background: #111;
+    }
+
+    .swiper-slide {
+      position: relative;
+      overflow: hidden;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    /* Parallax wrapper */
+    .slide-parallax {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Google Slides embed */
+    .slide-iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Sidebar vertical slider */
+    .nav-slider .swiper-wrapper {
+      padding: 10px 5px;
+      box-sizing: border-box;
+    }
+
+    .nav-slider .swiper-slide {
+      height: 120px;
+      margin-bottom: 8px;
+      background: #222;
+      border-radius: 4px;
+      opacity: 0.4;
+      transition: opacity 0.3s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    .nav-slider .swiper-slide.swiper-slide-active {
+      opacity: 1;
+      transform: scale(1.02);
+    }
+
+    .thumbnail-title {
+      font-size: 16px;
+      line-height: 1.3;
+      color: #fff;
+    }
+
+    /* Hides swipe arrows (unused in kiosk) */
+    .swiper-button-prev,
+    .swiper-button-next {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+<div class="slider-shell">
+  <!-- Main slider -->
+  <div class="swiper-container main-slider">
+    <div class="swiper-wrapper">
+      <!-- Slide 1 -->
+      <div class="swiper-slide">
+        <div class="slide-parallax" data-swiper-parallax-x="100%">
+          <iframe class="slide-iframe"
+            src="https://docs.google.com/presentation/d/e/2PACX-1vRXtmVTuBlWEjJBJ6RN8YA2m-xed7fWq6gb6ddku_2ruLRSewyTq2Cr16a5zNsRQaLTNXa8MOGIX8xT/embed?start=true&loop=true&delayms=60000&rm=minimal"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+        </div>
+      </div>
+      <!-- Slide 2 -->
+      <div class="swiper-slide">
+        <div class="slide-parallax" data-swiper-parallax-x="100%">
+          <iframe class="slide-iframe"
+            src="https://docs.google.com/presentation/d/e/2PACX-1vRgC3V5FbY4ku-5XvunEe5-iT2NdRwIXHW5PfoO5svFdjYWCYmvkyV8TcHWGk18niorZyZoi7kzsEkt/embed?start=true&loop=true&delayms=60000&rm=minimal"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+        </div>
+      </div>
+      <!-- Slide 3 -->
+      <div class="swiper-slide">
+        <div class="slide-parallax" data-swiper-parallax-x="100%">
+          <iframe class="slide-iframe"
+            src="https://docs.google.com/presentation/d/e/2PACX-1vQkm2TEAbOUM3AxOsNglL0c-Z_7oahup1Pjl1kRQTxVVSnOb3dSSPu52gl_EirQ6mvjuSccJzr2GZ7p/embed?start=true&loop=true&delayms=60000&rm=minimal"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+        </div>
+      </div>
+      <!-- Slide 4 -->
+      <div class="swiper-slide">
+        <div class="slide-parallax" data-swiper-parallax-x="100%">
+          <iframe class="slide-iframe"
+            src="https://docs.google.com/presentation/d/e/2PACX-1vSCSLrG_m8tbcInc0H8cFpYGzEwehmXfZ0ZJGauba_tRUAxfiPXPNtEMpHXLcOFtsrtDDxAUWYH4M1J/embed?start=true&loop=true&delayms=60000&rm=minimal"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+        </div>
+      </div>
+      <!-- Slide 5 -->
+      <div class="swiper-slide">
+        <div class="slide-parallax" data-swiper-parallax-x="100%">
+          <iframe class="slide-iframe"
+            src="https://docs.google.com/presentation/d/e/2PACX-1vTEijrXSDWpxrbAHB_x0Rd-xhy9SA3-c5tLJiGrL1TocrLc37L2d7COyvu8kAhdZ6vIk2pw6OxsN-XY/embed?start=true&loop=true&delayms=60000&rm=minimal"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+        </div>
+      </div>
+      <!-- Slide 6 -->
+      <div class="swiper-slide">
+        <div class="slide-parallax" data-swiper-parallax-x="100%">
+          <iframe class="slide-iframe"
+            src="https://docs.google.com/presentation/d/e/2PACX-1vSStxfmvmElnjR_JNdG7Hvkmkm3EIqux3eifCnTKJ7nFA4AltAjMmzEVBhJav9ppHN2tkSvAizvF02N/embed?start=true&loop=true&delayms=60000&rm=minimal"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+        </div>
+      </div>
+      <!-- Slide 7 -->
+      <div class="swiper-slide">
+        <div class="slide-parallax" data-swiper-parallax-x="100%">
+          <iframe class="slide-iframe"
+            src="https://docs.google.com/presentation/d/e/2PACX-1vSyx58n7iB-SNHASTuNWNNd1uHpK1hI4a79yjIsmE2bwuH8ydTu_PmWEM3bruotNHBZOvJvu_-p9NXc/embed?start=true&loop=true&delayms=60000&rm=minimal"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar / nav slider -->
+  <div class="swiper-container nav-slider">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><div class="thumbnail-title">Slideset 1</div></div>
+      <div class="swiper-slide"><div class="thumbnail-title">Slideset 2</div></div>
+      <div class="swiper-slide"><div class="thumbnail-title">Slideset 3</div></div>
+      <div class="swiper-slide"><div class="thumbnail-title">Slideset 4</div></div>
+      <div class="swiper-slide"><div class="thumbnail-title">Slideset 5</div></div>
+      <div class="swiper-slide"><div class="thumbnail-title">Slideset 6</div></div>
+      <div class="swiper-slide"><div class="thumbnail-title">Slideset 7</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.7.0/swiper-bundle.min.js"></script>
+<script>
+  // Main Slider (Google Slides with parallax + rewind)
+  const mainSlider = new Swiper('.main-slider', {
+    rewind: true,           // 🔁 Use rewind instead of infinite loop
+    speed: 1000,
+    parallax: true,
+    autoplay: {
+      delay: 8000,          // change interval between slides here ⏱️
+      disableOnInteraction: false
+    },
+    allowTouchMove: false,
+    simulateTouch: false,
+    keyboard: { enabled: false },
+    mousewheel: false
+  });
+
+  // Sidebar slider (synced)
+  const navSlider = new Swiper('.nav-slider', {
+    rewind: true,
+    speed: 1000,
+    spaceBetween: 5,
+    slidesPerView: 5,
+    centeredSlides: true,
+    direction: 'vertical',
+    allowTouchMove: false,
+    simulateTouch: false,
+    slideToClickedSlide: false
+  });
+
+  // Sync the two sliders
+  mainSlider.controller.control = navSlider;
+  navSlider.controller.control = mainSlider;
+</script>
+
+</body>
+</html>
