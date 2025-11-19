@@ -207,30 +207,12 @@ window.onload = renderList;
 
 }
 
-# Find the browser processes that actually own a window
-for $process in (Get-Process -Name "msedge" -ErrorAction SilentlyContinue) {
-    if ($process.MainWindowHandle -ne 0) {
-        $process.CloseMainWindow()
-        # wait here if you want
-    }
-    $process.Close()  # close all the processes, not just the one that has the mainwindow
-}
-
-# Wait 5 seconds
-Start-Sleep -Seconds 5
-
-# Kill any extra left overs
-Get-Process -Name "msedge" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-
-
-#Clear session restore files (safe cleanup)
-$sessionPath = "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Sessions\*"
-Remove-Item $sessionPath -Force -ErrorAction SilentlyContinue
 
 
 
 $edgeArguments = @(
-    "--kiosk c:\www\index.html"
+    "--kiosk" 
+    "c:\www\index.html"
     "--edge-kiosk-type=fullscreen"
     "--disable-pinch"
     "--touch-events=disabled"
