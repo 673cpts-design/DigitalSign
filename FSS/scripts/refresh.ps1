@@ -24,7 +24,8 @@ Remove-Item $sessionPath -Force -ErrorAction SilentlyContinue
 
 # Relaunch Edge in kiosk mode
 $edgeArguments = @(
-    "--kiosk c:\www\index.html"
+    "--kiosk" 
+    "c:\www\index.html"
     "--edge-kiosk-type=fullscreen"
     "--disable-pinch"
     "--touch-events=disabled"
@@ -32,8 +33,5 @@ $edgeArguments = @(
     "--disable-touch-drag-drop"
     "--disable-gesture-requirement-for-media-playback"
     "--disable-features=TouchpadOverscrollHistoryNavigation,TouchDragAndDrop"
-)
-
+) 
 Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -ArgumentList $edgeArguments
-
-exit 0
