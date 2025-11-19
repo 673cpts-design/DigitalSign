@@ -1,10 +1,4 @@
 # Generate 6 HTML files for google sheets data.
-# Close all Edge browser windows and reload Edge in KIOSK mode, refreshing the information/covering up popups
-# Graceful Edge shutdown attempt by closing the windowed parent allows child processes to wind down naturally to -
-# Prevents “Edge didn’t shut down correctly” banners.
-# Profile stability: avoids corrupting session/lock files.
-
-
 # ====== Google Sheet URLs ======
 $pages = @{
     lowleft   = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTeGA9mhaIGzKltMaNol_ZpGSTWb3zn9aflqht7rgQ8GULU9pGVxMN7vfand7fUoHscMkdm3WzM372h/pub?output=csv"
