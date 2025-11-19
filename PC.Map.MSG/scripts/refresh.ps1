@@ -206,7 +206,6 @@ window.onload = renderList;
     $htmlContent | Out-File -FilePath $htmlPath -Encoding utf8
 
 }
-
 # Close all Edge browser windows and reload Edge in KIOSK mode, refreshing the information/covering up popups
 # Graceful Edge shutdown attempt by closing the windowed parent allows child processes to wind down naturally to -
 # Prevents “Edge didn’t shut down correctly” banners.
@@ -233,7 +232,8 @@ Remove-Item $sessionPath -Force -ErrorAction SilentlyContinue
 
 # Relaunch Edge in kiosk mode
 $edgeArguments = @(
-    "--kiosk c:\www\index.html"
+    "--kiosk" 
+    "c:\www\index.html"
     "--edge-kiosk-type=fullscreen"
     "--disable-pinch"
     "--touch-events=disabled"
@@ -246,4 +246,5 @@ $edgeArguments = @(
 Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -ArgumentList $edgeArguments
 
 exit 0
+
 
