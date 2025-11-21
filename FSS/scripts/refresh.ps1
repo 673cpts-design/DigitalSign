@@ -11,17 +11,13 @@ foreach ($process in (Get-Process -Name "msedge" -ErrorAction SilentlyContinue))
         $null = $process.CloseMainWindow()  # suppress output
     }
 }
-
 # Small delay for graceful exit
 Start-Sleep -Seconds 5
-
 # Kill any leftover processes silently
 Get-Process -Name "msedge" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-
 # Clear session restore files to prevent warning banners
 $sessionPath = "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Sessions\*"
 Remove-Item $sessionPath -Force -ErrorAction SilentlyContinue
-
 # Relaunch Edge in kiosk mode
 $edgeArguments = @(
     "--kiosk" 
@@ -33,5 +29,5 @@ $edgeArguments = @(
     "--disable-touch-drag-drop"
     "--disable-gesture-requirement-for-media-playback"
     "--disable-features=TouchpadOverscrollHistoryNavigation,TouchDragAndDrop"
-) 
+)
 Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -ArgumentList $edgeArguments
