@@ -3,8 +3,6 @@
 # Graceful Edge shutdown attempt by closing the windowed parent allows child processes to wind down naturally to -
 # Prevents “Edge didn’t shut down correctly” banners.
 # Profile stability: avoids corrupting session/lock files.
-
-
 # ====== Google Sheet URLs ======
 $pages = @{
     lowleft   = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTeGA9mhaIGzKltMaNol_ZpGSTWb3zn9aflqht7rgQ8GULU9pGVxMN7vfand7fUoHscMkdm3WzM372h/pub?output=csv"
@@ -14,31 +12,25 @@ $pages = @{
     topmiddle = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRPZ7oPrZdyPccQi2KqtRHpb3Qr_-_m1hJvFLU-6ROIHbw_hc1F_dMp7OSsfXWH-yT81LwCPgzONF-s/pub?output=csv"
     topright  = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSoEB9y3EqxH4Ikjpi7ccjyraTEhcAil_7m4rT0WTpNxp5hwxh0RcyLhVXCdUkBG1FRntzApHM_VO_S/pub?output=csv"
 }
-
 foreach ($entry in $pages.GetEnumerator()) {
     $name = $entry.Key
     $url = $entry.Value
     $htmlPath = "C:\www\$name.html"
-
     # Download and parse CSV
     $csvText  = Invoke-WebRequest -Uri $url -UseBasicParsing | Select-Object -ExpandProperty Content
     $allLines = $csvText -split "`r?`n" | Where-Object { $_.Trim() -ne "" }
     $lines    = $allLines | Select-Object -Skip 1  # Skip header
-
     $rows = @()
-
     foreach ($line in $lines) {
         $fields = [regex]::Matches($line, '(?<=^|,)(?:"((?:[^"]|"")*)"|([^",]*))') | ForEach-Object {
             if ($_.Groups[1].Success) { $_.Groups[1].Value.Replace('""','"') } else { $_.Groups[2].Value }
         }
 
         if ($fields.Count -lt 4 -or $fields[0].Trim() -eq "") { continue }
-
         $textColor = $fields[-1]
         $bgColor   = $fields[-2]
         $alpha     = $fields[-3]
         $dataOnly  = $fields[0..($fields.Count - 4)]
-
         # Dynamic number of columns
         $dataFields = @()
         foreach ($field in $dataOnly) {
@@ -57,11 +49,9 @@ foreach ($entry in $pages.GetEnumerator()) {
         } else {
             $bgColorRgba = $bgColor
         }
-
         $jsonRow = "{ `"data`": [" + ($dataFields -join ", ") + "], `"color`": `"$textColor`", `"background`": `"$bgColorRgba`" }"
         $rows += $jsonRow
     }
-
     # --- HTML Templates ---
     $htmlMarqueeTemplate = @'
 <!DOCTYPE html>
@@ -134,7 +124,6 @@ window.onload = startMarquee;
 </body>
 </html>
 '@
-
     $htmlListTemplate = @'
 <!DOCTYPE html>
 <html lang="en">
@@ -194,14 +183,12 @@ window.onload = renderList;
 </body>
 </html>
 '@
-
     # Choose template based on row count
     if ($rows.Count -ge 5) {
         $htmlContent = $htmlMarqueeTemplate
     } else {
         $htmlContent = $htmlListTemplate
     }
-
     $htmlContent = $htmlContent -replace "ROWS_PLACEHOLDER", ($rows -join ",`n")
     $htmlContent | Out-File -FilePath $htmlPath -Encoding utf8
 
@@ -219,17 +206,13 @@ foreach ($process in (Get-Process -Name "msedge" -ErrorAction SilentlyContinue))
         $null = $process.CloseMainWindow()  # suppress output
     }
 }
-
 # Small delay for graceful exit
 Start-Sleep -Seconds 5
-
 # Kill any leftover processes silently
 Get-Process -Name "msedge" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-
 # Clear session restore files to prevent warning banners
 $sessionPath = "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Sessions\*"
 Remove-Item $sessionPath -Force -ErrorAction SilentlyContinue
-
 # Relaunch Edge in kiosk mode
 $edgeArguments = @(
     "--kiosk" 
@@ -242,9 +225,4 @@ $edgeArguments = @(
     "--disable-gesture-requirement-for-media-playback"
     "--disable-features=TouchpadOverscrollHistoryNavigation,TouchDragAndDrop"
 )
-
 Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -ArgumentList $edgeArguments
-
-exit 0
-
-
