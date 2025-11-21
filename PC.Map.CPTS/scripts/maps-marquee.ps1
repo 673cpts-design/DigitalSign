@@ -1,3 +1,4 @@
+# Generate 6 HTML files for google sheets data.
 # ====== Google Sheet URLs ======
 $pages = @{
     lowleft   = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTeGA9mhaIGzKltMaNol_ZpGSTWb3zn9aflqht7rgQ8GULU9pGVxMN7vfand7fUoHscMkdm3WzM372h/pub?output=csv"
@@ -7,31 +8,24 @@ $pages = @{
     topmiddle = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRPZ7oPrZdyPccQi2KqtRHpb3Qr_-_m1hJvFLU-6ROIHbw_hc1F_dMp7OSsfXWH-yT81LwCPgzONF-s/pub?output=csv"
     topright  = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSoEB9y3EqxH4Ikjpi7ccjyraTEhcAil_7m4rT0WTpNxp5hwxh0RcyLhVXCdUkBG1FRntzApHM_VO_S/pub?output=csv"
 }
-
 foreach ($entry in $pages.GetEnumerator()) {
     $name = $entry.Key
     $url = $entry.Value
     $htmlPath = "C:\www\$name.html"
-
     # Download and parse CSV
     $csvText  = Invoke-WebRequest -Uri $url -UseBasicParsing | Select-Object -ExpandProperty Content
     $allLines = $csvText -split "`r?`n" | Where-Object { $_.Trim() -ne "" }
     $lines    = $allLines | Select-Object -Skip 1  # Skip header
-
     $rows = @()
-
     foreach ($line in $lines) {
         $fields = [regex]::Matches($line, '(?<=^|,)(?:"((?:[^"]|"")*)"|([^",]*))') | ForEach-Object {
             if ($_.Groups[1].Success) { $_.Groups[1].Value.Replace('""','"') } else { $_.Groups[2].Value }
         }
-
         if ($fields.Count -lt 4 -or $fields[0].Trim() -eq "") { continue }
-
         $textColor = $fields[-1]
         $bgColor   = $fields[-2]
         $alpha     = $fields[-3]
         $dataOnly  = $fields[0..($fields.Count - 4)]
-
         # Dynamic number of columns
         $dataFields = @()
         foreach ($field in $dataOnly) {
@@ -40,7 +34,6 @@ foreach ($entry in $pages.GetEnumerator()) {
             $dataFields += $escapedField
         }
         if ($dataFields.Count -eq 0) { continue }
-
         # Hex → RGBA conversion
         if ($bgColor -match '^#([0-9a-fA-F]{6})$') {
             $r = [convert]::ToInt32($bgColor.Substring(1,2), 16)
@@ -50,11 +43,9 @@ foreach ($entry in $pages.GetEnumerator()) {
         } else {
             $bgColorRgba = $bgColor
         }
-
         $jsonRow = "{ `"data`": [" + ($dataFields -join ", ") + "], `"color`": `"$textColor`", `"background`": `"$bgColorRgba`" }"
         $rows += $jsonRow
     }
-
     # --- HTML Templates ---
     $htmlMarqueeTemplate = @'
 <!DOCTYPE html>
@@ -127,7 +118,6 @@ window.onload = startMarquee;
 </body>
 </html>
 '@
-
     $htmlListTemplate = @'
 <!DOCTYPE html>
 <html lang="en">
@@ -187,7 +177,6 @@ window.onload = renderList;
 </body>
 </html>
 '@
-
     # Choose template based on row count
     if ($rows.Count -ge 5) {
         $htmlContent = $htmlMarqueeTemplate
@@ -197,5 +186,4 @@ window.onload = renderList;
 
     $htmlContent = $htmlContent -replace "ROWS_PLACEHOLDER", ($rows -join ",`n")
     $htmlContent | Out-File -FilePath $htmlPath -Encoding utf8
-
 }
