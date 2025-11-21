@@ -1,4 +1,8 @@
-# Download the data from google sheets and build the marquee html files to embed in the index file
+# Generate 6 HTML files for google sheets data.
+# Close all Edge browser windows and reload Edge in KIOSK mode, refreshing the information/covering up popups
+# Graceful Edge shutdown attempt by closing the windowed parent allows child processes to wind down naturally to -
+# Prevents “Edge didn’t shut down correctly” banners.
+# Profile stability: avoids corrupting session/lock files.
 # ====== Google Sheet URLs ======
 $pages = @{
     lowleft   = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTeGA9mhaIGzKltMaNol_ZpGSTWb3zn9aflqht7rgQ8GULU9pGVxMN7vfand7fUoHscMkdm3WzM372h/pub?output=csv"
@@ -21,6 +25,7 @@ foreach ($entry in $pages.GetEnumerator()) {
         $fields = [regex]::Matches($line, '(?<=^|,)(?:"((?:[^"]|"")*)"|([^",]*))') | ForEach-Object {
             if ($_.Groups[1].Success) { $_.Groups[1].Value.Replace('""','"') } else { $_.Groups[2].Value }
         }
+
         if ($fields.Count -lt 4 -or $fields[0].Trim() -eq "") { continue }
         $textColor = $fields[-1]
         $bgColor   = $fields[-2]
@@ -34,6 +39,7 @@ foreach ($entry in $pages.GetEnumerator()) {
             $dataFields += $escapedField
         }
         if ($dataFields.Count -eq 0) { continue }
+
         # Hex → RGBA conversion
         if ($bgColor -match '^#([0-9a-fA-F]{6})$') {
             $r = [convert]::ToInt32($bgColor.Substring(1,2), 16)
@@ -118,7 +124,6 @@ window.onload = startMarquee;
 </body>
 </html>
 '@
-
     $htmlListTemplate = @'
 <!DOCTYPE html>
 <html lang="en">
@@ -186,6 +191,7 @@ window.onload = renderList;
     }
     $htmlContent = $htmlContent -replace "ROWS_PLACEHOLDER", ($rows -join ",`n")
     $htmlContent | Out-File -FilePath $htmlPath -Encoding utf8
+
 }
 # Close all Edge browser windows and reload Edge in KIOSK mode, refreshing the information/covering up popups
 # Graceful Edge shutdown attempt by closing the windowed parent allows child processes to wind down naturally to -
