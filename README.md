@@ -2,13 +2,19 @@ Problem Statement
 
 How do we modernize old institutional processes to become more efficient with money and manpower while increasing positive public perception and employee morale?
 
+
+
 Industry Answer
 
 There's an app for that! Maybe you need multi-app solutions, each with a monthly subscription!
 
+
+
 Industry Reality
 
 Most apps are just webpages rendered by the web browser.
+
+
 
 My Solution
 
