@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Two Iframes Right Side</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 3840px;
+            height: 2160px;
+            background: black; /* or transparent */
+            overflow: hidden;
+        }
+
+        .iframe-top-right {
+            position: absolute;
+            top: 0;
+            left: 1920px;   /* start right half */
+            width: 1920px;
+            height: 1080px;
+            border: none;
+        }
+
+        .iframe-bottom-right {
+            position: absolute;
+            top: 1080px;    /* second half */
+            left: 1920px;   /* right half */
+            width: 1920px;
+            height: 1080px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <iframe class="iframe-top-right" src="up.html"></iframe>
+
+    <iframe class="iframe-bottom-right" src="down.html"></iframe>
+
+</body>
+</html>
