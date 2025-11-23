@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kiosk Parallax Slider with Sidebar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.7.0/swiper-bundle.min.css">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      cursor: none;
+      user-select: none;
+    }
+
+    [class^=swiper-button-] {
+      transition: all 0.3s ease;
+    }
+
+    .swiper-slide {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    *, *:before, *:after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    .swiper-container {
+      height: 100vh;
+      transition: opacity 0.6s ease, transform 0.3s ease;
+      position: relative;
+    }
+
+    .main-slider {
+      width: 80%;
+      float: left;
+    }
+
+    .nav-slider {
+      width: 20%;
+      float: left;
+      padding-left: 5px;
+    }
+
+    .nav-slider .swiper-slide {
+      cursor: default;
+      opacity: 0.4;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-slider .swiper-slide.swiper-slide-active {
+      opacity: 1;
+    }
+
+    .nav-slider .swiper-slide .content {
+      width: 100%;
+    }
+
+    .nav-slider .swiper-slide .content .title {
+      font-size: 20px;
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+      width: 44px;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+
+    .swiper-slide {
+      overflow: hidden;
+    }
+
+    .swiper-slide .slide-bgimg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-position: center;
+      background-size: cover;
+    }
+
+    .swiper-slide .entity-img {
+      display: none;
+    }
+
+    .swiper-slide .content {
+      position: absolute;
+      top: 40%;
+      left: 0;
+      width: 50%;
+      padding-left: 5%;
+      color: #fff;
+      text-shadow: 0 0 8px rgba(0,0,0,0.6);
+    }
+
+    .swiper-slide .content .title {
+      font-size: 2.6em;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+
+    .swiper-slide .content .caption {
+      display: block;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .swiper-container.loading {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .swiper-container,
+    .swiper-wrapper,
+    .swiper-slide {
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Main slider -->
+<div class="swiper-container main-slider loading">
+  <div class="swiper-wrapper">
+
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(file:///C:/www/slide1.jpg)" data-swiper-parallax-x="50%">
+        <img src="file:///C:/www/slide1.jpg" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Shaun Matthews</p>
+        <span class="caption" data-swiper-parallax-x="30%" data-swiper-parallax-opacity="0">
+          Lorem Ipsum sample caption text.
+        </span>
+      </div>
+    </div>
+
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(file:///C:/www/slide2.jpg)" data-swiper-parallax-x="50%">
+        <img src="file:///C:/www/slide2.jpg" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Alexis Berry</p>
+        <span class="caption" data-swiper-parallax-x="30%" data-swiper-parallax-opacity="0">
+          Lorem Ipsum sample caption text.
+        </span>
+      </div>
+    </div>
+
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(file:///C:/www/slide3.jpg)" data-swiper-parallax-x="50%">
+        <img src="file:///C:/www/slide3.jpg" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Billie Pierce</p>
+        <span class="caption" data-swiper-parallax-x="30%" data-swiper-parallax-opacity="0">
+          Lorem Ipsum sample caption text.
+        </span>
+      </div>
+    </div>
+
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(file:///C:/www/slide4.jpg)" data-swiper-parallax-x="50%">
+        <img src="file:///C:/www/slide4.jpg" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Trevor Copeland</p>
+        <span class="caption" data-swiper-parallax-x="30%" data-swiper-parallax-opacity="0">
+          Lorem Ipsum sample caption text.
+        </span>
+      </div>
+    </div>
+
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(file:///C:/www/slide5.jpg)" data-swiper-parallax-x="50%">
+        <img src="file:///C:/www/slide5.jpg" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Bernadette Newman</p>
+        <span class="caption" data-swiper-parallax-x="30%" data-swiper-parallax-opacity="0">
+          Lorem Ipsum sample caption text.
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="swiper-button-prev swiper-button-white"></div>
+  <div class="swiper-button-next swiper-button-white"></div>
+</div>
+
+<!-- Sidebar nav slider -->
+<div class="swiper-container nav-slider">
+  <div class="swiper-wrapper" role="navigation">
+
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(file:///C:/www/slide1.jpg)">
+        <img src="file:///C:/www/slide1.jpg" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Shaun Matthews</p>
+      </div>
+    </div>
+
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(file:///C:/www/slide2.jpg)">
+        <img src="file:///C:/www/slide2.jpg" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Alexis Berry</p>
+      </div>
+    </div>
+
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(file:///C:/www/slide3.jpg)">
+        <img src="file:///C:/www/slide3.jpg" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Billie Pierce</p>
+      </div>
+    </div>
+
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(file:///C:/www/slide4.jpg)">
+        <img src="file:///C:/www/slide4.jpg" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Trevor Copeland</p>
+      </div>
+    </div>
+
+    <div class="swiper-slide">
+      <figure class="slide-bgimg" style="background-image:url(file:///C:/www/slide5.jpg)">
+        <img src="file:///C:/www/slide5.jpg" class="entity-img" />
+      </figure>
+      <div class="content">
+        <p class="title">Bernadette Newman</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.7.0/swiper-bundle.min.js"></script>
+<script>
+  const mainSlider = new Swiper('.main-slider', {
+    loop: true,
+    speed: 1000,
+    parallax: true,
+    autoplay: {
+      delay: 8000,
+      disableOnInteraction: false
+    },
+    loopAdditionalSlides: 10,
+    grabCursor: false,
+    allowTouchMove: false,
+    simulateTouch: false,
+    keyboard: { enabled: false },
+    mousewheel: false
+  });
+
+  const navSlider = new Swiper('.nav-slider', {
+    loop: true,
+    loopAdditionalSlides: 10,
+    speed: 1000,
+    spaceBetween: 5,
+    slidesPerView: 5,
+    centeredSlides: true,
+    direction: 'vertical',
+    allowTouchMove: false,
+    simulateTouch: false,
+    slideToClickedSlide: false
+  });
+
+  mainSlider.controller.control = navSlider;
+  navSlider.controller.control = mainSlider;
+</script>
+
+</body>
+</html>
