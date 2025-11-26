@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Two Iframes Right Side</title>
+    <style>
+        /*
+		html, body {
+            margin: 0;
+            padding: 0;
+            width: 3840px;
+            height: 2160px;
+            background: url("images/wall.png");
+            overflow: hidden;
+        }
+*/
+
+		.vid-bg {
+            position: absolute;
+            top: 0px;    
+            left: 0px;   
+            border: none;
+			z-index: -1;
+			}
+			
+        .iframe-top-right {
+            position: absolute;
+            top: 0;
+            left: 1920px;   /* start right half */
+            width: 1920px;
+            height: 1080px;
+            border: none;
+        }
+
+        .iframe-bottom-left {
+            position: absolute;
+            top: 1080px;    
+            left: 0px;   
+            width: 960px;
+            height: 1080px;
+            border: none;
+        }
+		 .iframe-bottom-middle-left {
+            position: absolute;
+            top: 1080px;    
+            left: 960px;   
+            width: 960px;
+            height: 1080px;
+            border: none;
+        }
+		 .iframe-bottom-middle-right {
+            position: absolute;
+            top: 1080px;    
+            left: 1920px;   
+            width: 960px;
+            height: 1080px;
+            border: none;
+        }
+		.iframe-bottom-right {
+            position: absolute;
+            top: 1080px;    
+            left: 2880px;   
+            width: 960px;
+            height: 1080px;
+            border: none;
+        }
+	        .img-Q1 {
+            position: absolute;
+            top: 1130px;    
+            left: 940px;   
+            width: 490px;
+            height: 210px;
+            border: none;
+			z-index: 10;
+        }
+		 .img-Q2 {
+            position: absolute;
+            top: 1130px;    
+            left: 1700px;   
+            width: 490px;
+            height: 210px;
+            border: none;
+			z-index: 10;
+        }
+		 .img-Q3 {
+            position: absolute;
+            top: 1130px;    
+            left: 2460px;   
+            width: 490px;
+            height: 210px;
+            border: none;
+			z-index: 10;
+        }
+		.img-Q4 {
+            position: absolute;
+            top: 1130px;    
+            left: 3220px;   
+            width: 490px;
+            height: 210px;
+            border: none;
+			z-index: 10;
+        }
+		.img-Logo {
+            position: absolute;
+            top: 1080px;    
+            left: 10px;   
+            width: 900px;
+            height: 1080px;
+            border: none;
+			z-index: 10;
+        }	
+		.img-Frames {
+            position: absolute;
+            top: 0px;    
+            left: 0px;   
+            border: none;
+			z-index: 10;
+        }			
+    </style>
+</head>
+<body>      
+	<video class=vid-bg src="videos/1hour.webm" type="video/webm" autoplay loop muted></video>
+	<iframe class="iframe-top-right" src="up.html" style="background: transparent;" allowtransparency="true"></iframe>
+    <iframe class="iframe-bottom-right" src="4.html" style="background: transparent;" allowtransparency="true"></iframe>
+	<iframe class="iframe-bottom-middle-right" src="3.html" style="background: transparent;" allowtransparency="true"></iframe>
+	<iframe class="iframe-bottom-middle-left" src="2.html" style="background: transparent;" allowtransparency="true"></iframe>
+	<iframe class="iframe-bottom-left" src="1.html" style="background: transparent;" allowtransparency="true"></iframe>
+	<img class="img-Q1" src="images/Q1.png"/>
+	<img class="img-Q2" src="images/Q2.png"/>
+	<img class="img-Q3" src="images/Q3.png"/>
+	<img class="img-Q4" src="images/Q4.png"/>
+	<img class="img-Logo" src="images/Logo.png"/>
+	<img class="img-Frames" src="images/frames-a.png"/>
+	
+</body>
+</html>
