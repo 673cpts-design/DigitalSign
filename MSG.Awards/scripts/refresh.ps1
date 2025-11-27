@@ -26,7 +26,8 @@ Remove-Item $sessionPath -Force -ErrorAction SilentlyContinue
 
 # Relaunch Edge in kiosk mode
 $edgeArguments = @(
-    "--kiosk c:\www\index.html"
+    "--kiosk"
+    "c:\www\index.html"
     "--edge-kiosk-type=fullscreen"
     "--disable-pinch"
     "--touch-events=disabled"
