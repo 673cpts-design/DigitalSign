@@ -1,3 +1,5 @@
+& "C:\www\scripts\Download-Presentations.ps1"
+& "C:\www\scripts\Build-cube-html.ps1"
 # Close all Edge browser windows and reload Edge in KIOSK mode, refreshing the information/covering up popups
 # Graceful Edge shutdown attempt by closing the windowed parent allows child processes to wind down naturally to -
 # Prevents “Edge didn’t shut down correctly” banners.
