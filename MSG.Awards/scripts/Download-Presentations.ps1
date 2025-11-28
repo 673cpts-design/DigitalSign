@@ -87,5 +87,6 @@ function Download-GSlideDeckPngs {
 
 foreach ($p in $presentations) {
     $folder = Join-Path $baseOutputPath $p.Name
+    gci $folder -ErrorAction SilentlyContinue | ri
     Download-GSlideDeckPngs -Url $p.Url -OutputFolder $folder -MaxSlides $p.MaxSlides
 }
