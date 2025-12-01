@@ -1,3 +1,7 @@
+#=================== REQUIREMENTS ===================
+# INSTALL THE FOLLOWING
+# ImageMagick  https://imagemagick.org/archive/binaries/ImageMagick-7.1.2-9-Q16-HDRI-x64-dll.exe
+# Ghostscript/GhostPDL https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/tag/gs10060
 # ================== CONFIGURATION ==================
 
 $baseOutputPath = "C:\www\images"
