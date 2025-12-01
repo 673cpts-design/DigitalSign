@@ -1,5 +1,3 @@
-& "C:\www\scripts\Download-Presentations.ps1"
-& "C:\www\scripts\Build-cube-html.ps1"
 # Close all Edge browser windows and reload Edge in KIOSK mode, refreshing the information/covering up popups
 # Graceful Edge shutdown attempt by closing the windowed parent allows child processes to wind down naturally to -
 # Prevents “Edge didn’t shut down correctly” banners.
@@ -24,6 +22,13 @@ Get-Process -Name "msedge" -ErrorAction SilentlyContinue | Stop-Process -Force -
 $sessionPath = "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Sessions\*"
 Remove-Item $sessionPath -Force -ErrorAction SilentlyContinue
 
+# Download google slides and convert to .png files
+& "C:\www\scripts\DL-PDF2PNG.ps1"
+# Use the quarterly images to build the html files for the cubes 
+& "C:\www\scripts\Build-cube-html.ps1"
+# Use the yearly images to buils the html files for the yearly slides
+& "C:\www\scripts\Build-year-html.ps1"
+
 # Relaunch Edge in kiosk mode
 $edgeArguments = @(
     "--kiosk"
@@ -38,5 +43,3 @@ $edgeArguments = @(
 )
 
 Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -ArgumentList $edgeArguments
-
-exit 0
