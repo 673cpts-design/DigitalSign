@@ -4,17 +4,14 @@
     <meta charset="UTF-8">
     <title>Two Iframes Right Side</title>
     <style>
-        /*
+
 		html, body {
             margin: 0;
             padding: 0;
             width: 3840px;
             height: 2160px;
-            background: url("images/wall.png");
             overflow: hidden;
         }
-*/
-
 		.vid-bg {
             position: absolute;
             top: 0px;    
@@ -22,7 +19,7 @@
             border: none;
 			z-index: -1;
 			}
-			
+
         .iframe-top-right {
             position: absolute;
             top: 0;
@@ -35,39 +32,39 @@
         .iframe-bottom-left {
             position: absolute;
             top: 1080px;    
-            left: 0px;   
-            width: 960px;
+            left: 1040px;   
+            width: 700px;
             height: 1080px;
             border: none;
         }
 		 .iframe-bottom-middle-left {
             position: absolute;
             top: 1080px;    
-            left: 960px;   
-            width: 960px;
+            left: 1740px;   
+            width: 700px;
             height: 1080px;
             border: none;
         }
 		 .iframe-bottom-middle-right {
             position: absolute;
             top: 1080px;    
-            left: 1920px;   
-            width: 960px;
+            left: 2440px;   
+            width: 700px;
             height: 1080px;
             border: none;
         }
 		.iframe-bottom-right {
             position: absolute;
             top: 1080px;    
-            left: 2880px;   
-            width: 960px;
+            left: 3140px;   
+            width: 700px;
             height: 1080px;
             border: none;
         }
 	        .img-Q1 {
             position: absolute;
-            top: 1130px;    
-            left: 940px;   
+            top: 1060px;    
+            left: 1150px;   
             width: 490px;
             height: 210px;
             border: none;
@@ -75,8 +72,8 @@
         }
 		 .img-Q2 {
             position: absolute;
-            top: 1130px;    
-            left: 1700px;   
+            top: 1060px;    
+            left: 1850px;   
             width: 490px;
             height: 210px;
             border: none;
@@ -84,8 +81,8 @@
         }
 		 .img-Q3 {
             position: absolute;
-            top: 1130px;    
-            left: 2460px;   
+            top: 1060px;    
+            left: 2550px;   
             width: 490px;
             height: 210px;
             border: none;
@@ -93,8 +90,8 @@
         }
 		.img-Q4 {
             position: absolute;
-            top: 1130px;    
-            left: 3220px;   
+            top: 1060px;    
+            left: 3250px;   
             width: 490px;
             height: 210px;
             border: none;
@@ -109,18 +106,51 @@
             border: none;
 			z-index: 10;
         }	
-		.img-Frames {
+		.img-L1 {
             position: absolute;
             top: 0px;    
-            left: 0px;   
+            left: 0px; 
+            width: 480px;
+            height: 560px;			
             border: none;
 			z-index: 10;
-        }			
+        }
+		.img-L2 {
+            position: absolute;
+            top: 0px;    
+            left: 1440px; 
+            width: 480px;
+            height: 560px;				
+            border: none;
+			z-index: 10;
+        }
+		.img-L3 {
+            position: absolute;
+            top: 560px;    
+            left: 0px;   
+			width: 480px;
+            height: 560px;	
+            border: none;
+			z-index: 10;
+        }
+		.img-L4 {
+            position: absolute;
+            top: 560px;    
+            left: 1440px;
+            width: 480px;
+            height: 560px;				
+            border: none;
+			z-index: 10;
+        }		
     </style>
 </head>
-<body>      
+<body>   
 	<video class=vid-bg src="videos/1hour.webm" type="video/webm" autoplay loop muted></video>
-	<iframe class="iframe-top-right" src="up.html" style="background: transparent;" allowtransparency="true"></iframe>
+	<img class="img-L1" src="images/Leadership/slide-000.png"/>   
+	<img class="img-L2" src="images/Leadership/slide-001.png"/>  
+	<img class="img-L3" src="images/Leadership/slide-002.png"/>  
+	<img class="img-L4" src="images/Leadership/slide-003.png"/>  
+	<iframe class="iframe-top-right" src="y.html" style="background: transparent;" allowtransparency="true"></iframe>
     <iframe class="iframe-bottom-right" src="4.html" style="background: transparent;" allowtransparency="true"></iframe>
 	<iframe class="iframe-bottom-middle-right" src="3.html" style="background: transparent;" allowtransparency="true"></iframe>
 	<iframe class="iframe-bottom-middle-left" src="2.html" style="background: transparent;" allowtransparency="true"></iframe>
@@ -130,7 +160,6 @@
 	<img class="img-Q3" src="images/Q3.png"/>
 	<img class="img-Q4" src="images/Q4.png"/>
 	<img class="img-Logo" src="images/Logo.png"/>
-	<img class="img-Frames" src="images/frames-a.png"/>
 	
 </body>
 </html>
