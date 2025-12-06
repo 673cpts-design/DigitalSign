@@ -13,57 +13,54 @@
             overflow: hidden;
         }
 
-        #frame {
+        #terminal {
             position: absolute;
             inset: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
+            padding: 20px;
+            color: #00FF00;
+            background: #000;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 26px;
+            white-space: pre-wrap;
+            overflow-y: auto;
         }
     </style>
 </head>
 <body>
 
-    <!-- Load text file inside an iframe -->
-    <iframe id="frame" src="about:blank"></iframe>
+<div id="terminal">Initializing…</div>
 
-    <script>
-        const frame = document.getElementById("frame");
+<script>
+async function refresh() {
+    try {
+        // Load raw text file (bypasses Edge caching limitations for file://)
+        const response = await fetch("script-output.txt?ts=" + Date.now());
+        if (!response.ok) return;
 
-        function loadLog() {
-            // Reload text file into iframe each second
-            frame.src = "script-output.txt?ts=" + Date.now();
+        const text = await response.text();
 
-            // After it loads, apply terminal CSS
-            frame.onload = () => {
-                try {
-                    const doc = frame.contentDocument || frame.contentWindow.document;
+        // Convert < and > to safe HTML so logs display correctly
+        const safe = text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
 
-                    // Wrap text content in styled PRE block
-                    const rawText = doc.body.innerText;
+        // Insert into terminal container
+        const term = document.getElementById("terminal");
+        term.innerHTML = safe;
 
-                    doc.body.innerHTML = `
-                        <pre style="
-                            margin:0;
-                            padding:20px;
-                            background:#000;
-                            color:#00ff00;
-                            font-family: Consolas, 'Courier New', monospace;
-                            font-size:26px;
-                            line-height:1.2;
-                            white-space:pre-wrap;
-                            word-wrap:break-word;
-                        ">${rawText}</pre>
-                    `;
-                } catch (e) {
-                    // Kiosk-safe silent fail
-                }
-            };
-        }
+        // Auto-scroll to bottom
+        term.scrollTop = term.scrollHeight;
 
-        setInterval(loadLog, 1000);
-        loadLog();
-    </script>
+    } catch (e) {
+        // Silent fail kiosk-safe
+    }
+}
+
+// Refresh every 1 second
+setInterval(refresh, 1000);
+refresh();
+</script>
 
 </body>
 </html>
