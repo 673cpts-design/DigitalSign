@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live PowerShell Output</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;          /* use 'transparent' if you want overlay */
+      color: #0f0;
+      font-family: Consolas, "Courier New", monospace;
+      overflow: hidden;
+    }
+    pre {
+      margin: 0;
+      padding: 10px;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-size: 22px;          /* tweak for your kiosk */
+    }
+  </style>
+</head>
+<body>
+  <pre id="log">Waiting for script output...</pre>
+
+  <script>
+    async function refreshLog() {
+      try {
+        // Cache buster so Edge doesn’t reuse stale file
+        const response = await fetch("script-output.txt?ts=" + Date.now());
+        if (!response.ok) {
+          return;
+        }
+        const text = await response.text();
+
+        // Optional: only show last N lines so big logs don’t get heavy
+        const lines = text.split(/\r?\n/);
+        const lastLines = lines.slice(-200).join("\n"); // last 200 lines
+
+        const pre = document.getElementById("log");
+        pre.textContent = lastLines || "(no output yet)";
+
+        // Auto-scroll to bottom like a console
+        window.scrollTo(0, document.body.scrollHeight);
+      } catch (e) {
+        // Silent fail is fine for kiosk usage
+      }
+    }
+
+    // Update once per second (adjust interval if needed)
+    setInterval(refreshLog, 1000);
+    refreshLog();
+  </script>
+</body>
+</html>
