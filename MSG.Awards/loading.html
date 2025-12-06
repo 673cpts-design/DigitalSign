@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loading…</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background: #000; /* change to transparent if overlay needed */
+            color: #00ff00;
+            font-family: Consolas, "Courier New", monospace;
+            overflow: hidden;
+        }
+
+        #log {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 0;
+            padding: 20px;
+            font-size: 26px;
+            line-height: 1.2;
+            box-sizing: border-box;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <pre id="log">Initializing… Waiting for PowerShell output…</pre>
+
+    <script>
+        async function refreshLog() {
+            try {
+                // Prevent caching so Edge always fetches the latest file
+                const res = await fetch("script-output.txt?ts=" + Date.now());
+                if (!res.ok) return;
+
+                const text = await res.text();
+
+                // Only show last 300 lines so the browser never lags
+                const lines = text.split(/\r?\n/);
+                const maxLines = 300;
+                const visible = lines.slice(-maxLines).join("\n");
+
+                const el = document.getElementById("log");
+                el.textContent = visible;
+
+                // Auto-scroll to bottom like a live console
+                window.scrollTo(0, document.body.scrollHeight);
+
+            } catch (e) {
+                // Fail silently (kiosk-safe)
+            }
+        }
+
+        // Refresh every 1 second
+        setInterval(refreshLog, 1000);
+        refreshLog();
+    </script>
+</body>
+</html>
