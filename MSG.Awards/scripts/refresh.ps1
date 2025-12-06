@@ -48,7 +48,8 @@ Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -Ar
 # ===== STOP LIVE BROWSER LOG =====
 Stop-Transcript | Out-Null
 # =====  END  LIVE BROWSER LOG  =====
-
+# Kill any leftover processes silently
+Get-Process -Name "msedge" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 # Relaunch Edge in kiosk mode
 $edgeArguments = @(
     "--kiosk"
