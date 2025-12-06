@@ -1,3 +1,5 @@
+Start-Transcript -Path "C:\www\script-output.txt" -Force -IncludeInvocationHeader:$false | Out-Null
+
 # Close all Edge browser windows and reload Edge in KIOSK mode, refreshing the information/covering up popups
 # Graceful Edge shutdown attempt by closing the windowed parent allows child processes to wind down naturally to -
 # Prevents “Edge didn’t shut down correctly” banners.
