@@ -9,8 +9,16 @@
             padding: 0;
             height: 100%;
             width: 100%;
-            background: #000; /* page background (around the log area) */
+            background: #000;
             overflow: hidden;
+        }
+
+        /* Wrapper so we can center/scale nicely if needed */
+        .log-wrapper {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            background: #000;
         }
 
         #logframe {
@@ -21,21 +29,46 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+
+            /* Make the default tiny text bigger */
+            transform: scale(1.5);
+            transform-origin: top left;
+
+            /*
+              Color trick:
+              - Transcript file is black text on white background
+              - invert() makes it white text on black background
+              - hue-rotate() / saturate() push that white toward a green-ish look
+            */
+            filter:
+                invert(1)
+                hue-rotate(90deg)
+                saturate(4)
+                contrast(1.4);
+        }
+
+        /* Optional: if text is getting cut off on the right, reduce the scale a bit */
+        @media (min-width: 1px) {
+            #logframe {
+                transform: scale(1.4);
+            }
         }
     </style>
 </head>
 <body>
-    <!-- This will display the contents of script-output.txt -->
-    <object id="logframe"
-            data="script-output.txt"
-            type="text/plain">
-        Loading log…
-    </object>
+    <div class="log-wrapper">
+        <!-- Displays the contents of script-output.txt -->
+        <object id="logframe"
+                data="script-output.txt"
+                type="text/plain">
+            Loading log…
+        </object>
+    </div>
 
     <script>
         function reloadLog() {
             const obj = document.getElementById('logframe');
-            // Bump the query string so Edge doesn’t use a cached copy
+            // Cache-buster so Edge pulls the latest contents
             obj.data = "script-output.txt?ts=" + Date.now();
         }
 
