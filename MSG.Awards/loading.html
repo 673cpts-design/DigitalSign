@@ -4,63 +4,17 @@
     <meta charset="UTF-8">
     <title>Loading...</title>
     <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            background: #000;
-            overflow: hidden;
-        }
-
-        #terminal {
-            position: absolute;
-            inset: 0;
-            padding: 20px;
-            color: #00FF00;
-            background: #000;
-            font-family: Consolas, "Courier New", monospace;
-            font-size: 26px;
-            white-space: pre-wrap;
-            overflow-y: auto;
-        }
+	.vid-bg {
+        position: absolute;
+        top: 0px;    
+        left: 0px;   
+        border: none;
+	z-index: -1;
+			}
     </style>
 </head>
 <body>
-
-<div id="terminal">Initializing…</div>
-
-<script>
-async function refresh() {
-    try {
-        // Load raw text file (bypasses Edge caching limitations for file://)
-        const response = await fetch("script-output.txt?ts=" + Date.now());
-        if (!response.ok) return;
-
-        const text = await response.text();
-
-        // Convert < and > to safe HTML so logs display correctly
-        const safe = text
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;");
-
-        // Insert into terminal container
-        const term = document.getElementById("terminal");
-        term.innerHTML = safe;
-
-        // Auto-scroll to bottom
-        term.scrollTop = term.scrollHeight;
-
-    } catch (e) {
-        // Silent fail kiosk-safe
-    }
-}
-
-// Refresh every 1 second
-setInterval(refresh, 1000);
-refresh();
-</script>
+<video class=vid-bg src="videos/loading.webm" type="video/webm" autoplay loop muted></video>
 
 </body>
 </html>
