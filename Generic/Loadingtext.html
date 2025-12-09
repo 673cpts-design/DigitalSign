@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loading</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;             /* black terminal background */
+      color: #0f0;                  /* green text */
+      font-family: "Consolas", "Courier New", monospace;
+    }
+
+    .center-wrapper {
+      height: 100vh;                /* full viewport height */
+      display: flex;
+      align-items: center;          /* vertical center */
+      justify-content: center;      /* horizontal center */
+    }
+
+    .loading-box {
+      width: 50vw;                  /* half the screen width */
+      text-align: center;
+      font-size: 3rem;
+      text-transform: lowercase;
+      text-shadow: 0 0 8px #0f0;    /* glow for terminal feel */
+    }
+  </style>
+</head>
+<body>
+  <div class="center-wrapper">
+    <div class="loading-box">
+      loading
+    </div>
+  </div>
+</body>
+</html>
