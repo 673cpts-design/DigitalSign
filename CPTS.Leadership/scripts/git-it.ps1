@@ -1,4 +1,3 @@
-
 $RepoUrl  = "https://github.com/673cpts-design/DigitalSign.git"  # public repo URL
 $Branch   = "main"                                               # main or master
 $SubPath  = "CPTS.Leadership"                                       # "" = whole repo; e.g. "deploy/kiosk" (FLATTEN into C:\www)
@@ -139,4 +138,28 @@ foreach ($f in $srcFiles) {
 # ---------- Done ----------
 $new = (GitC $RepoRoot @("rev-parse","HEAD")).Trim()
 Write-Log ("SAFE HASH SYNC (FLATTEN SUBPATH) COMPLETE @ {0}" -f $new)
-exit 0
+
+
+# Enables Scheduled Tasks whose *TaskName* contains "refresh" or "start" (case-insensitive),
+# but only if they are currently Disabled. Safe to run repeatedly.
+
+$patterns = @('refresh', 'start')
+
+# Pull tasks, filter by name match, and only those currently disabled
+$targets = Get-ScheduledTask -ErrorAction Stop |
+    Where-Object {
+        $name = $_.TaskName
+        ($patterns | Where-Object { $name -match $_ }).Count -gt 0
+    } |
+    Where-Object { $_.State -eq 'Disabled' }
+
+if (-not $targets) { exit 0 }
+
+foreach ($t in $targets) {
+    try {
+        Enable-ScheduledTask -TaskName $t.TaskName -TaskPath $t.TaskPath -ErrorAction Stop | Out-Null
+    } catch {
+        # stay silent; uncomment next line if you want to log somewhere
+        # Add-Content -Path "C:\Temp\EnableTasks.log" -Value "$(Get-Date -Format s) FAILED: $($t.TaskPath)$($t.TaskName) $($_.Exception.Message)"
+    }
+}
