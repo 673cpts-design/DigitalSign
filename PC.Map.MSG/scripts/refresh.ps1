@@ -17,7 +17,7 @@ foreach ($entry in $pages.GetEnumerator()) {
     $url = $entry.Value
     $htmlPath = "C:\www\$name.html"
     # Download and parse CSV
-    $csvText  = Invoke-WebRequest -Uri $url -UseBasicParsing | Select-Object -ExpandProperty Content
+    $csvText  = Invoke-WebRequest -UseBasicParsing -Uri $url -UseBasicParsing | Select-Object -ExpandProperty Content
     $allLines = $csvText -split "`r?`n" | Where-Object { $_.Trim() -ne "" }
     $lines    = $allLines | Select-Object -Skip 1  # Skip header
     $rows = @()
@@ -226,3 +226,4 @@ $edgeArguments = @(
     "--disable-features=TouchpadOverscrollHistoryNavigation,TouchDragAndDrop"
 )
 Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -ArgumentList $edgeArguments
+
