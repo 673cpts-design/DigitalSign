@@ -62,7 +62,7 @@ function Download-GSlidesPdf {
     Write-Host "  -> Downloading PDF to $pdfOut"
 
     try {
-        Invoke-WebRequest -Uri $pdfUrl -OutFile $pdfOut -ErrorAction Stop
+        Invoke-WebRequest -UseBasicParsing -Uri $pdfUrl -OutFile $pdfOut -ErrorAction Stop
         return $pdfOut
     }
     catch {
