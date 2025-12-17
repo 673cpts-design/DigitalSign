@@ -22,7 +22,7 @@ $feedItems = @()
 $qrCodeElements = @()
 
 # Load the XML content from the RSS feed
-$xml = [xml](Invoke-WebRequest -Uri $feedUrl).Content
+$xml = [xml](Invoke-WebRequest -UseBasicParsing -Uri $feedUrl).Content
 
 # Iterate over the XML elements and extract the desired information
 foreach ($item in $xml.SelectNodes('//item')) {
@@ -223,6 +223,7 @@ $edgeArguments = @(
 Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -ArgumentList $edgeArguments
 
 exit 0
+
 
 
 
