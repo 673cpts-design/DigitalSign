@@ -135,7 +135,7 @@ foreach ($p in $presentations) {
     if (-not $pdfPath) { continue }
 
     # 2) Convert PDF → PNG in main folder
-    Convert-PdfToPng -PdfPath $pdfPath -OutputFolder $mainFolder -Density 300
+    Convert-PdfToPng -PdfPath $pdfPath -OutputFolder $mainFolder -Density 288
 }
 
 Write-Host "`nDone."
