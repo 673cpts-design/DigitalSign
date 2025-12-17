@@ -1,7 +1,3 @@
-#=================== REQUIREMENTS ===================
-# INSTALL THE FOLLOWING
-# ImageMagick  https://imagemagick.org/archive/binaries/ImageMagick-7.1.2-9-Q16-HDRI-x64-dll.exe
-# Ghostscript/GhostPDL https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/tag/gs10060
 # ================== CONFIGURATION ==================
 
 $baseOutputPath = "C:\www\images"
@@ -75,7 +71,7 @@ function Convert-PdfToPng {
     param(
         [string]$PdfPath,
         [string]$OutputFolder,
-        [int]$Density = 300
+        [int]$Density = 288
     )
 
     if (-not (Test-Path $PdfPath)) {
@@ -139,3 +135,4 @@ foreach ($p in $presentations) {
 }
 
 Write-Host "`nDone."
+
