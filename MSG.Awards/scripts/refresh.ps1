@@ -7,6 +7,11 @@
 #------------------------------------------------------------------------------------------------------------
 #---------------------------------------------Goals----------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------
+# Set Edge arguments for each launch
+# Quickly display a loading page for button press feedback
+# Download content from user made Google slides presentations & convert from PDF to PNG
+# Build html files for each slideshow based on the generated PNG files
+# Close Edge and reload the main display html
 
 
 # ------------------------- Set Edge arguments for each launch ----------------------------------
