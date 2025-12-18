@@ -138,5 +138,20 @@ foreach ($f in $srcFiles) {
 # ---------- Done ----------
 $new = (GitC $RepoRoot @("rev-parse","HEAD")).Trim()
 Write-Log ("SAFE HASH SYNC (FLATTEN SUBPATH) COMPLETE @ {0}" -f $new)
-exit 0
+# Disables Scheduled Tasks whose *TaskName* contains "rss" (case-insensitive),
+# but only if they are currently Enabled. Safe to run repeatedly.
 
+Get-ScheduledTask -ErrorAction Stop |
+    Where-Object {
+        $_.TaskName -match 'rss' -and $_.State -ne 'Disabled'
+    } |
+    ForEach-Object {
+        try {
+            Disable-ScheduledTask -TaskName $_.TaskName -TaskPath $_.TaskPath -ErrorAction Stop | Out-Null
+        } catch {
+            # stay silent; uncomment to log
+            # Add-Content "C:\Temp\DisableTasks.log" "$(Get-Date -Format s) FAILED: $($_.TaskPath)$($_.TaskName) $($_.Exception.Message)"
+        }
+    }
+
+exit 0
