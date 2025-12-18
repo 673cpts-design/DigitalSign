@@ -5,8 +5,8 @@
 #------------------------------------------------------------------------------------------------------------
 #
 # This script is made for 2 reasons:
-# 1 Update the content displayed on the screen
-# 2 Make sure the browser is in focus (say if a pop-up gets in the way)
+# 1 Update the content displayed on the screen with the current Google slides
+# 2 Make sure the browser is in focus and loaded properly (say if a pop-up gets in the way or if you just need a reload on the page)
 #
 #------------------------------------------------------------------------------------------------------------
 #---------------------------------------------Goals----------------------------------------------------------
