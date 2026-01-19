@@ -31,6 +31,10 @@ $presentations = @(
         Name = 'YearSideBar'
         Url  = 'https://docs.google.com/presentation/d/1m2AZd-puQ2c_yDZk9g2QhZ2xVBENC7fy3i5_Cl8bw5k/edit?'
     }
+     @{
+        Name = 'Who'
+        Url  = 'https://docs.google.com/presentation/d/1jCFz3F6sW9dQal7sFOc3B_SDp7xqV1rrDAK2M4E25sc/edit?'
+    },
 )
 
 # ================== FUNCTIONS ==================
