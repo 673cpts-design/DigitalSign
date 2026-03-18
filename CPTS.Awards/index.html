@@ -248,10 +248,25 @@
 
  <!--------------------- video walpaper --------------------------------------->
   <div id="video-container">
-    <video id="video" autoplay loop muted>
-      <source src="flagb4.webm" type="video/webm">
-    </video>
-  </div>
+  <video id="video" autoplay muted loop playsinline preload="auto">
+    <source src="flagb4.webm" type="video/webm">
+  </video>
+</div>
+
+<script>
+  const video = document.getElementById('video');
+
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+
+  const playPromise = video.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(err => {
+      console.log('Autoplay failed:', err);
+    });
+  }
+</script>
 
 
 <!--------------------- Template Images --------------------------------------->
