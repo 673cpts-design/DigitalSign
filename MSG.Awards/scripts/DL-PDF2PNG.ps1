@@ -33,7 +33,7 @@ $presentations = @(
     }
      @{
         Name = 'Who'
-        Url  = 'https://docs.google.com/presentation/d/1jCFz3F6sW9dQal7sFOc3B_SDp7xqV1rrDAK2M4E25sc/edit?'
+        Url  = 'https://docs.google.com/presentation/d/1DQ5OneNCKlyUdGr7NtC7HdaJMeBsptae9tLlB1tNIo8/edit?'
     },
 )
 
