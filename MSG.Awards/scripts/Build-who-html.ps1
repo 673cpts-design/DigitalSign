@@ -47,17 +47,17 @@ $html = @"
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
 
-    <style>
+<style>
   html,
   body {
     padding: 0;
     margin: 0;
     width: 100%;
     height: 100%;
+    background: transparent;
   }
 
   body {
-    background: #000;
     font-family:
       system-ui,
       -apple-system,
@@ -78,6 +78,11 @@ $html = @"
     width: 100%;
     height: 100%;
     padding: 0;
+    background: transparent;
+  }
+
+  .swiper-wrapper {
+    background: transparent;
   }
 
   .swiper-slide {
@@ -89,7 +94,11 @@ $html = @"
     position: relative;
     box-sizing: border-box;
     overflow: hidden;
-    background: #000;
+    background: transparent;
+  }
+
+  .swiper-slide-a8bc {
+    background: transparent;
   }
 
   .swiper-slide-bg-image {
@@ -102,14 +111,8 @@ $html = @"
     z-index: 0;
   }
 
-  .swiper-slide-a8bc {
-    background-color: #000;
-    border-radius: 0;
-  }
-
   .swiper-slide-bg-image-bdb6 {
-    object-fit: contain;
-    border-radius: inherit;
+    object-fit: contain; /* shows full image in 800x800 */
     opacity: 1;
   }
 </style>
