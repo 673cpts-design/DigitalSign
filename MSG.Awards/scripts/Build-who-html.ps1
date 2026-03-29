@@ -48,74 +48,71 @@ $html = @"
     />
 
     <style>
-      html,
-      body {
-        padding: 0;
-        margin: 0;
-        position: relative;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-      }
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
 
-      body {
-        background: #000;
-        font-family:
-          system-ui,
-          -apple-system,
-          BlinkMacSystemFont,
-          "Segoe UI",
-          Roboto,
-          "Helvetica Neue",
-          Arial,
-          "Noto Sans",
-          sans-serif;
-        overflow: hidden;
-      }
+  body {
+    background: #000;
+    font-family:
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      "Helvetica Neue",
+      Arial,
+      "Noto Sans",
+      sans-serif;
+    overflow: hidden;
+  }
 
-      .swiper {
-        user-select: none;
-        box-sizing: border-box;
-        overflow: hidden;
-        width: 100%;
-        height: 100%;
-        padding: 16px 16px;
-      }
+  .swiper {
+    user-select: none;
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+  }
 
-      .swiper-slide {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        position: relative;
-        box-sizing: border-box;
-        overflow: hidden;
-      }
+  .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: #000;
+  }
 
-      .swiper-slide-bg-image {
-        position: absolute;
-        left: -33%;
-        top: -33%;
-        width: 166%;
-        height: 166%;
-        max-width: none;
-        z-index: 0;
-      }
+  .swiper-slide-bg-image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    z-index: 0;
+  }
 
-      .swiper-slide-a8bc {
-        background-color: rgba(51, 51, 51, 1);
-        border-radius: 16px;
-      }
+  .swiper-slide-a8bc {
+    background-color: #000;
+    border-radius: 0;
+  }
 
-      .swiper-slide-bg-image-bdb6 {
-        object-fit: cover;
-        border-radius: inherit;
-        opacity: 1;
-      }
-    </style>
+  .swiper-slide-bg-image-bdb6 {
+    object-fit: contain;
+    border-radius: inherit;
+    opacity: 1;
+  }
+</style>
   </head>
   <body>
     <div class="swiper swiper-white-tiglon-685">
