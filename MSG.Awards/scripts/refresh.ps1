@@ -67,7 +67,7 @@ Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -Ar
 # Use the yearly images to buils the html files for the yearly slides
 & "C:\www\scripts\Build-year-html.ps1"
 # Use the who images to buils the html files for the who are we slides
-& "C:\www\scripts\Build-card-html.ps1"
+& "C:\www\scripts\Build-who-html.ps1"
 
 
 # ------------------------- Close Edge and reload the main display html ----------------------------------
