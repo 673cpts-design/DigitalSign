@@ -11,22 +11,13 @@
             height: 2160px;
             overflow: hidden;
         }
-	#vid-bg {
-    	position: absolute;
-    	top: 0;
-    	left: 0;
-    	width: 3840px;
-    	height: 2160px;
-    	overflow: hidden;
-    	border: none;
-    	z-index: -1;
-	}
-
-	#vid-bg video {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-}
+		.vid-bg {
+            position: absolute;
+            top: 0px;    
+            left: 0px;   
+            border: none;
+			z-index: -1;
+			}
         .iframe-top-right {
             position: absolute;
             top: 0;
@@ -69,10 +60,10 @@
         }
 			.iframe-who-is {
             position: absolute;
-            top: 1230px;    
+            top: 1235px;    
             left: 100px;
-			width: 800px;
-            height: 800px;
+			width: 816px;
+            height: 816px;
             border: none;
         }
 	        .img-Q1 {
@@ -188,156 +179,8 @@
     </style>
 </head>
 <body>   
-	<!--------------------- video wallpaper --------------------------------------->
-<div id="vid-bg">
-  <video id="video" muted loop playsinline preload="auto" autoplay>
-    <source src="videos/1hour.webm" type="video/webm">
-    <!-- Optional fallback:
-    <source src="videos/1hour.mp4" type="video/mp4">
-    -->
-  </video>
-
-  <script>
-    (function () {
-      const video = document.getElementById('video');
-      if (!video) {
-        console.log('[video] Could not find #video element');
-        return;
-      }
-
-      let playbackConfirmed = false;
-      let lastTime = -1;
-      let stallCount = 0;
-      let retryTimer = null;
-
-      function log(msg, extra) {
-        if (extra !== undefined) {
-          console.log('[video]', msg, extra);
-        } else {
-          console.log('[video]', msg);
-        }
-      }
-
-      async function forcePlay() {
-        try {
-          video.muted = true;
-          video.defaultMuted = true;
-          video.playsInline = true;
-          video.autoplay = true;
-
-          const promise = video.play();
-          if (promise !== undefined) {
-            await promise;
-          }
-
-          playbackConfirmed = true;
-          log('Playback started:', video.currentSrc || 'no currentSrc');
-        } catch (err) {
-          playbackConfirmed = false;
-          log('Playback attempt failed:', err);
-        }
-      }
-
-      function scheduleRetry() {
-        if (retryTimer) return;
-
-        retryTimer = setInterval(async () => {
-          if (!playbackConfirmed || video.paused || video.readyState < 3) {
-            log('Retrying playback...');
-            await forcePlay();
-          }
-
-          if (playbackConfirmed && !video.paused) {
-            clearInterval(retryTimer);
-            retryTimer = null;
-          }
-        }, 1000);
-      }
-
-      function reloadAndPlay() {
-        log('Reloading video source...');
-        playbackConfirmed = false;
-        video.load();
-        scheduleRetry();
-        forcePlay();
-      }
-
-      if (document.readyState === 'complete') {
-        forcePlay();
-        scheduleRetry();
-      } else {
-        window.addEventListener('load', () => {
-          log('Window loaded, starting video...');
-          forcePlay();
-          scheduleRetry();
-        });
-      }
-
-      video.addEventListener('canplay', () => {
-        log('canplay fired');
-        forcePlay();
-      });
-
-      video.addEventListener('playing', () => {
-        playbackConfirmed = true;
-        log('playing fired');
-      });
-
-      video.addEventListener('pause', () => {
-        log('pause fired');
-        scheduleRetry();
-      });
-
-      video.addEventListener('stalled', () => {
-        log('stalled fired');
-        reloadAndPlay();
-      });
-
-      video.addEventListener('waiting', () => {
-        log('waiting fired');
-        scheduleRetry();
-      });
-
-      video.addEventListener('error', () => {
-        const mediaError = video.error;
-        log('video error fired', mediaError ? {
-          code: mediaError.code,
-          message: mediaError.message || 'no message'
-        } : 'unknown error');
-        reloadAndPlay();
-      });
-
-      setInterval(() => {
-        if (video.readyState >= 2 && !video.paused && !video.ended) {
-          if (video.currentTime === lastTime) {
-            stallCount++;
-            log('Detected playback stall #' + stallCount);
-
-            if (stallCount >= 2) {
-              reloadAndPlay();
-              stallCount = 0;
-            }
-          } else {
-            stallCount = 0;
-          }
-
-          lastTime = video.currentTime;
-        } else if (video.paused) {
-          scheduleRetry();
-        }
-      }, 3000);
-
-      document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) {
-          log('Visibility returned, forcing playback');
-          forcePlay();
-          scheduleRetry();
-        }
-      });
-    })();
-  </script>
-</div>
-<!--------------------- END video wallpaper --------------------------------------->
+	<video class=vid-bg src="videos/1hour.webm" type="video/webm" autoplay loop muted></video>
+	
 	<img class="img-L1" src="images/Leadership/slide-000.png"/>   
 	<img class="img-L2" src="images/Leadership/slide-001.png"/>  
 	<img class="img-L3" src="images/Leadership/slide-002.png"/>  
