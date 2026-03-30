@@ -3,180 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <title>MSG Awards</title>
-    <style>
-		html, body {
-            margin: 0;
-            padding: 0;
-            width: 3840px;
-            height: 2160px;
-            overflow: hidden;
-        }
-		.vid-bg {
-            position: absolute;
-            top: 0px;    
-            left: 0px;   
-            border: none;
-			z-index: -1;
-			}
-        .iframe-top-right {
-            position: absolute;
-            top: 0;
-            left: 1920px;   /* start right half */
-            width: 1920px;
-            height: 1080px;
-            border: none;
-        }
-        .iframe-bottom-left {
-            position: absolute;
-            top: 1080px;    
-            left: 1040px;   
-            width: 700px;
-            height: 1080px;
-            border: none;
-        }
-		 .iframe-bottom-middle-left {
-            position: absolute;
-            top: 1080px;    
-            left: 1740px;   
-            width: 700px;
-            height: 1080px;
-            border: none;
-        }
-		 .iframe-bottom-middle-right {
-            position: absolute;
-            top: 1080px;    
-            left: 2440px;   
-            width: 700px;
-            height: 1080px;
-            border: none;
-        }
-		.iframe-bottom-right {
-            position: absolute;
-            top: 1080px;    
-            left: 3140px;   
-            width: 700px;
-            height: 1080px;
-            border: none;
-        }
-			.iframe-who-is {
-            position: absolute;
-            top: 1235px;    
-            left: 100px;
-			width: 816px;
-            height: 816px;
-            border: none;
-        }
-	        .img-Q1 {
-            position: absolute;
-            top: 1070px;    
-            left: 1150px;   
-            width: 490px;
-            height: 210px;
-            border: none;
-			z-index: 10;
-        }
-		 .img-Q2 {
-            position: absolute;
-            top: 1070px;    
-            left: 1850px;   
-            width: 490px;
-            height: 210px;
-            border: none;
-			z-index: 10;
-        }
-		 .img-Q3 {
-            position: absolute;
-            top: 1070px;    
-            left: 2550px;   
-            width: 490px;
-            height: 210px;
-            border: none;
-			z-index: 10;
-        }
-		.img-Q4 {
-            position: absolute;
-            top: 1070px;    
-            left: 3250px;   
-            width: 490px;
-            height: 210px;
-            border: none;
-			z-index: 10;
-        }
-		.img-Logo {
-            position: absolute;
-            top: 200px;    
-            left: 510px;   
-            width: 900px;
-            height: 888px;
-            border: none;
-			z-index: 10;
-        }	
-		.img-MSGL {
-            position: absolute;
-            top: 0px;    
-            left: 510px;   
-            border: none;
-			z-index: 110;
-        }
-		.img-presents {
-            position: absolute;
-            top: 880px;    
-            left: 930px;   
-            border: none;
-			z-index: 111;
-        }
-		.img-L1 {
-            position: absolute;
-            top: 0px;    
-            left: 0px; 
-            width: 480px;
-            height: 560px;			
-            border: none;
-			z-index: 10;
-        }
-		.img-L2 {
-            position: absolute;
-            top: 0px;    
-            left: 1440px; 
-            width: 480px;
-            height: 560px;				
-            border: none;
-			z-index: 10;
-        }
-		.img-L3 {
-            position: absolute;
-            top: 560px;    
-            left: 0px;   
-			width: 480px;
-            height: 560px;	
-            border: none;
-			z-index: 10;
-        }
-		.img-L4 {
-            position: absolute;
-            top: 560px;    
-            left: 1440px;
-            width: 480px;
-            height: 560px;				
-            border: none;
-			z-index: 10;
-        }	
+<style>
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        width: 3840px;
+        height: 2160px;
+        overflow: hidden;
+    }
 
-		.img-whois {
-            position: absolute;
-            top: 1050px;    
-            left: 0px;   
-            border: none;
-			z-index: 112;
-        }		
-		.img-weare {
-            position: absolute;
-            top: 1980px;    
-            left: 600px;   
-            border: none;
-			z-index: 113;
-        }		
-    </style>
+    .vid-bg {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: -1;
+        border: none;
+    }
+
+    .iframe-who-is {
+        position: absolute;
+        top: 1235px;
+        left: 100px;
+        width: 816px;
+        height: 816px;
+        border: none;
+    }
+
+    .iframe-top-right {
+        position: absolute;
+        top: 0px;
+        left: 1920px;
+        width: 1920px;
+        height: 1080px;
+        border: none;
+    }
+
+    .iframe-bottom-right {
+        position: absolute;
+        top: 1080px;
+        left: 3140px;
+        width: 700px;
+        height: 1080px;
+        border: none;
+    }
+
+    .iframe-bottom-middle-right {
+        position: absolute;
+        top: 1080px;
+        left: 2440px;
+        width: 700px;
+        height: 1080px;
+        border: none;
+    }
+
+    .iframe-bottom-middle-left {
+        position: absolute;
+        top: 1080px;
+        left: 1740px;
+        width: 700px;
+        height: 1080px;
+        border: none;
+    }
+
+    .iframe-bottom-left {
+        position: absolute;
+        top: 1080px;
+        left: 1040px;
+        width: 700px;
+        height: 1080px;
+        border: none;
+    }
+
+    .img-L1 {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 480px;
+        height: 560px;
+        z-index: 10;
+        border: none;
+    }
+
+    .img-L2 {
+        position: absolute;
+        top: 0px;
+        left: 1440px;
+        width: 480px;
+        height: 560px;
+        z-index: 10;
+        border: none;
+    }
+
+    .img-L3 {
+        position: absolute;
+        top: 560px;
+        left: 0px;
+        width: 480px;
+        height: 560px;
+        z-index: 10;
+        border: none;
+    }
+
+    .img-L4 {
+        position: absolute;
+        top: 560px;
+        left: 1440px;
+        width: 480px;
+        height: 560px;
+        z-index: 10;
+        border: none;
+    }
+
+    .img-MSGL {
+        position: absolute;
+        top: 0px;
+        left: 510px;
+        z-index: 110;
+        border: none;
+    }
+
+    .img-presents {
+        position: absolute;
+        top: 880px;
+        left: 930px;
+        z-index: 111;
+        border: none;
+    }
+
+    .img-whois {
+        position: absolute;
+        top: 1050px;
+        left: 0px;
+        z-index: 112;
+        border: none;
+    }
+
+    .img-weare {
+        position: absolute;
+        top: 1980px;
+        left: 600px;
+        z-index: 113;
+        border: none;
+    }
+
+    .img-Q1 {
+        position: absolute;
+        top: 1070px;
+        left: 1150px;
+        width: 490px;
+        height: 210px;
+        z-index: 10;
+        border: none;
+    }
+
+    .img-Q2 {
+        position: absolute;
+        top: 1070px;
+        left: 1850px;
+        width: 490px;
+        height: 210px;
+        z-index: 10;
+        border: none;
+    }
+
+    .img-Q3 {
+        position: absolute;
+        top: 1070px;
+        left: 2550px;
+        width: 490px;
+        height: 210px;
+        z-index: 10;
+        border: none;
+    }
+
+    .img-Q4 {
+        position: absolute;
+        top: 1070px;
+        left: 3250px;
+        width: 490px;
+        height: 210px;
+        z-index: 10;
+        border: none;
+    }
+
+    .img-Logo {
+        position: absolute;
+        top: 200px;
+        left: 510px;
+        width: 900px;
+        height: 888px;
+        z-index: 10;
+        border: none;
+    }
+</style>
 </head>
 <body> 
 	
