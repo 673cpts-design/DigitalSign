@@ -218,7 +218,7 @@ $afterNav = @"
     speed: 1000,
     parallax: true,
     autoplay: {
-      delay: 8000,
+      delay: 14000,
       disableOnInteraction: false
     },
     loopAdditionalSlides: 10,
