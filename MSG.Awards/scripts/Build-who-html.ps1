@@ -75,8 +75,8 @@ $html = @"
     user-select: none;
     box-sizing: border-box;
     overflow: hidden;
-    width: 100%;
-    height: 100%;
+    width: 980px;
+    height: 800px;
     padding: 0;
     background: transparent;
   }
@@ -89,8 +89,8 @@ $html = @"
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
+    width: 980px;
+    height: 800px;
     position: relative;
     box-sizing: border-box;
     overflow: hidden;
@@ -105,8 +105,8 @@ $html = @"
     position: absolute;
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    width: 980px;
+    height: 800px;
     max-width: none;
     z-index: 0;
   }
