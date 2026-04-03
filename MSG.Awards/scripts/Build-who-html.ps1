@@ -135,7 +135,7 @@ $slidesHtml
         },
         speed: 3000,
         autoplay: {
-          delay: 3000,
+          delay: 14000,
           disableOnInteraction: false
         },
         parallax: true,
