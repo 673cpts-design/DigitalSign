@@ -1,102 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <title>10471 Maps</title>
 <style>
-
-	#marquee-frameLL {
-      position: absolute;
-      top: 3275px;      /* distance from the top of the page */
-      left: 21px;     /* distance from the left of the page */
-      width: 690px;
-      border: none;    /* remove default border */
-      z-index: 50;
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        width: 2160px;
+        height: 3840px;
+        overflow: hidden;
     }
-
-	#marquee-frameLM {
-      position: absolute;
-      top: 3275px;      /* distance from the top of the page */
-      left: 731px;     /* distance from the left of the page */
-      width: 690px;
-      border: none;    /* remove default border */
-      z-index: 50;
+    .img-floor3 {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 2160px;
+        height: 566px;
+        z-index: 1;
+        border: none;
     }
-	#marquee-frameLR {
-      position: absolute;
-      top: 3275px;      /* distance from the top of the page */
-      left: 1441px;     /* distance from the left of the page */
-      width: 690px;
-      border: none;    /* remove default border */
-      z-index: 50;
+    .img-floor2 {
+        position: absolute;
+        top: 567px;
+        left: 0px;
+        width: 2160px;
+        height: 566px;
+        z-index: 2;
+        border: none;
     }
-        .google1-container {
-	position: absolute;
-	top: 0px;
-   	left: 12px;
-	overflow: hidden;
-	background: none;
-	border: none;
-	outline: none;
-	scrolling: no;
-	z-index: 1;
-		}
-	.google1-container iframe {
-	overflow: hidden;
-	scrolling: no;
-		}
-
-      #Template-image {
-      position: fixed;
-      top: 0px;
-      left: 0px;
-      z-index: 9;
-	}
-
-      #Here-image {
-      position: fixed;
-      top: 1775px;
-      left: 370px;
-      height: 90px;
-      width: 90px;
-      z-index: 10;
-	}
-
-.time-container iframe {
+    .img-floor1 {
+        position: absolute;
+        top: 1134px;
+        left: 0px;
+        width: 2160px;
+        height: 805px;
+        z-index: 3;
+        border: none;
+    }
+    .img-floorb {
+        position: absolute;
+        top: 1940px;
+        left: 0px;
+        width: 2160px;
+        height: 794px;
+        z-index: 4;
+        border: none;
+    }
+    .img-bk {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 0;
+        border: none;
+    } 
+	.time-container iframe {
          position: fixed;
          top: 3480px;
          left: 1300px;         
-         z-index: 15;
-	}
-        
-
-	</style>
+         z-index: 6;
+	}	
+</style>
 </head>
-<body>
- <!--------------------- Overlay image to hide borders of the slide --------------------------------------->
-<img id="Template-image" src="\Headquarters-Template.png" alt="Overlay Image">
-
-<iframe id="marquee-frameLL" src="lowleft.html"></iframe>
-<iframe id="marquee-frameLM" src="lowmiddle.html"></iframe>
-<iframe id="marquee-frameLR" src="lowright.html"></iframe>
-
-
- <!--------------------- You are here pin --------------------------------------->
-<img id="Here-image" src="c:\www\here.gif" alt="You are here.">
-
- <!--------------------- time --------------------------------------->
+<body> 
+	<img class="img-floor3" src="images/floor3/slide-000.png"/>   
+	<img class="img-floor2" src="images/floor2/slide-000.png"/>  
+	<img class="img-floor1" src="images/floor1/slide-000.png"/>  
+	<img class="img-floorb" src="images/floorb/slide-000.png"/>
+	<img class="img-bk" src="images/Headquarters-Template.png"/>
  <div class="time-container">
   <iframe src="https://free.timeanddate.com/clock/i8v3fk82/n18/fn2/fs40/tct/pct/tt0/tw1/tm1/ts1/ta1" frameborder="0" width="800" height="50" allowtransparency="true"></iframe>
 </div>
-
- <!--------------------- Google Slide --------------------------------------->
-<div class="google1-container">
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSMFonUM2cyWSKuTEY8O2sMhkJcnG5H0RD4DLYW8fu4C70IN7M0JO6F_2P-Hlr0-Rwb7Pp6KIqjjdIJ/pubembed?start=true&loop=true&delayms=60000" frameborder="0" width="2136" height="3519" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-</div>
-
 <div class="container" style="position: relative;">
-  <p class="text" style="position: absolute; top: 3433px; left: 118px; z-index: 20; font-size: 40px; font-family: Arial, sans-serif; font-weight: 900;">Welcome to Building 10471</p>
+    <p class="text" style="position: absolute; top: 3433px; left: 400px; z-index: 5; font-size: 40px; font-family: Arial, sans-serif; font-weight: 900;">Welcome to Building 10471</p>
 </div>
-
-
-
 </body>
 </html>
