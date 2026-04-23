@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=3840, height=2160, initial-scale=1.0">
+  <title>Glass Coming Soon</title>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 3840px;
+      height: 2160px;
+      overflow: hidden;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #0b1220;
+    }
+
+    body {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background:
+        radial-gradient(circle at 20% 25%, rgba(0, 180, 255, 0.22) 0%, transparent 28%),
+        radial-gradient(circle at 78% 30%, rgba(130, 90, 255, 0.20) 0%, transparent 32%),
+        radial-gradient(circle at 50% 78%, rgba(0, 255, 200, 0.16) 0%, transparent 30%),
+        linear-gradient(135deg, #09101c 0%, #10192b 45%, #0a111d 100%);
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .orb-1 {
+      width: 700px;
+      height: 700px;
+      top: 180px;
+      left: 340px;
+      background: rgba(0, 191, 255, 0.20);
+    }
+
+    .orb-2 {
+      width: 820px;
+      height: 820px;
+      top: 220px;
+      right: 320px;
+      background: rgba(138, 92, 246, 0.20);
+    }
+
+    .orb-3 {
+      width: 900px;
+      height: 900px;
+      bottom: 120px;
+      left: 1280px;
+      background: rgba(0, 255, 200, 0.14);
+    }
+
+    .panel {
+      position: relative;
+      z-index: 2;
+      width: 2300px;
+      height: 1120px;
+      border-radius: 42px;
+      background: rgba(255, 255, 255, 0.10);
+      border: 2px solid rgba(255, 255, 255, 0.20);
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0.02) 30%, rgba(255,255,255,0.00) 60%),
+        linear-gradient(315deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.00) 40%);
+      pointer-events: none;
+    }
+
+    .panel::after {
+      content: "";
+      position: absolute;
+      top: -220px;
+      left: -300px;
+      width: 1100px;
+      height: 500px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0));
+      transform: rotate(-18deg);
+      pointer-events: none;
+    }
+
+    .label {
+      position: relative;
+      z-index: 3;
+      font-size: 52px;
+      font-weight: 600;
+      letter-spacing: 16px;
+      text-transform: uppercase;
+      color: rgba(220, 235, 255, 0.82);
+      margin-bottom: 48px;
+    }
+
+    .title {
+      position: relative;
+      z-index: 3;
+      margin: 0;
+      font-size: 250px;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: 10px;
+      text-transform: uppercase;
+      color: #f6fbff;
+      text-shadow: 0 8px 30px rgba(0, 0, 0, 0.20);
+    }
+
+    .divider {
+      position: relative;
+      z-index: 3;
+      width: 980px;
+      height: 4px;
+      margin-top: 56px;
+      border-radius: 999px;
+      background: linear-gradient(
+        90deg,
+        rgba(255,255,255,0.00) 0%,
+        rgba(255,255,255,0.65) 50%,
+        rgba(255,255,255,0.00) 100%
+      );
+    }
+
+    .subtitle {
+      position: relative;
+      z-index: 3;
+      margin-top: 54px;
+      font-size: 58px;
+      font-weight: 400;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: rgba(228, 239, 255, 0.78);
+    }
+
+    .corner {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-color: rgba(255,255,255,0.28);
+      z-index: 3;
+    }
+
+    .corner.top-left {
+      top: 42px;
+      left: 42px;
+      border-top: 3px solid rgba(255,255,255,0.28);
+      border-left: 3px solid rgba(255,255,255,0.28);
+      border-top-left-radius: 28px;
+    }
+
+    .corner.top-right {
+      top: 42px;
+      right: 42px;
+      border-top: 3px solid rgba(255,255,255,0.28);
+      border-right: 3px solid rgba(255,255,255,0.28);
+      border-top-right-radius: 28px;
+    }
+
+    .corner.bottom-left {
+      bottom: 42px;
+      left: 42px;
+      border-bottom: 3px solid rgba(255,255,255,0.28);
+      border-left: 3px solid rgba(255,255,255,0.28);
+      border-bottom-left-radius: 28px;
+    }
+
+    .corner.bottom-right {
+      bottom: 42px;
+      right: 42px;
+      border-bottom: 3px solid rgba(255,255,255,0.28);
+      border-right: 3px solid rgba(255,255,255,0.28);
+      border-bottom-right-radius: 28px;
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="panel">
+    <div class="corner top-left"></div>
+    <div class="corner top-right"></div>
+    <div class="corner bottom-left"></div>
+    <div class="corner bottom-right"></div>
+
+    <div class="label">673 MSG Digital Display</div>
+    <h1 class="title">Coming Soon</h1>
+    <div class="divider"></div>
+    <div class="subtitle">New Content Arriving Shortly</div>
+  </div>
+</body>
+</html>
