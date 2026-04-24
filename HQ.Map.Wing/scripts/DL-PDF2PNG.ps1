@@ -11,14 +11,14 @@ $presentations = @(
         Name = 'floor2'
         Url  = 'https://docs.google.com/presentation/d/1BxjwlmH1H5yCGosD9WZs0AxU96QbDPElHQf4KBSWWf0/edit?'
     },
-        @{
+    @{
         Name = 'floor1'
         Url  = 'https://docs.google.com/presentation/d/14UB8D8aLf2tBk7GCgvEBvSI25qXAshxbfIE6dhccUtA/edit?'
     },
     @{
         Name = 'floorb'
         Url  = 'https://docs.google.com/presentation/d/1a8uoe1iU8-KQkvWXOJ9cVSL1DyZkYD7Yl8AE5Hdsv2o/edit?'
-    },
+    }
 )
 
 # ================== FUNCTIONS ==================
