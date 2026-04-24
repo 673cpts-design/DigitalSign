@@ -4,14 +4,21 @@ $baseOutputPath = "C:\www\images"
 
 $presentations = @(
     @{
-        Name = 'Maps'
-        Url  = 'https://docs.google.com/presentation/d/1oR0K3nHUMKLrM5H6vjlXo4WXLnjDlQh5NFumJO564LM/edit?'
+        Name = 'floor3'
+        Url  = 'https://docs.google.com/presentation/d/18tYZxpWPqLwVKIMbV7HaVFJoH3oXHnyCCH3l_UDvg2M/edit?'
     },
     @{
-        Name = 'Data'
-        Url  = 'https://docs.google.com/presentation/d/1jCFz3F6sW9dQal7sFOc3B_SDp7xqV1rrDAK2M4E25sc/edit?'
+        Name = 'floor2'
+        Url  = 'https://docs.google.com/presentation/d/1BxjwlmH1H5yCGosD9WZs0AxU96QbDPElHQf4KBSWWf0/edit?'
     },
-    
+        @{
+        Name = 'floor1'
+        Url  = 'https://docs.google.com/presentation/d/14UB8D8aLf2tBk7GCgvEBvSI25qXAshxbfIE6dhccUtA/edit?'
+    },
+    @{
+        Name = 'floorb'
+        Url  = 'https://docs.google.com/presentation/d/1a8uoe1iU8-KQkvWXOJ9cVSL1DyZkYD7Yl8AE5Hdsv2o/edit?'
+    },
 )
 
 # ================== FUNCTIONS ==================
