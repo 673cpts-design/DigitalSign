@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>10471 Maps</title>
+    <title>71 Maps</title>
 <style>
     html,
     body {
@@ -11,6 +11,12 @@
         width: 2160px;
         height: 3840px;
         overflow: hidden;
+        background: transparent;
+        color: black;
+        font-family: Arial, sans-serif;
+        font-weight: 900;
+        font-size: 40px;
+        white-space: nowrap;
     }
     .img-floor3 {
         position: absolute;
@@ -54,47 +60,50 @@
         left: 0px;
         z-index: 0;
         border: none;
-    } 
+    }
     #datetime {
-		position: fixed;
-		top: 3480px;
-		left: 1300px;         
-		z-index: 6;
-        font-size: 40px;
-        font-weight: 900;
-        white-space: nowrap;
-        }
+        position: fixed;
+        top: 3480px;
+        left: 1300px;
+        z-index: 5;
+    }
+    #building {
+        position: fixed;
+        top: 3433px;
+        left: 400px;
+        z-index: 6;
+    }
 </style>
 </head>
-<body> 
-	<img class="img-floor3" src="images/floor3/slide-000.png"/>   
-	<img class="img-floor2" src="images/floor2/slide-000.png"/>  
-	<img class="img-floor1" src="images/floor1/slide-000.png"/>  
-	<img class="img-floorb" src="images/floorb/slide-000.png"/>
-	<img class="img-bk" src="images/Headquarters-Template.png"/>
-	<div class="container" style="position: relative;">
-    	<p class="text" style="position: absolute; top: 3433px; left: 400px; z-index: 5; font-size: 40px; font-family: Arial, sans-serif; font-weight: 900;">Welcome to Building 10471</p>
-	</div>
-	<div id="datetime"></div>
-    	<script>
-        	function updateClock() {
-            	const now = new Date();
-            	const timeText = now.toLocaleTimeString([], {
-                	hour: 'numeric',
-               		minute: '2-digit',
-                	second: '2-digit'
-            	});
-            	const dateText = now.toLocaleDateString([], {
-                	weekday: 'long',
-                	year: 'numeric',
-                	month: 'long',
-                	day: 'numeric'
-            	});
+<body>
+    <img class="img-floor3" src="images/floor3/slide-000.png"/>
+    <img class="img-floor2" src="images/floor2/slide-000.png"/>
+    <img class="img-floor1" src="images/floor1/slide-000.png"/>
+    <img class="img-floorb" src="images/floorb/slide-000.png"/>
+    <img class="img-bk" src="images/Headquarters-Template.png"/>
+    <div id="building">
+        <p>Welcome to Building 10471</p>
+    </div>
+    <div id="datetime"></div>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const timeText = now.toLocaleTimeString([], {
+                hour: 'numeric',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            const dateText = now.toLocaleDateString([], {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
             document.getElementById('datetime').textContent =
                 timeText + '    ' + dateText;
         }
-    	updateClock();
-    	setInterval(updateClock, 1000);
+        updateClock();
+        setInterval(updateClock, 1000);
     </script>
 </body>
 </html>
