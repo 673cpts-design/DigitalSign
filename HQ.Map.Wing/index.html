@@ -55,12 +55,15 @@
         z-index: 0;
         border: none;
     } 
-	.time-container iframe {
-         position: fixed;
-         top: 3480px;
-         left: 1300px;         
-         z-index: 6;
-	}	
+        #datetime {
+			position: fixed;
+			top: 3480px;
+			left: 1300px;         
+			z-index: 6;
+            font-size: 40px;
+            font-weight: 900;
+            white-space: nowrap;
+        }
 </style>
 </head>
 <body> 
@@ -69,11 +72,29 @@
 	<img class="img-floor1" src="images/floor1/slide-000.png"/>  
 	<img class="img-floorb" src="images/floorb/slide-000.png"/>
 	<img class="img-bk" src="images/Headquarters-Template.png"/>
- <div class="time-container">
-  <iframe src="https://free.timeanddate.com/clock/i8v3fk82/n18/fn2/fs40/tct/pct/tt0/tw1/tm1/ts1/ta1" frameborder="0" width="800" height="50" allowtransparency="true"></iframe>
-</div>
-<div class="container" style="position: relative;">
-    <p class="text" style="position: absolute; top: 3433px; left: 400px; z-index: 5; font-size: 40px; font-family: Arial, sans-serif; font-weight: 900;">Welcome to Building 10471</p>
-</div>
+	<div class="container" style="position: relative;">
+    	<p class="text" style="position: absolute; top: 3433px; left: 400px; z-index: 5; font-size: 40px; font-family: Arial, sans-serif; font-weight: 900;">Welcome to Building 10471</p>
+	</div>
+	<div id="datetime"></div>
+    	<script>
+        	function updateClock() {
+            	const now = new Date();
+            	const timeText = now.toLocaleTimeString([], {
+                	hour: 'numeric',
+               		minute: '2-digit',
+                	second: '2-digit'
+            	});
+            	const dateText = now.toLocaleDateString([], {
+                	weekday: 'long',
+                	year: 'numeric',
+                	month: 'long',
+                	day: 'numeric'
+            	});
+            document.getElementById('datetime').textContent =
+                timeText + '    ' + dateText;
+        }
+    	updateClock();
+    	setInterval(updateClock, 1000);
+    </script>
 </body>
 </html>
