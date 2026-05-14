@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>673 Mission Support Group Terminal</title>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 3840px;
+      height: 2160px;
+      overflow: hidden;
+      background: #000;
+      color: #00ff66;
+      font-family: "Courier New", monospace;
+      cursor: none;
+      user-select: none;
+      -webkit-font-smoothing: none;
+      text-rendering: geometricPrecision;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(
+          ellipse at center,
+          rgba(0, 255, 102, 0.045) 0%,
+          rgba(0, 0, 0, 0.12) 62%,
+          rgba(0, 0, 0, 0.38) 100%
+        );
+      z-index: 1;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 65px;
+      pointer-events: none;
+      border: 3px solid rgba(0, 255, 102, 0.55);
+      box-shadow:
+        0 0 18px rgba(0, 255, 102, 0.28),
+        inset 0 0 28px rgba(0, 255, 102, 0.12);
+      z-index: 2;
+    }
+
+    #screen {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 3200px;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      text-shadow: 0 0 2px rgba(0, 255, 102, 0.45);
+    }
+
+    #screen::before {
+      content: "JBER TERMINAL NODE // 673 MSG";
+      position: absolute;
+      top: -115px;
+      left: 0;
+      width: 100%;
+      padding-bottom: 22px;
+      border-bottom: 3px solid rgba(0, 255, 102, 0.65);
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: 8px;
+      text-align: center;
+      color: rgba(0, 255, 102, 0.85);
+    }
+
+    #screen::after {
+      content: "673 MSG --- SUPPORT THE FIGHT... DAY & NIGHT";
+      position: absolute;
+      bottom: -105px;
+      left: 0;
+      width: 100%;
+      padding-top: 22px;
+      border-top: 3px solid rgba(0, 255, 102, 0.65);
+      font-size: 30px;
+      line-height: 1;
+      letter-spacing: 7px;
+      text-align: center;
+      color: rgba(0, 255, 102, 0.75);
+    }
+
+    #title {
+      width: 100%;
+      text-align: center;
+      font-size: 108px;
+      line-height: 1.1;
+      font-weight: 700;
+      margin-bottom: 65px;
+      white-space: nowrap;
+      letter-spacing: 1px;
+    }
+
+    #paragraph {
+      width: 100%;
+      font-size: 60px;
+      line-height: 1.45;
+      font-weight: 700;
+      white-space: pre-wrap;
+      letter-spacing: 0.5px;
+    }
+
+    #columns {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 300px;
+      margin-top: 115px;
+      font-size: 56px;
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+    #leftColumn,
+    #rightColumn {
+      width: 1400px;
+      white-space: pre;
+      letter-spacing: 0.5px;
+    }
+
+    .corner {
+      position: fixed;
+      width: 170px;
+      height: 170px;
+      border-color: #00ff66;
+      border-style: solid;
+      opacity: 0.75;
+      z-index: 3;
+    }
+
+    #cornerTopLeft {
+      top: 65px;
+      left: 65px;
+      border-width: 8px 0 0 8px;
+    }
+
+    #cornerTopRight {
+      top: 65px;
+      right: 65px;
+      border-width: 8px 8px 0 0;
+    }
+
+    #cornerBottomLeft {
+      bottom: 65px;
+      left: 65px;
+      border-width: 0 0 8px 8px;
+    }
+
+    #cornerBottomRight {
+      right: 65px;
+      bottom: 65px;
+      border-width: 0 8px 8px 0;
+    }
+
+    .cursor::after {
+      content: "█";
+      display: inline-block;
+      margin-left: 12px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 45% {
+        opacity: 1;
+      }
+
+      46%, 100% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="cornerTopLeft" class="corner"></div>
+  <div id="cornerTopRight" class="corner"></div>
+  <div id="cornerBottomLeft" class="corner"></div>
+  <div id="cornerBottomRight" class="corner"></div>
+
+  <div id="screen">
+    <div id="title"></div>
+
+    <div id="paragraph"></div>
+
+    <div id="columns">
+      <div id="leftColumn"></div>
+
+      <div id="rightColumn"></div>
+    </div>
+  </div>
+
+  <script>
+    const titleText = "673 Mission Support Group";
+
+    const paragraphText =
+      "The 673d Mission Support Group consisting of 5 squadrons provides installation\n" +
+      "support to ensure JBER’s role as a premier strategic power projection platform. The\n" +
+      "1,800-person group executes a $12M budget and $1B contracting portfolio, supporting\n" +
+      "over 200 facilities, 73K acres, 50K active duty, dependents and retirees with\n" +
+      "contracting, lodging, food service, human resources, MWR, communications, security\n" +
+      "and law enforcement.";
+
+    const leftColumnText =
+      "•673 Communications Squadron\n" +
+      "•673 Contracting Squadron\n" +
+      "•673 Force Support Squadron";
+
+    const rightColumnText =
+      "•773 Force Support Squadron\n" +
+      "•673 Security Forces Squadron";
+
+    const title = document.getElementById("title");
+    const paragraph = document.getElementById("paragraph");
+    const leftColumn = document.getElementById("leftColumn");
+    const rightColumn = document.getElementById("rightColumn");
+
+    const typeSpeed = 40;
+    const sectionPause = 500;
+    const finishedPause = 12000;
+    const clearPause = 1500;
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function clearCursor() {
+      title.classList.remove("cursor");
+      paragraph.classList.remove("cursor");
+      leftColumn.classList.remove("cursor");
+      rightColumn.classList.remove("cursor");
+    }
+
+    async function typeText(element, text) {
+      clearCursor();
+
+      element.classList.add("cursor");
+
+      element.textContent = "";
+
+      for (let i = 0; i < text.length; i++) {
+        element.textContent += text[i];
+
+        await sleep(typeSpeed);
+      }
+
+      element.classList.remove("cursor");
+
+      await sleep(sectionPause);
+    }
+
+    async function runScreen() {
+      while (true) {
+        title.textContent = "";
+        paragraph.textContent = "";
+        leftColumn.textContent = "";
+        rightColumn.textContent = "";
+
+        await sleep(clearPause);
+
+        await typeText(title, titleText);
+        await typeText(paragraph, paragraphText);
+        await typeText(leftColumn, leftColumnText);
+        await typeText(rightColumn, rightColumnText);
+
+        rightColumn.classList.add("cursor");
+
+        await sleep(finishedPause);
+
+        rightColumn.classList.remove("cursor");
+
+        title.textContent = "";
+        paragraph.textContent = "";
+        leftColumn.textContent = "";
+        rightColumn.textContent = "";
+
+        await sleep(clearPause);
+      }
+    }
+
+    runScreen();
+  </script>
+</body>
+</html>
