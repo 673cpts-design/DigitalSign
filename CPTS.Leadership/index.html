@@ -21,6 +21,14 @@
       height: 100%;
       object-fit: cover;
     }	
+	#top-right-video {
+      	position: absolute;
+      top: 0px;
+      left: 1920px;
+      width: 1920px;
+      height: 1080px;
+      object-fit: cover;
+    }
 	/* Position the overlay image to the top left */
     #overlay-image {
       position: fixed;
@@ -320,7 +328,11 @@
  <div class="time-container">
   <iframe src="https://free.timeanddate.com/clock/i8v3fk82/n18/fn15/fs48/fcfff/tct/pct/ftb/tt0/tw1/tm1/ts1" frameborder="0" width="1000" height="100" allowtransparency="true"></iframe>
 </div>
- <!--------------------- video walpaper --------------------------------------->
+ <!--------------------- pie vid --------------------------------------->
+
+ <video id="top-right-video" autoplay muted loop playsinline>
+    <source src="pie-in-the-eye-26.mp4" type="video/mp4">
+  </video>
 <!--------------------- video wallpaper --------------------------------------->
 <div id="video-container">
   <video id="video" muted loop playsinline preload="auto" autoplay>
