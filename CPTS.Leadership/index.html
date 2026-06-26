@@ -30,7 +30,16 @@
       object-fit: cover;
 	  z-index: 100;
     }
-	/* Position the overlay image to the top left */
+	    #away {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 3840px;
+      height: 2160px;
+      z-index: 200;
+    }
+	  
+	  /* Position the overlay image to the top left */
     #overlay-image {
       position: fixed;
       top: 0;
@@ -483,6 +492,7 @@
   </script>
 </div>
 <!--------------------- Template Images --------------------------------------->
+	<img id="away" src="LtColFlanagan.png" alt="away">
 	<img id="overlay-image" src="Template.png" alt="Overlay Image">
 	<img id="Leftpatch-image" src="Opatch.png" alt="Left patch">
 	<img id="Rightpatch-image" src="Mpatch.png" alt="Right patch">
