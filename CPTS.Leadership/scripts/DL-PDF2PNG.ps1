@@ -6,34 +6,6 @@ $presentations = @(
     @{
         Name = 'Leadership'
         Url  = 'https://docs.google.com/presentation/d/1oR0K3nHUMKLrM5H6vjlXo4WXLnjDlQh5NFumJO564LM/edit?'
-    },
-    @{
-        Name = 'Quarter1'
-        Url  = 'https://docs.google.com/presentation/d/1jCFz3F6sW9dQal7sFOc3B_SDp7xqV1rrDAK2M4E25sc/edit?'
-    },
-    @{
-        Name = 'Quarter2'
-        Url  = 'https://docs.google.com/presentation/d/1JHFfUtRZpVK45EEe5agyRMiWRf7f_ZKWIbseQR9i-bE/edit?'
-    },
-    @{
-        Name = 'Quarter3'
-        Url  = 'https://docs.google.com/presentation/d/1_divCdzgPbeLa0g78mFODvDk2NFj7fPqFtU3-L46ZU8/edit?'
-    },
-    @{
-        Name = 'Quarter4'
-        Url  = 'https://docs.google.com/presentation/d/1owPg1QHBMnokEVZXIMEQ87Mu4il2KrNFdCevMQTedbU/edit?'
-    },
-    @{
-        Name = 'Year'
-        Url  = 'https://docs.google.com/presentation/d/1h5_bwQnd6ylEPqhNv7VgwqfaVBOvZ9WKKz1Evp6njIU/edit?'
-    },
-    @{
-        Name = 'YearSideBar'
-        Url  = 'https://docs.google.com/presentation/d/1m2AZd-puQ2c_yDZk9g2QhZ2xVBENC7fy3i5_Cl8bw5k/edit?'
-    },
-    @{
-        Name = 'Who'
-        Url  = 'https://docs.google.com/presentation/d/1DQ5OneNCKlyUdGr7NtC7HdaJMeBsptae9tLlB1tNIo8/edit?'
     }
 )
 
