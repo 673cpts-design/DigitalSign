@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .img-L1 {
+        position: absolute;
+        top: 52px;
+        left:37px;
+        width: 528px;
+        height: 660px;
+        z-index: 10;
+        border: none;
+    }
+
+    .img-L2 {
+        position: absolute;
+        top: 52px;
+        left:649px;
+        width: 528px;
+        height: 660px;
+        z-index: 10;
+        border: none;
+    }
+
+    .img-L3 {
+        position: absolute;
+        top: 52px;
+        left:1261px;
+        width: 528px;
+        height: 660px;
+        z-index: 10;
+        border: none;
+    }
+
+    .img-L4 {
+        position: absolute;
+        top: 750px;
+        left: 37px;
+        width: 528px;
+        height: 660px;
+        z-index: 10;
+        border: none;
+    }
+    .img-L5 {
+        position: absolute;
+        top: 750px;
+        left:1261px;
+        width: 528px;
+        height: 660px;
+        z-index: 10;
+        border: none;
+    }
+
+    .img-L6 {
+        position: absolute;
+        top: 1448px;
+        left:37px;
+        width: 528px;
+        height: 660px;
+        z-index: 10;
+        border: none;
+    }
+
+    .img-L7 {
+        position: absolute;
+        top: 1448px;
+        left: 649px;
+        width: 528px;
+        height: 660px;
+        z-index: 10;
+        border: none;
+    }
+
+    .img-L8 {
+        position: absolute;
+        top: 1448px;
+        left: 1261px;
+        width: 528px;
+        height: 660px;
+        z-index: 10;
+        border: none;
+    }	
+	
+	
+	/* Set the video container to the desired size and align to top left */
+    #video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 3840px;
+      height: 2160px;
+      overflow: hidden;
+      z-index: -1; /* Move the video behind other elements */
+    }
+    /* Center the video */
+    #video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }		  
+	  /* Position the overlay image to the top left */
+    #overlay-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 3840px;
+      height: 2160px;
+      z-index: 5;
+    }
+	/* Left patch */
+    #Leftpatch-image {
+      position: fixed;
+      top: 849px;
+      left: 699px;
+      width: 390px;
+      height: 389px;
+      z-index: 101;
+    }
+	/* Right patch */
+    #Rightpatch-image {
+      position: fixed;
+      top: 849px;
+      left: 3450px;
+      width: 390px;
+      height: 389px;
+      z-index: 101;
+    }
+	/* rope1 */
+    #Rope1-image {
+      position: fixed;
+      top: 1013px;
+      left: 1853px;
+      z-index: 100;
+    }
+	/* rope2 */
+    #Rope2-image {
+      position: fixed;
+    top: 1290px;
+    left: 1853px;
+      z-index: 100;
+    }
+	/* rope3 */
+    #Rope3-image {
+      position: fixed;
+      top: 1550px;
+    left: 1853px;
+      z-index: 100;
+    }
+		/* AF Times */
+		#AFTimes-image {
+		position: fixed;
+		top: 1630px;
+		left: 1946px;
+		width: 476px;
+		height: 56px;
+		z-index: 7;
+		}
+	/* Slideshow */
+	 .slideshow-container {
+      position: fixed;
+      top: 101px;
+      left: 1959px;
+      width: 1735px;
+      height: 950px;
+      overflow: hidden;
+	  z-index: 6;
+    }
+	.google10-container {
+	position: absolute;
+    top: 106px;
+    left: 1953px;
+	width: 1744px;
+	height: 1017px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 1;
+	}
+	.google10-container iframe {
+	width: 1744px;
+	height: 1017px;
+	}
+	.google11-container {
+	position: absolute;
+    top: 1080px;
+    left: 1935px;	
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 2;
+	}
+	.google11-container iframe {
+	}
+	.google12-container {
+	position: absolute;
+    top: 1350px;
+    left: 1935px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 3;
+	}
+	.google12-container iframe {
+	}
+	.time-container {
+	position: absolute;
+    top: 40px;
+    left: 2300px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 99;
+	}
+	.RSS-container {
+	position: absolute;
+    top: 1630px;
+    left: 1990px;
+    width: 1550px;
+    height: 450px;
+	overflow: hidden;
+	background: none;
+	border: none;
+	outline: none;
+	z-index: 9;
+	}
+	.RSS-container iframe {
+	width: 1550px;
+	height: 450px;
+	}
+  </style>
+</head>
+<body>
+ <!--------------------- countdown 
+<div class="EOY"
+           style="position:absolute;top:1025px;left:750px;z-index:13;">
+<iframe src="https://free.timeanddate.com/countdown/i90rpfgt/n18/cf12/cm0/cu5/ct0/cs1/ca0/co1/cr0/ss0/cacf00/cpcf00/pct/tcfff/fn2/fs350/szw576/szh243/tatTime%20Left%20to%20New%20Year/tacf00/tptHappy%20New%20Year!/tpcf00/iso2025-10-01T00:00:00" allowtransparency="true" frameborder="0" width="964" height="286"></iframe>
+</div>
+--------------------------------------->
+ <!--------------------- time  --------------------------------------->
+ <div class="time-container">
+  <iframe src="https://free.timeanddate.com/clock/i8v3fk82/n18/fn15/fs48/fcfff/tct/pct/ftb/tt0/tw1/tm1/ts1" frameborder="0" width="1000" height="100" allowtransparency="true"></iframe>
+</div>
+ <!--------------------- pie vid --------------------------------------->
+
+
+<!--------------------- video wallpaper --------------------------------------->
+<div id="video-container">
+  <video id="video" muted loop playsinline preload="auto" autoplay>
+    <source src="flagb4.webm" type="video/webm">
+    <!-- Optional fallback:
+    <source src="flagb4.mp4" type="video/mp4">
+    -->
+  </video>
+
+  <script>
+    (function () {
+      const video = document.getElementById('video');
+
+      let playbackConfirmed = false;
+      let lastTime = -1;
+      let stallCount = 0;
+      let retryTimer = null;
+
+      function log(msg, extra) {
+        if (extra !== undefined) {
+          console.log('[video]', msg, extra);
+        } else {
+          console.log('[video]', msg);
+        }
+      }
+
+      async function forcePlay() {
+        try {
+          video.muted = true;
+          video.defaultMuted = true;
+          video.playsInline = true;
+          video.autoplay = true;
+
+          const promise = video.play();
+          if (promise !== undefined) {
+            await promise;
+          }
+
+          playbackConfirmed = true;
+          log('Playback started:', video.currentSrc || 'no currentSrc');
+        } catch (err) {
+          playbackConfirmed = false;
+          log('Playback attempt failed:', err);
+        }
+      }
+
+      function scheduleRetry() {
+        if (retryTimer) return;
+
+        retryTimer = setInterval(async () => {
+          if (!playbackConfirmed || video.paused || video.readyState < 3) {
+            log('Retrying playback...');
+            await forcePlay();
+          }
+
+          if (playbackConfirmed && !video.paused) {
+            clearInterval(retryTimer);
+            retryTimer = null;
+          }
+        }, 1000);
+      }
+
+      function reloadAndPlay() {
+        log('Reloading video source...');
+        playbackConfirmed = false;
+        video.load();
+        scheduleRetry();
+        forcePlay();
+      }
+
+      // Kick off after DOM is ready (important for Edge kiosk now)
+      if (document.readyState === 'complete') {
+        forcePlay();
+        scheduleRetry();
+      } else {
+        window.addEventListener('load', () => {
+          log('Window loaded, starting video...');
+          forcePlay();
+          scheduleRetry();
+        });
+      }
+
+      video.addEventListener('canplay', () => {
+        log('canplay fired');
+        forcePlay();
+      });
+
+      video.addEventListener('playing', () => {
+        playbackConfirmed = true;
+        log('playing fired');
+      });
+
+      video.addEventListener('pause', () => {
+        log('pause fired');
+        scheduleRetry();
+      });
+
+      video.addEventListener('stalled', () => {
+        log('stalled fired');
+        reloadAndPlay();
+      });
+
+      video.addEventListener('waiting', () => {
+        log('waiting fired');
+        scheduleRetry();
+      });
+
+      video.addEventListener('error', () => {
+        const mediaError = video.error;
+        log('video error fired', mediaError ? {
+          code: mediaError.code,
+          message: mediaError.message || 'no message'
+        } : 'unknown error');
+        reloadAndPlay();
+      });
+
+      // Stall detection watchdog
+      setInterval(() => {
+        if (video.readyState >= 2 && !video.paused && !video.ended) {
+          if (video.currentTime === lastTime) {
+            stallCount++;
+            log('Detected playback stall #' + stallCount);
+
+            if (stallCount >= 2) {
+              reloadAndPlay();
+              stallCount = 0;
+            }
+          } else {
+            stallCount = 0;
+          }
+
+          lastTime = video.currentTime;
+        } else if (video.paused) {
+          scheduleRetry();
+        }
+      }, 3000);
+
+      // Handle kiosk visibility quirks
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          log('Visibility returned, forcing playback');
+          forcePlay();
+          scheduleRetry();
+        }
+      });
+    })();
+  </script>
+</div>
+<!--------------------- Template Images --------------------------------------->
+	
+	<img id="overlay-image" src="Template.png" alt="Overlay Image">
+	<img id="Leftpatch-image" src="Opatch.png" alt="Left patch">
+	<!------<img id="Rightpatch-image" src="Mpatch.png" alt="Right patch"> ------>
+	<img id="AFTimes-image" src="aftimes.png" alt="Right patch">
+	<img class="img-L1" src="images/Leadership/slide-000.png"/>   
+	<img class="img-L2" src="images/Leadership/slide-001.png"/>  
+	<img class="img-L3" src="images/Leadership/slide-002.png"/>  
+	<img class="img-L4" src="images/Leadership/slide-003.png"/>
+	<img class="img-L5" src="images/Leadership/slide-004.png"/>   
+	<img class="img-L6" src="images/Leadership/slide-005.png"/>  
+	<img class="img-L7" src="images/Leadership/slide-006.png"/>  
+	<img class="img-L8" src="images/Leadership/slide-007.png"/>
+<img id="Rope1-image" src="Rope.png" alt="Rope">
+<img id="Rope2-image" src="Rope.png" alt="Rope">
+<img id="Rope3-image" src="Rope.png" alt="Rope">
+<!--------------------- RSS --------------------------------------->
+<div class="RSS-container">
+  <iframe src="C:\www\RSS.html" frameborder="0" width="1550" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+<!--------------------- Google Slides --------------------------------------->
+<div class="google10-container">
+  <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR_rN6Z8g9EiTrprK4o9tImyOpsFqw6Z-juPk5ppDvrPVzzBeFWxdpvmuxuILsUwbxNbz1860KcM4nh/embed?start=true&loop=true&delayms=3000" frameborder="0" width="1744" height="1017" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+ <div class="google11-container">
+ <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTu18Jh-mdeT-m1WlhGelZro9nsHnJoTJFjkrlfVTx2Pl5nk6ZT24PyZ9VWOiEYdpxD99wHUscqqWiK/embed?start=true&loop=true&delayms=60000" frameborder="0" width="1768" height="316" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div> 
+ <div class="google12-container">
+ <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vS02GHAROIaqGn8i0frOeEIkE3XVjZ99RHrbG9XCXyib-YBFgCLNXwmFzVgEpQOzU99Ia78TbzO5k_Q/embed?start=true&loop=true&delayms=3000" frameborder="0" width="1770" height="302" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div> 
+</body>
+
+</html>
