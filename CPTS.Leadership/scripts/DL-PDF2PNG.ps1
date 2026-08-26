@@ -5,7 +5,7 @@ $baseOutputPath = "C:\www\images"
 $presentations = @(
     @{
         Name = 'Leadership'
-        Url  = 'https://docs.google.com/presentation/d/1oR0K3nHUMKLrM5H6vjlXo4WXLnjDlQh5NFumJO564LM/edit?'
+        Url  = 'https://docs.google.com/presentation/d/1_bZLH2Zl4eYf8yGnEUyjgkHUJrmMs9kgNxes24tpY0E/edit?'
     }
 )
 
