@@ -1,31 +1,42 @@
+#------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------------
+#-------------------------------CPTS Leadership Data Refresh Script------------------------------------------
+#------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------------
+#
+# This script is made for 2 reasons:
+# 1 Update the content displayed on the screen with the current Google slides
+# 2 Make sure the browser is in focus and loaded properly (say if a pop-up gets in the way or if you just need a reload on the page)
+#
+#------------------------------------------------------------------------------------------------------------
+#---------------------------------------------Goals----------------------------------------------------------
+#------------------------------------------------------------------------------------------------------------
+# Set Edge arguments for each launch.
+# Quickly display a loading page for button press feedback.
+# Download content from user made Google slides presentations & convert from PDF to PNG.
+# Close Edge and reload the main display html.
 
-# Close all Edge browser windows and reload Edge in KIOSK mode, refreshing the information/covering up popups
-# Graceful Edge shutdown attempt by closing the windowed parent allows child processes to wind down naturally to -
-# Prevents “Edge didn’t shut down correctly” banners.
-# Profile stability: avoids corrupting session/lock files.
-# Find the browser processes that actually own a window
-# Close all Edge browser windows and reload Edge in KIOSK mode
 
-# Graceful shutdown: Attempts to close only real windows first
-foreach ($process in (Get-Process -Name "msedge" -ErrorAction SilentlyContinue)) {
-    if ($process.MainWindowHandle -ne 0) {
-        $null = $process.CloseMainWindow()  # suppress output
-    }
-}
+# ------------------------- Set Edge arguments for each launch ----------------------------------
+# 1 Edge arguments for loading.
+# 2 Edge argumnets for main page.
 
-# Small delay for graceful exit
-Start-Sleep -Seconds 5
-
-# Kill any leftover processes silently
-Get-Process -Name "msedge" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-
-# Clear session restore files to prevent warning banners
-$sessionPath = "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Sessions\*"
-Remove-Item $sessionPath -Force -ErrorAction SilentlyContinue
-
-# Relaunch Edge in kiosk mode
-$edgeArguments = @(
-    "--kiosk c:\www\index.html"
+# 1 Edge arguments for loading.
+$edgeArguments1 = @(
+    "--kiosk"
+    "c:\www\loading.html"
+    "--edge-kiosk-type=fullscreen"
+    "--disable-pinch"
+    "--touch-events=disabled"
+    "--overscroll-history-navigation=0"
+    "--disable-touch-drag-drop"
+    "--disable-gesture-requirement-for-media-playback"
+    "--disable-features=TouchpadOverscrollHistoryNavigation,TouchDragAndDrop"
+)
+# 2 Edge argumnets for main page.
+$edgeArguments2 = @(
+    "--kiosk"
+    "c:\www\index.html"
     "--edge-kiosk-type=fullscreen"
     "--disable-pinch"
     "--touch-events=disabled"
@@ -35,11 +46,39 @@ $edgeArguments = @(
     "--disable-features=TouchpadOverscrollHistoryNavigation,TouchDragAndDrop"
 )
 
-Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -ArgumentList $edgeArguments
+# ------------------------- Quickly display a loading page for button press feedback ----------------------------------
+# 1 Kill Edge processes fast and silently so the feedback from the button press is instant. 
+# 2 Relaunch Edge in kiosk mode with loading page
+# 1 Kill Edge processes fast and silently so the feedback from the button press is instant. 
+Get-Process -Name "msedge" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+# 2 Relaunch Edge in kiosk mode with loading page
+Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -ArgumentList $edgeArguments1
 
-exit 0
+
+# ------------------------- Download content from user made Google slides presentations & convert from PDF to PNG ----------------------------------
+# Download google slides and convert to .png files
+& "C:\www\scripts\DL-PDF2PNG.ps1"
 
 
+# ------------------------- Close Edge and reload the main display html ----------------------------------
+# 1 Close Edge gracefully.
+# 2 Give it time for Edge graceful exit. 
+# 3 Force Edge to close if it is stuck.
+# 4 Clear Edge session restore files to prevent warning banners.
+#5 Relaunch Edge in kiosk mode with refreshed data
 
-
-
+# 1 Graceful shutdown
+foreach ($process in (Get-Process -Name "msedge" -ErrorAction SilentlyContinue)) {
+    if ($process.MainWindowHandle -ne 0) {
+        $null = $process.CloseMainWindow()  # suppress output
+    }
+}
+#2 Give it time for Edge graceful exit. 
+Start-Sleep -Seconds 10
+# 3 Force Edge to close if it is stuck.
+Get-Process -Name "msedge" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+# 4 Clear Edge session restore files to prevent warning banners.
+$sessionPath = "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Sessions\*"
+Remove-Item $sessionPath -Force -ErrorAction SilentlyContinue
+#5 Relaunch Edge in kiosk mode with refreshed data
+Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -ArgumentList $edgeArguments2
