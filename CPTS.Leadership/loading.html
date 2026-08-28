@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Loading</title>
+<style>
+    html, body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        color: #0f0;
+        overflow: hidden;
+        font-family: Consolas, "Courier New", monospace;
+    }
+
+    /* Matrix background */
+    #matrix {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        background: #000;
+    }
+
+    /* Scanline overlay */
+    .scanlines {
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        background: repeating-linear-gradient(
+            to bottom,
+            rgba(0, 255, 0, 0.05) 0px,
+            rgba(0, 255, 0, 0.05) 2px,
+            rgba(0, 0, 0, 0.15) 3px
+        );
+        mix-blend-mode: overlay;
+        animation: scan 6s linear infinite;
+        z-index: 10;
+    }
+
+    @keyframes scan {
+        0%   { background-position: 0 0; }
+        100% { background-position: 0 100vh; }
+    }
+
+    /* Centering wrapper */
+    .center-wrapper {
+        position: relative;
+        z-index: 5;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Text + glitch effect */
+    .loading {
+        width: 50vw;
+        text-align: center;
+        font-size: 30rem;
+        text-shadow:
+            0 0 20px #0f0,
+            0 0 40px #0f0,
+            0 0 80px rgba(0, 255, 0, 0.6);
+        position: relative;
+        animation: glitch 0.35s infinite;
+    }
+
+    /* Glitch layer (offset duplicates) */
+    .loading::before,
+    .loading::after {
+        content: "loading";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        color: #0f0;
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .loading::before {
+        animation: glitchBefore 0.3s infinite;
+        mix-blend-mode: screen;
+    }
+
+    .loading::after {
+        animation: glitchAfter 0.25s infinite;
+        mix-blend-mode: screen;
+    }
+
+    /* Base jitter */
+    @keyframes glitch {
+        0%   { transform: translate(0px, 0px); }
+        20%  { transform: translate(-2px, 1px); }
+        40%  { transform: translate(3px, -2px); }
+        60%  { transform: translate(-1px, 2px); }
+        80%  { transform: translate(2px, -1px); }
+        100% { transform: translate(0px, 0px); }
+    }
+
+    /* Colored offset glitches */
+    @keyframes glitchBefore {
+        0%   { transform: translate(-3px, -2px); }
+        50%  { transform: translate(3px, 2px); }
+        100% { transform: translate(-3px, -2px); }
+    }
+
+    @keyframes glitchAfter {
+        0%   { transform: translate(3px, 2px); }
+        50%  { transform: translate(-3px, -3px); }
+        100% { transform: translate(3px, 2px); }
+    }
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+
+<div class="center-wrapper">
+    <div class="loading">loading</div>
+</div>
+
+<div class="scanlines"></div>
+
+<script>
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d', { alpha: false });
+
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*+-<>アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+
+    const fontSize = 24;
+    let columns = 0;
+    let drops = [];
+
+    function resizeMatrix() {
+        const dpr = Math.max(1, window.devicePixelRatio || 1);
+        canvas.width = Math.floor(window.innerWidth * dpr);
+        canvas.height = Math.floor(window.innerHeight * dpr);
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.font = fontSize + 'px Consolas, "Courier New", monospace';
+        ctx.textBaseline = 'top';
+
+        columns = Math.ceil(window.innerWidth / fontSize);
+        drops = Array.from({ length: columns }, () => Math.random() * -60);
+    }
+
+    function drawMatrix() {
+        /* Translucent black creates the fading trails. */
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+        for (let i = 0; i < drops.length; i++) {
+            const char = characters[Math.floor(Math.random() * characters.length)];
+            const x = i * fontSize;
+            const y = drops[i] * fontSize;
+
+            /* Bright leading character. */
+            ctx.fillStyle = '#d8ffd8';
+            ctx.fillText(char, x, y);
+
+            /* Green glow just behind it. */
+            ctx.shadowColor = '#00ff41';
+            ctx.shadowBlur = 8;
+            ctx.fillStyle = '#00ff41';
+            ctx.fillText(char, x, y - fontSize);
+            ctx.shadowBlur = 0;
+
+            if (y > window.innerHeight && Math.random() > 0.975) {
+                drops[i] = Math.random() * -30;
+            }
+
+            drops[i] += 0.65 + Math.random() * 0.55;
+        }
+    }
+
+    resizeMatrix();
+    window.addEventListener('resize', resizeMatrix);
+
+    /* 30 FPS is plenty for this effect and keeps kiosk GPU/CPU load reasonable. */
+    setInterval(drawMatrix, 1000 / 30);
+</script>
+</body>
+</html>
