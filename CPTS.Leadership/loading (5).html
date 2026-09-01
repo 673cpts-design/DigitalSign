@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Loading</title>
+<style>
+    html, body {
+        margin: 0;
+        height: 100%;
+        background: #000;
+        color: #0f0;
+        overflow: hidden;
+        font-family: Consolas, "Courier New", monospace;
+    }
+    #matrix-rain {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+    }
+    #fps-counter {
+        position: fixed;
+        top: 24px;
+        right: 32px;
+        z-index: 20;
+        padding: 8px 12px;
+        color: #7dff9a;
+        background: rgba(0, 20, 5, 0.78);
+        border: 1px solid rgba(0, 255, 70, 0.55);
+        border-radius: 4px;
+        font: bold 28px/1 Consolas, "Courier New", monospace;
+        text-shadow: 0 0 8px #00ff46;
+        pointer-events: none;
+    }
+    /* Scanline overlay */
+    .scanlines {
+        pointer-events: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: repeating-linear-gradient(
+            to bottom,
+            rgba(0, 255, 0, 0.05) 0px,
+            rgba(0, 255, 0, 0.05) 2px,
+            rgba(0, 0, 0, 0.15) 3px
+        );
+        mix-blend-mode: overlay;
+        animation: scan 6s linear infinite;
+        z-index: 10;
+    }
+    @keyframes scan {
+        0%   { background-position: 0 0; }
+        100% { background-position: 0 100vh; }
+    }
+    /* Centering wrapper */
+    .center-wrapper {
+        position: relative;
+        z-index: 2;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    /* Text + glitch effect */
+    .loading {
+        width: 100%;
+        text-align: center;
+        font-size: clamp(12rem, 12.5vw, 30rem);
+        line-height: 1;
+        white-space: nowrap;
+        text-shadow: 0 0 32px #0f0;
+        position: relative;
+        animation:
+            glitch 0.35s infinite;
+        transition: opacity 35ms linear, color 35ms linear, filter 35ms linear;
+    }
+    /* Glitch layer (offset duplicates) */
+    .loading::before,
+    .loading::after {
+        content: "loading";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        color: #0f0;
+        opacity: 0.5;
+        pointer-events: none;
+    }
+    .loading::before {
+        animation: glitchBefore 0.3s infinite;
+        mix-blend-mode: screen;
+    }
+    .loading::after {
+        animation: glitchAfter 0.25s infinite;
+        mix-blend-mode: screen;
+    }
+    /* Base jitter */
+    @keyframes glitch {
+        0%   { transform: translate(0px, 0px); }
+        20%  { transform: translate(-2px, 1px); }
+        40%  { transform: translate(3px, -2px); }
+        60%  { transform: translate(-1px, 2px); }
+        80%  { transform: translate(2px, -1px); }
+        100% { transform: translate(0px, 0px); }
+    }
+    /* Colored offset glitches */
+    @keyframes glitchBefore {
+        0%   { transform: translate(-3px, -2px); }
+        50%  { transform: translate(3px, 2px); }
+        100% { transform: translate(-3px, -2px); }
+    }
+    @keyframes glitchAfter {
+        0%   { transform: translate(3px, 2px); }
+        50%  { transform: translate(-3px, -3px); }
+        100% { transform: translate(3px, 2px); }
+    }
+    .loading.neon-weak {
+        opacity: 0.58;
+        color: #19bd3f;
+        text-shadow: 0 0 8px #159b35, 0 0 20px #08751f;
+        filter: brightness(0.65);
+    }
+    .loading.neon-dim {
+        opacity: 0.16;
+        color: #08751f;
+        text-shadow: 0 0 5px #063d13;
+        filter: brightness(0.35);
+    }
+    .loading.neon-off {
+        opacity: 0.025;
+        color: #032b0c;
+        text-shadow: none;
+        filter: brightness(0.15);
+    }
+</style>
+
+</head>
+<body>
+<canvas id="matrix-rain" aria-hidden="true"></canvas>
+<div id="fps-counter">FPS: --</div>
+<div class="center-wrapper">
+    <div class="loading">loading</div>
+</div>
+<div class="scanlines"></div>
+<script>
+(() => {
+    const canvas = document.getElementById("matrix-rain");
+    const ctx = canvas.getContext("2d", { alpha: false });
+    const characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&*+-<>[]{}";
+    let fontSize = 24;
+    const trailLength = 28;
+    const streamSpacing = 34;
+    const targetFps = 60;
+    const frameInterval = 1000 / targetFps;
+    const fpsCounter = document.getElementById("fps-counter");
+    let columns = [];
+    let lastFrame = 0;
+    let fpsStart = performance.now();
+    let renderedFrames = 0;
+
+    function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        fontSize = Math.max(24, Math.round(Math.min(innerWidth, innerHeight) / 60));
+        canvas.width = Math.floor(innerWidth * dpr);
+        canvas.height = Math.floor(innerHeight * dpr);
+        canvas.style.width = innerWidth + "px";
+        canvas.style.height = innerHeight + "px";
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.font = `bold ${fontSize}px Consolas, "Courier New", monospace`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+
+        const count = Math.ceil(innerWidth / fontSize);
+        const totalRows = Math.ceil(innerHeight / fontSize);
+        columns = Array.from({ length: count }, (_, column) => ({
+            x: column * fontSize + fontSize / 2,
+            speed: 0.30 + Math.random() * 0.45,
+            offset: Math.random() * streamSpacing,
+            streams: Math.ceil(totalRows / streamSpacing) + 2
+        }));
+    }
+
+    function glyph() {
+        return characters[Math.floor(Math.random() * characters.length)];
+    }
+
+    function draw(time) {
+        requestAnimationFrame(draw);
+        // Small tolerance prevents a 60 Hz display's timing jitter from
+        // accidentally making the limiter fall back to 30 FPS.
+        if (time - lastFrame < frameInterval * 0.9) return;
+        lastFrame = time - ((time - lastFrame) % frameInterval);
+        renderedFrames++;
+
+        if (time - fpsStart >= 500) {
+            const measuredFps = renderedFrames * 1000 / (time - fpsStart);
+            fpsCounter.textContent = `FPS: ${measuredFps.toFixed(1)}`;
+            renderedFrames = 0;
+            fpsStart = time;
+        }
+
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, innerWidth, innerHeight);
+        const totalRows = Math.ceil(innerHeight / fontSize);
+
+        for (const column of columns) {
+            const travel = time * 0.001 * column.speed * 18;
+            for (let stream = -1; stream < column.streams; stream++) {
+                const head = (column.offset + stream * streamSpacing + travel) %
+                    (totalRows + streamSpacing);
+
+                for (let tail = 0; tail < trailLength; tail++) {
+                    const row = head - tail;
+                    if (row < -1 || row > totalRows) continue;
+                    const y = Math.floor(row) * fontSize;
+                    const alpha = Math.pow(1 - tail / trailLength, 1.7);
+                    ctx.fillStyle = tail === 0
+                        ? "#d8ffd8"
+                        : `rgba(0, 255, 70, ${alpha})`;
+                    ctx.shadowColor = tail < 3 ? "#00ff46" : "transparent";
+                    ctx.shadowBlur = tail < 3 ? 9 : 0;
+                    ctx.fillText(glyph(), column.x, y);
+                }
+            }
+        }
+        ctx.shadowBlur = 0;
+    }
+
+    addEventListener("resize", resize);
+    resize();
+    requestAnimationFrame(draw);
+})();
+
+// Randomized neon failures: no repeating animation timeline.
+(() => {
+    const sign = document.querySelector(".loading");
+    const states = ["", "neon-weak", "neon-dim", "neon-off"];
+    const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+    function setState(state) {
+        sign.classList.remove("neon-weak", "neon-dim", "neon-off");
+        if (state) sign.classList.add(state);
+    }
+
+    async function fail() {
+        while (true) {
+            // Stay healthy for an unpredictable amount of time.
+            await wait(1200 + Math.random() * 10500);
+
+            // Every failure contains a different number and order of sputters.
+            const sputters = 2 + Math.floor(Math.random() * 9);
+            for (let i = 0; i < sputters; i++) {
+                const roll = Math.random();
+                const state = roll < 0.28 ? "neon-off"
+                    : roll < 0.62 ? "neon-dim"
+                    : roll < 0.83 ? "neon-weak"
+                    : "";
+                setState(state);
+                await wait(28 + Math.random() * 260);
+            }
+
+            // Rarely struggle in a dim or dead state before recovering.
+            if (Math.random() < 0.24) {
+                setState(Math.random() < 0.55 ? "neon-off" : "neon-dim");
+                await wait(350 + Math.random() * 2400);
+                if (Math.random() < 0.7) {
+                    setState("neon-weak");
+                    await wait(45 + Math.random() * 500);
+                }
+            }
+
+            setState("");
+        }
+    }
+
+    fail();
+})();
+</script>
+</body>
+</html>
