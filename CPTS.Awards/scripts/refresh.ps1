@@ -40,6 +40,7 @@ $edgeArguments2 = @(
     "c:\www\index.html"
     "--edge-kiosk-type=fullscreen"
     "--disable-pinch"
+    "--allow-file-access-from-files"
     "--touch-events=disabled"
     "--overscroll-history-navigation=0"
     "--disable-touch-drag-drop"
