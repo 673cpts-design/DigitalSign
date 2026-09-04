@@ -37,7 +37,7 @@ $mainSlidesHtml = $yearImages | ForEach-Object {
 
 @"
     <div class="swiper-slide">
-      <figure class="slide-bgimg" style="background-image:url('$imgUrl')" data-swiper-parallax-x="50%">
+      <figure class="slide-bgimg" style="background-image:url('$imgUrl')" data-swiper-parallax-x="80%">
         <img src="$imgUrl" class="entity-img" />
       </figure>
     </div>
