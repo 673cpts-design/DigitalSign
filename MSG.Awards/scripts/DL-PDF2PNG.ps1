@@ -7,10 +7,10 @@ $maxOuterCycles     = 3   # Max full redownload cycles for failed files
 $retryDelaySeconds  = 10  # Seconds to wait before retrying
 
 $presentations = @(
-    @{ Name = 'TopRight';   Url = 'https://docs.google.com/presentation/d/1EY6EOeD7cyvaEyL2X5P1SdzFBop29q6vpEu3nG4qCpQ/edit?' },
-    @{ Name = 'BottomLeft';   Url = 'https://docs.google.com/presentation/d/1fwFDb59l5lzGgbqNLmhIy11WykN9Z35fWgb0vFWj2rs/edit?' },
-    @{ Name = 'BottomRight';   Url = 'https://docs.google.com/presentation/d/1rJIGLcvryB8hg3E3VoVfHzXwz0VgeQXFgswUGujVaNE/edit?' },
-    @{ Name = 'TopLeft';   Url = 'https://docs.google.com/presentation/d/16KSbkc76muL0oR1MVWuOWBL-25Z2IajLZLL2_6RLc_g/edit?' }
+    @{ Name = 'TopRight';   Url = 'https://docs.google.com/presentation/d/1jCFz3F6sW9dQal7sFOc3B_SDp7xqV1rrDAK2M4E25sc/edit?' },
+    @{ Name = 'BottomLeft';   Url = 'https://docs.google.com/presentation/d/1JHFfUtRZpVK45EEe5agyRMiWRf7f_ZKWIbseQR9i-bE/edit?' },
+    @{ Name = 'BottomRight';   Url = 'https://docs.google.com/presentation/d/1_divCdzgPbeLa0g78mFODvDk2NFj7fPqFtU3-L46ZU8/edit?' },
+    @{ Name = 'TopLeft';   Url = 'https://docs.google.com/presentation/d/1owPg1QHBMnokEVZXIMEQ87Mu4il2KrNFdCevMQTedbU/edit?' }
 )
 
 # ================== MAIN PROCESSING ==================
