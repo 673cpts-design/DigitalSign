@@ -61,13 +61,10 @@ Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -Ar
 & "C:\www\scripts\DL-PDF2PNG.ps1"
 
 
-# ------------------------- Build html files for each slideshow based on the generated PNG files (previous step) ----------------------------------
+# ------------------------- Build html file slideshow based on the generated PNG files (previous step) ----------------------------------
 # Use the quarterly images to build the html files for the cubes 
-& "C:\www\scripts\Build-cube-html.ps1"
-# Use the yearly images to buils the html files for the yearly slides
-& "C:\www\scripts\Build-year-html.ps1"
-# Use the who images to buils the html files for the who are we slides
-& "C:\www\scripts\Build-who-html.ps1"
+& "C:\www\scripts\Build-index-html.ps1"
+
 
 
 # ------------------------- Close Edge and reload the main display html ----------------------------------
