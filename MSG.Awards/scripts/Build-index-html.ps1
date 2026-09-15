@@ -3,9 +3,20 @@
 #
 # Builds a 3840x2160 HTML page from PNG files in 4 folders.
 #
+# Slideshow timing is downloaded from Google Sheets:
+#
+# B2 = Top Left
+# B3 = Bottom Left
+# C2 = Top Right
+# C3 = Bottom Right
+#
+# Spreadsheet values are in SECONDS.
+#
 # 0 PNG files = blank quadrant
 # 1 PNG file  = static image
-# 2+ PNGs     = fading slideshow + progress bar
+# 2+ PNGs     = slideshow + progress bar
+#
+# Image changes are INSTANT - no fade or transition.
 # ============================================================
 
 
@@ -20,26 +31,141 @@ $BottomRightFolder = "C:\www\images\BottomRight"
 
 $OutputFile = "C:\www\index.html"
 
-# How long each slide stays visible
-$SlideDurationSeconds = 10
 
-# Fade transition duration
-$FadeDurationSeconds = 1
+# ------------------------------------------------------------
+# GOOGLE SHEETS CONFIGURATION
+# ------------------------------------------------------------
+
+$SheetId = "1w5-EreROT-A7kaAmCkHgKQWA6r8JlrZ6Ot1tyOCagx8"
+$Gid     = "0"
+
+# Cells containing slideshow delay in SECONDS
+
+$TopLeftCell     = "B2"
+$BottomLeftCell  = "B3"
+$TopRightCell    = "C2"
+$BottomRightCell = "C3"
+
+$CsvUrl = "https://docs.google.com/spreadsheets/d/$SheetId/export?format=csv&gid=$Gid"
 
 
 # ------------------------------------------------------------
-# FUNCTION: Convert Windows path to file:/// URL
+# DOWNLOAD GOOGLE SHEET
+# ------------------------------------------------------------
+
+Write-Host ""
+Write-Host "Downloading slideshow timing from Google Sheets..."
+
+try {
+
+    $Response = Invoke-WebRequest `
+        -Uri $CsvUrl `
+        -UseBasicParsing
+
+    $CsvText = $Response.Content
+
+}
+catch {
+
+    Write-Host ""
+    Write-Host "ERROR: Could not download Google Sheet."
+    Write-Host $_.Exception.Message
+    exit 1
+
+}
+
+
+# ------------------------------------------------------------
+# PARSE GOOGLE SHEET
+# ------------------------------------------------------------
+
+$Rows = $CsvText | ConvertFrom-Csv -Header (
+    1..100 | ForEach-Object { "Col$_" }
+)
+
+
+# ------------------------------------------------------------
+# FUNCTION: GET GOOGLE SHEET CELL
+# ------------------------------------------------------------
+
+function Get-SheetCell {
+
+    param (
+        [string]$Cell
+    )
+
+    if ($Cell -notmatch '^([A-Za-z]+)(\d+)$') {
+
+        throw "Invalid cell address: $Cell"
+
+    }
+
+    $ColumnLetters = $Matches[1].ToUpper()
+    $RowNumber     = [int]$Matches[2]
+
+    $ColumnNumber = 0
+
+    foreach ($Character in $ColumnLetters.ToCharArray()) {
+
+        $ColumnNumber =
+            ($ColumnNumber * 26) +
+            ([int][char]$Character - [int][char]'A' + 1)
+
+    }
+
+    $RowIndex = $RowNumber - 1
+
+    return $Rows[$RowIndex].("Col$ColumnNumber")
+}
+
+
+# ------------------------------------------------------------
+# READ SLIDESHOW DURATIONS
+# ------------------------------------------------------------
+
+$TopLeftDurationSeconds =
+    [double](Get-SheetCell $TopLeftCell)
+
+$BottomLeftDurationSeconds =
+    [double](Get-SheetCell $BottomLeftCell)
+
+$TopRightDurationSeconds =
+    [double](Get-SheetCell $TopRightCell)
+
+$BottomRightDurationSeconds =
+    [double](Get-SheetCell $BottomRightCell)
+
+
+# ------------------------------------------------------------
+# DISPLAY GOOGLE SHEET VALUES
+# ------------------------------------------------------------
+
+Write-Host ""
+Write-Host "Slideshow timing:"
+Write-Host "-----------------"
+
+Write-Host "Top Left:     $TopLeftDurationSeconds seconds"
+Write-Host "Top Right:    $TopRightDurationSeconds seconds"
+Write-Host "Bottom Left:  $BottomLeftDurationSeconds seconds"
+Write-Host "Bottom Right: $BottomRightDurationSeconds seconds"
+
+Write-Host ""
+
+
+# ------------------------------------------------------------
+# FUNCTION: CONVERT WINDOWS PATH TO FILE:/// URL
 # ------------------------------------------------------------
 
 function Convert-ToFileUrl {
+
     param (
         [string]$Path
     )
 
     $FullPath = [System.IO.Path]::GetFullPath($Path)
+
     $FullPath = $FullPath -replace '\\', '/'
 
-    # Encode spaces, #, etc.
     $Uri = New-Object System.Uri($FullPath)
 
     return $Uri.AbsoluteUri
@@ -47,25 +173,31 @@ function Convert-ToFileUrl {
 
 
 # ------------------------------------------------------------
-# FUNCTION: Read PNG files from folder
+# FUNCTION: READ PNG FILES FROM FOLDER
 # ------------------------------------------------------------
 
 function Get-PngFiles {
+
     param (
         [string]$Folder
     )
 
     if (-not (Test-Path $Folder)) {
+
         Write-Warning "Folder does not exist: $Folder"
+
         return @()
+
     }
 
     return @(
+
         Get-ChildItem `
             -Path $Folder `
             -Filter "*.png" `
             -File |
         Sort-Object Name
+
     )
 }
 
@@ -74,18 +206,27 @@ function Get-PngFiles {
 # READ IMAGE LISTS
 # ------------------------------------------------------------
 
-$TopLeftImages = Get-PngFiles $TopLeftFolder
-$TopRightImages = Get-PngFiles $TopRightFolder
-$BottomLeftImages = Get-PngFiles $BottomLeftFolder
-$BottomRightImages = Get-PngFiles $BottomRightFolder
+$TopLeftImages =
+    Get-PngFiles $TopLeftFolder
+
+$TopRightImages =
+    Get-PngFiles $TopRightFolder
+
+$BottomLeftImages =
+    Get-PngFiles $BottomLeftFolder
+
+$BottomRightImages =
+    Get-PngFiles $BottomRightFolder
 
 
-Write-Host ""
 Write-Host "Images found:"
+Write-Host "-------------"
+
 Write-Host "Top Left:     $($TopLeftImages.Count)"
 Write-Host "Top Right:    $($TopRightImages.Count)"
 Write-Host "Bottom Left:  $($BottomLeftImages.Count)"
 Write-Host "Bottom Right: $($BottomRightImages.Count)"
+
 Write-Host ""
 
 
@@ -97,7 +238,8 @@ function New-QuadrantHtml {
 
     param (
         [string]$Id,
-        [array]$Images
+        [array]$Images,
+        [double]$DurationSeconds
     )
 
 
@@ -121,13 +263,16 @@ function New-QuadrantHtml {
 
     if ($Images.Count -eq 1) {
 
-        $ImageUrl = Convert-ToFileUrl $Images[0].FullName
+        $ImageUrl =
+            Convert-ToFileUrl $Images[0].FullName
 
         return @"
 <div id="$Id" class="quadrant">
+
     <img class="static-image"
          src="$ImageUrl"
          alt="">
+
 </div>
 "@
 
@@ -142,13 +287,18 @@ function New-QuadrantHtml {
 
     for ($i = 0; $i -lt $Images.Count; $i++) {
 
-        $ImageUrl = Convert-ToFileUrl $Images[$i].FullName
+        $ImageUrl =
+            Convert-ToFileUrl $Images[$i].FullName
 
         if ($i -eq 0) {
+
             $Class = "slide active"
+
         }
         else {
+
             $Class = "slide"
+
         }
 
         $ImageHtml += @"
@@ -156,22 +306,35 @@ function New-QuadrantHtml {
              src="$ImageUrl"
              alt="">
 "@
+
     }
 
 
+    # Convert seconds to milliseconds for JavaScript
+
+    $DurationMs = [int]($DurationSeconds * 1000)
+
+
     return @"
-<div id="$Id" class="quadrant slideshow">
+<div id="$Id"
+     class="quadrant slideshow"
+     data-duration="$DurationMs">
 
     <div class="slides">
+
 $ImageHtml
+
     </div>
 
     <div class="progress-background">
+
         <div class="progress-bar"></div>
+
     </div>
 
 </div>
 "@
+
 }
 
 
@@ -181,25 +344,26 @@ $ImageHtml
 
 $TopLeftHtml = New-QuadrantHtml `
     -Id "top-left" `
-    -Images $TopLeftImages
+    -Images $TopLeftImages `
+    -DurationSeconds $TopLeftDurationSeconds
+
 
 $TopRightHtml = New-QuadrantHtml `
     -Id "top-right" `
-    -Images $TopRightImages
+    -Images $TopRightImages `
+    -DurationSeconds $TopRightDurationSeconds
+
 
 $BottomLeftHtml = New-QuadrantHtml `
     -Id "bottom-left" `
-    -Images $BottomLeftImages
+    -Images $BottomLeftImages `
+    -DurationSeconds $BottomLeftDurationSeconds
+
 
 $BottomRightHtml = New-QuadrantHtml `
     -Id "bottom-right" `
-    -Images $BottomRightImages
-
-
-# Convert seconds to milliseconds for JavaScript
-
-$SlideDurationMs = $SlideDurationSeconds * 1000
-$FadeDurationMs = $FadeDurationSeconds * 1000
+    -Images $BottomRightImages `
+    -DurationSeconds $BottomRightDurationSeconds
 
 
 # ------------------------------------------------------------
@@ -219,6 +383,7 @@ $Html = @"
 
 
 <style>
+
 
 /* ==========================================================
    PAGE
@@ -354,8 +519,6 @@ body {
 
     opacity: 0;
 
-    transition: opacity ${FadeDurationSeconds}s linear;
-
 }
 
 
@@ -412,12 +575,14 @@ body {
 
 }
 
+
 </style>
 
 </head>
 
 
 <body>
+
 
 <div id="display">
 
@@ -434,8 +599,6 @@ $BottomRightHtml
 
 <script>
 
-const slideDuration = $SlideDurationMs;
-
 
 /* ==========================================================
    START ONE SLIDESHOW
@@ -449,6 +612,13 @@ function startSlideshow(container) {
     const progress =
         container.querySelector(".progress-bar");
 
+    /*
+       Read this quadrant's slideshow duration.
+    */
+
+    const slideDuration =
+        Number(container.dataset.duration);
+
 
     if (slides.length <= 1) {
 
@@ -461,14 +631,13 @@ function startSlideshow(container) {
 
 
     /* ------------------------------------------------------
-       Start progress animation
+       START PROGRESS BAR
        ------------------------------------------------------ */
 
     function startProgress() {
 
         /*
-          Remove transition temporarily so the bar can snap
-          back to zero.
+           Snap progress bar back to zero.
         */
 
         progress.style.transition = "none";
@@ -477,15 +646,14 @@ function startSlideshow(container) {
 
 
         /*
-          Force the browser to apply width: 0 before starting
-          the next transition.
+           Force browser to apply width: 0.
         */
 
         void progress.offsetWidth;
 
 
         /*
-          Fill the bar over the entire slide duration.
+           Fill progress bar over the slide duration.
         */
 
         progress.style.transition =
@@ -499,16 +667,29 @@ function startSlideshow(container) {
 
 
     /* ------------------------------------------------------
-       Change slide
+       CHANGE SLIDE
        ------------------------------------------------------ */
 
     function nextSlide() {
+
+        /*
+           Hide current image instantly.
+        */
 
         slides[currentSlide]
             .classList.remove("active");
 
 
+        /*
+           Move to next image.
+        */
+
         currentSlide++;
+
+
+        /*
+           Return to first image after last image.
+        */
 
         if (currentSlide >= slides.length) {
 
@@ -517,9 +698,17 @@ function startSlideshow(container) {
         }
 
 
+        /*
+           Show new image instantly.
+        */
+
         slides[currentSlide]
             .classList.add("active");
 
+
+        /*
+           Restart progress bar.
+        */
 
         startProgress();
 
@@ -534,7 +723,8 @@ function startSlideshow(container) {
 
 
     /*
-       Advance slideshow.
+       Advance slideshow using this quadrant's
+       Google Sheets duration.
     */
 
     setInterval(
@@ -553,6 +743,7 @@ document
     .querySelectorAll(".slideshow")
     .forEach(startSlideshow);
 
+
 </script>
 
 
@@ -563,10 +754,12 @@ document
 
 
 # ------------------------------------------------------------
-# WRITE FILE
+# WRITE HTML FILE
 # ------------------------------------------------------------
 
-$OutputDirectory = Split-Path $OutputFile
+$OutputDirectory =
+    Split-Path $OutputFile
+
 
 if (-not (Test-Path $OutputDirectory)) {
 
@@ -574,7 +767,7 @@ if (-not (Test-Path $OutputDirectory)) {
         -ItemType Directory `
         -Path $OutputDirectory `
         -Force |
-        Out-Null
+    Out-Null
 
 }
 
@@ -585,6 +778,19 @@ Set-Content `
     -Encoding UTF8
 
 
+# ------------------------------------------------------------
+# FINISHED
+# ------------------------------------------------------------
+
+Write-Host ""
 Write-Host "HTML created:"
 Write-Host $OutputFile
+
+Write-Host ""
+Write-Host "Slideshow delays:"
+Write-Host "Top Left:     $TopLeftDurationSeconds seconds"
+Write-Host "Top Right:    $TopRightDurationSeconds seconds"
+Write-Host "Bottom Left:  $BottomLeftDurationSeconds seconds"
+Write-Host "Bottom Right: $BottomRightDurationSeconds seconds"
+
 Write-Host ""
