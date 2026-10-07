@@ -38,9 +38,9 @@ if (-not (Test-Path $Source)) {
 }
 
 # Copy files and folders into C:\www
-# Existing matching files are replaced.
+# Existing matching files are replaced forcefully.
 # Files already in C:\www that are NOT in the repository are left alone.
-robocopy $Source $Destination /E /COPY:DAT /DCOPY:DAT /R:2 /W:1
+robocopy $Source $Destination /E /IS /IT /COPY:DAT /DCOPY:DAT /R:2 /W:1
 
 # Robocopy exit codes 0-7 are successful
 if ($LASTEXITCODE -ge 8) {
