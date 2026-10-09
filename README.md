@@ -31,7 +31,5 @@ GPO edit for windows updates
 reg edit for power profile 
 
 
-MSG Awards 
-
 
 
