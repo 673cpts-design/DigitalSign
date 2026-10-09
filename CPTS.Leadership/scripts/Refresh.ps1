@@ -32,6 +32,7 @@ $edgeArguments1 = @(
     "--disable-touch-drag-drop"
     "--disable-gesture-requirement-for-media-playback"
     "--disable-features=TouchpadOverscrollHistoryNavigation,TouchDragAndDrop"
+    "--allow-file-access-from-files"
 )
 # 2 Edge argumnets for main page.
 $edgeArguments2 = @(
@@ -44,6 +45,7 @@ $edgeArguments2 = @(
     "--disable-touch-drag-drop"
     "--disable-gesture-requirement-for-media-playback"
     "--disable-features=TouchpadOverscrollHistoryNavigation,TouchDragAndDrop"
+    "--allow-file-access-from-files"
 )
 
 # ------------------------- Quickly display a loading page for button press feedback ----------------------------------
