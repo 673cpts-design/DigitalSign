@@ -94,7 +94,9 @@ while ($outerCycle -lt $maxOuterCycles -and $pendingPresentations.Count -gt 0) {
                 $attempts++
                 Get-ChildItem $outDir -Filter "slide-*.png" -Force | Remove-Item -Force
                 
-                & magick -density 288 $pdf -background white -alpha remove -alpha off $outPattern
+                # Discard PDF page 1 (image index 0) before writing PNGs.
+                # Restart output numbering: PDF page 2 becomes slide-000.png.
+                & magick -density 288 $pdf -delete 0 -background white -alpha remove -alpha off -scene 0 $outPattern
                 
                 if ($LASTEXITCODE -eq 0 -and (Get-ChildItem $outDir -Filter "slide-*.png").Count -gt 0) {
                     $success = $true
