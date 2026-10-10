@@ -14,7 +14,7 @@
 # Set Edge arguments for each launch.
 # Quickly display a loading page for button press feedback.
 # Download content from user made Google slides presentations & convert from PDF to PNG.
-# Build html files for each slideshow based on the generated PNG files.
+# Builds index.html based on the PNG files
 # Close Edge and reload the main display html.
 
 
@@ -33,6 +33,7 @@ $edgeArguments1 = @(
     "--disable-touch-drag-drop"
     "--disable-gesture-requirement-for-media-playback"
     "--disable-features=TouchpadOverscrollHistoryNavigation,TouchDragAndDrop"
+	"--allow-file-access-from-files"
 )
 # 2 Edge argumnets for main page.
 $edgeArguments2 = @(
@@ -46,6 +47,7 @@ $edgeArguments2 = @(
     "--disable-touch-drag-drop"
     "--disable-gesture-requirement-for-media-playback"
     "--disable-features=TouchpadOverscrollHistoryNavigation,TouchDragAndDrop"
+	"--allow-file-access-from-files"
 )
 
 # ------------------------- Quickly display a loading page for button press feedback ----------------------------------
@@ -63,12 +65,8 @@ Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -Ar
 
 
 # ------------------------- Build html files for each slideshow based on the generated PNG files (previous step) ----------------------------------
-# Use the quarterly images to build the html files for the cubes 
-& "C:\www\scripts\Build-cube-html.ps1"
-# Use the yearly images to buils the html files for the yearly slides
-& "C:\www\scripts\Build-year-html.ps1"
-# Use the who images to buils the html files for the who are we slides
-& "C:\www\scripts\Build-who-html.ps1"
+# custom builds the index.html based off of the downloaded content 
+& "C:\www\scripts\Build-Index-Html.ps1"
 
 
 # ------------------------- Close Edge and reload the main display html ----------------------------------
