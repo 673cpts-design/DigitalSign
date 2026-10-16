@@ -50,7 +50,7 @@ Dim MyDevice As Integer() = {1224, -1, 1} 'Device Descriptor [MWTAG8]
 Dim AppName As String = "" 'Active application name
 Dim AppTitle As String = "" 'Active application title
 Dim Layer_Red As Integer = 0 'Red,3
-    Dim PS_ScriptPath_Open As String = "C:\www\Scripts\Reboot.ps1" ' <-- set this to your PowerShell script path reboot
+    Dim PS_ScriptPath_Reboot As String = "C:\www\Scripts\Reboot.ps1" ' <-- set this to your PowerShell script path reboot
     Dim PS_ScriptPath_Open As String = "C:\www\Scripts\open-button.ps1" ' <-- set this to your PowerShell script path for open
     Dim PS_ScriptPath_Closed As String = "C:\www\Scripts\closed-button.ps1" ' <-- set this to your PowerShell script path for closed
 '=↑=↑=↑= Initialize Varibles End  =↑=↑=↑=↑=↑=↑=↑=↑=↑=[/MWTAG3]
