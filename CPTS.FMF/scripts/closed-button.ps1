@@ -11,7 +11,7 @@ foreach ($process in (Get-Process -Name "msedge" -ErrorAction SilentlyContinue))
         $null = $process.CloseMainWindow()  # suppress output
     }
 }
-& "C:\QwenVoice\Update-Announcement.ps1"
+& "C:\www\QwenVoice\Update-Announcement.ps1"
 # Kill any leftover processes silently
 Get-Process -Name "msedge" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 # Clear session restore files to prevent warning banners
