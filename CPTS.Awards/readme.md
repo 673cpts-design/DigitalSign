@@ -1,6 +1,6 @@
-# CPTS Awards Digital Sign
+# Awards Digital Sign
 
-A full-screen, 4K landscape awards display for 673 CPTS. Leadership, yearly award winners, quarterly award winners, and team awards share one animated screen over a dark night sky with an hour-long 4K fireworks video.
+A full-screen, 4K landscape awards display. Leadership, yearly award winners, quarterly award winners, and team awards share one animated screen over a dark night sky with an hour-long 4K fireworks video on loop.
 
 The display runs locally in Microsoft Edge kiosk mode. PowerShell downloads Google Slides presentations, converts them into images, and builds a single `index.html` containing all of the display regions. No web server is required.
 
