@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Left-Anchored Waving Flag — 4K</title>
+<style>
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#60b5eb;}
+#canvas,.plane{position:fixed;inset:0;width:100vw;height:100vh;}
+#sky{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+background:radial-gradient(ellipse at 82% 9%,rgba(255,249,219,.5),transparent 38%),linear-gradient(to bottom,#1674c3 0%,#409fe0 42%,#91cdf0 78%,#d6ebf6 100%);}
+#sky::before,#sky::after{content:"";position:absolute;inset:-10% -20%;opacity:.48;
+background:radial-gradient(ellipse 13% 5% at 23% 32%,rgba(255,255,255,.85),transparent 100%),radial-gradient(ellipse 17% 6% at 31% 34%,rgba(255,255,255,.7),transparent 100%),radial-gradient(ellipse 14% 4% at 67% 67%,rgba(255,255,255,.7),transparent 100%),radial-gradient(ellipse 21% 5% at 79% 68%,rgba(255,255,255,.55),transparent 100%);
+animation:cloud-drift 220s ease-in-out infinite alternate;}
+#sky::after{opacity:.23;transform:scale(1.3);animation-duration:310s;animation-direction:alternate-reverse;}
+@keyframes cloud-drift{from{translate:-3% 0;}to{translate:7% 1%;}}
+.plane{z-index:1;}
+#canvas{z-index:2;pointer-events:none;}
+.plane img{display:block;width:100%;height:100%;object-fit:fill;}
+.webgl-ready .plane img{visibility:hidden;}
+.no-curtains .plane img{visibility:visible;}
+</style></head><body>
+<div id="sky" aria-hidden="true"></div>
+<div id="canvas" aria-hidden="true"></div>
+<div class="plane"><img alt="Animated fullscreen landscape" src="assets/wonder.png"></div>
+<script src="curtains.umd.js"></script>
+<script src="setup.js"></script></body></html>
