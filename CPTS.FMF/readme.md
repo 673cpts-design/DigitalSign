@@ -1,4 +1,4 @@
-# CPTS.FMF — Digital Signage and Voice Announcements
+# Portrait Open/Closed Digital Signage and Cloned Voice Announcements 
 
 A Windows kiosk display with separate **open** and **closed** layouts, remotely editable Google Slides content, and locally generated voice announcements controlled through Google Sheets.
 
