@@ -1,0 +1,15 @@
+{
+  "model": "0.6B",
+  "language": "English",
+  "reference": "auto",
+  "reference_transcript": "reference.txt",
+  "script": "script.txt",
+  "output": "output.wav",
+  "max_chunk_characters": 300,
+  "pause_seconds": 0.22,
+  "seed": 42,
+  "trim_start_seconds": 0.22,
+  "fade_in_ms": 5,
+  "output_loudness_lufs": -16.0,
+  "output_peak_db": -1.5
+}
