@@ -160,8 +160,6 @@ Check chassis clearance, power supply requirements, and full-size versus Mini Di
 | **Combined required Windows licenses** | **$472.85** |
 | **Controls + both required licenses** | **$669.15** |
 
-Prices are the supplied planning figures in USD, not live quotes. The display, computer, mounting hardware, cabling, taxes, and shipping are not included. Both Windows licenses are included in the combined baseline total.
-
 ## Deploying a project
 
 - Select the project folder that matches the intended display.
