@@ -53,7 +53,7 @@ Individual project folders define their own layouts, content sources, scripts, a
 
 **Samsung QM32C–QM98C** commercial signage displays are the specified display baseline, with the model and size selected for the installation.
 
-Use a model rated for **24/7 operation**. These displays are intended for continuous commercial signage use; a 24/7 rating is not a guarantee against image retention or burn-in. Follow the selected model's operating and content guidance.
+Use a model rated for **24/7 operation**. These displays are intended for continuous commercial signage use; a 24/7 rating is not a guarantee against image retention or burn-in, however, it does greatly reduce the probability. Follow the selected model's operating and content guidance.
 
 **Refresh rate: 60 Hz.** Ensure the computer’s GPU, video output ports, adapters, and cabling support the selected display’s native resolution at 60 Hz. For a 4K display, the complete connection must support **3840 × 2160 at 60 Hz**. Verify Windows is configured to use 60 Hz on each connected display.
 
