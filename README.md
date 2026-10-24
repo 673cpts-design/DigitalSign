@@ -21,14 +21,8 @@ My Solution
 Leverage the presentation power of the web browser to embed free to use web collaboration tools for ease of use to modify the contents behind a template of high level 
 presentation. Running webpages in full screen kiosk mode gives the appearance of modern high-end apps because it is essentially the same thing as the front end of a commercial product. 
 
-Baseline:
-Windows 11 LTSC USAF EITaaS Secure Host Baseline 
-xkeys button and accessories 
-xkeys software 
-sysenternals autologon
-power profile change 
-GPO edit for windows updates 
-reg edit for power profile 
+Baseline requirements.
+
 
 
 
