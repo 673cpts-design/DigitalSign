@@ -1150,8 +1150,40 @@ animation:cloud-drift 220s ease-in-out infinite alternate;}
 // Winter months: December, January, February (computer local date).
 const WINTER_MONTHS=[11,0,1];
 let winterActive=false,snowFrame=0;
+const SNOW_INTENSITIES=[.2,.4,.6,.8,1];
+const INTENSITY_INTERVAL_MS=3*60*60*1000;
+let snowIntensity=1,targetSnowIntensity=1,nextIntensityAt=0;
+function updateSnowIntensity(){
+ if(!winterActive)return;
+ const now=Date.now();
+ if(!nextIntensityAt){nextIntensityAt=now+INTENSITY_INTERVAL_MS;return;}
+ if(now<nextIntensityAt)return;
+ targetSnowIntensity=SNOW_INTENSITIES[Math.floor(Math.random()*SNOW_INTENSITIES.length)];
+ nextIntensityAt=now+INTENSITY_INTERVAL_MS;
+}
 const CONFIG={layers:21,flakesPerLayer:55,minRadius:.7,maxRadius:5.6,depositChance:.72,maxDepth:25,renderScale:.5,alphaThreshold:32};
 const scene=document.body,layers=[],targets=[];
+const BASE_ACCUMULATION_DEPTH=25;
+let accumulationDay='';
+function dailyAccumulationFactor(key){
+ // A date-seeded draw keeps the day's selection stable even after a page reload.
+ let seed=2166136261;
+ for(const char of 'snow-depth:'+key){seed=Math.imul(seed^char.charCodeAt(0),16777619);}
+ seed^=seed>>>16;seed=Math.imul(seed,0x7feb352d);seed^=seed>>>15;
+ return 1+((seed>>>0)%5);
+}
+function updateSnowAccumulation(){
+ const now=new Date();
+ const key=now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
+ if(key===accumulationDay)return;
+ accumulationDay=key;
+ CONFIG.maxDepth=BASE_ACCUMULATION_DEPTH*dailyAccumulationFactor(key);
+ for(const t of targets){
+  for(let i=0;i<t.depths.length;i++)t.depths[i]=Math.min(t.depths[i],CONFIG.maxDepth);
+  t.dirty=true;syncTarget(t);
+ }
+}
+updateSnowAccumulation();
 // Several depth layers share each integer z-index, preserving page levels 0–7.
 const LAYER_Z=Array.from({length:CONFIG.layers},(_,i)=>Math.round(i*7/(CONFIG.layers-1)));
 let width=innerWidth,height=innerHeight,paused=false,last=0,layoutClock=0;
@@ -1216,9 +1248,13 @@ function drawCap(t){
  // Each pixel column has its own edge: empty columns never draw snow.
  c.fillStyle='#edf7fc';for(let i=0;i<t.depths.length;i++)if(Number.isFinite(t.base[i])&&t.depths[i]>.01)c.fillRect(8+i,offset+t.base[i]-t.depths[i],1,t.depths[i]);
 }
-function frame(time){if(!winterActive)return;snowFrame=requestAnimationFrame(frame);if(!last){last=time;return;}const dt=Math.min((time-last)/1000,.05);last=time;if(paused||document.hidden)return;layoutClock+=dt;if(layoutClock>.25){targets.forEach(syncTarget);layoutClock=0;}
+function frame(time){if(!winterActive)return;snowFrame=requestAnimationFrame(frame);if(!last){last=time;return;}const dt=Math.min((time-last)/1000,.05);last=time;if(paused||document.hidden)return;
+ // Ease toward the new density over roughly one minute. Full density remains the original maximum.
+ const intensityStep=dt/60;
+ snowIntensity+=Math.sign(targetSnowIntensity-snowIntensity)*Math.min(Math.abs(targetSnowIntensity-snowIntensity),intensityStep);
+ layoutClock+=dt;if(layoutClock>.25){targets.forEach(syncTarget);layoutClock=0;}
  for(const l of layers){const c=l.ctx;c.clearRect(0,0,width+2,height+2);c.fillStyle=`rgba(243,249,255,${.35+l.depthIndex/20*.58})`;c.beginPath();
-  for(let i=0;i<l.flakes.length;i++){
+  for(let i=0,count=Math.round(l.flakes.length*snowIntensity);i<count;i++){
    let f=l.flakes[i];const ox=f.x,oy=f.y;f.age+=dt;
    f.x+=(l.wind+Math.sin(f.age*l.frequency+f.phase+l.phase)*f.sway+Math.sin(time*.00013+l.phase)*9)*dt;f.y+=f.speed*dt;
    let hit=null,hitX=0,hitY=Infinity;
@@ -1238,6 +1274,7 @@ function updateSnowSeason(){
  winterActive=active;last=0;
  for(const l of layers)l.canvas.style.display=active?'block':'none';
  if(active){
+  snowIntensity=targetSnowIntensity=1;nextIntensityAt=0;updateSnowIntensity();
   targets.forEach(syncTarget);
   snowFrame=requestAnimationFrame(frame);
  }else{
@@ -1249,8 +1286,8 @@ window.Snowfall={refresh,clear(){for(const t of targets){t.depths.fill(0);t.dirt
 const pauseButton=document.getElementById('pause'),clearButton=document.getElementById('clear');
 if(pauseButton)pauseButton.onclick=e=>{paused=!paused;e.target.textContent=paused?'Resume snow':'Pause snow';};if(clearButton)clearButton.onclick=()=>Snowfall.clear();
 window.addEventListener('resize',resize);scene.addEventListener('load',event=>{if(event.target.matches?.('[data-snow]'))refresh();},true);refresh();resize();updateSnowSeason();
-setInterval(updateSnowSeason,60000);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)updateSnowSeason();});
+setInterval(()=>{updateSnowAccumulation();updateSnowSeason();updateSnowIntensity();},60000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){updateSnowAccumulation();updateSnowSeason();updateSnowIntensity();}});
 })();
 
 </script>
