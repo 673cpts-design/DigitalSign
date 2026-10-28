@@ -59,8 +59,7 @@ Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -Ar
 
 # ------------------------- Download content from user made Google slides presentations & convert from PDF to PNG ----------------------------------
 # Download google slides and convert to .png files
-& "C:\www\scripts\DL-PDF2PNG.ps1"
-& "C:\www\scripts\Refresh-Info.ps1"
+& "C:\www\scripts\Refresh.ps1"
 
 
 # ------------------------- Close Edge and reload the main display html ----------------------------------
