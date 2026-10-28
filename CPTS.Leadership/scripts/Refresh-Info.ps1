@@ -1,3 +1,4 @@
+& "C:\www\scripts\DL-PDF2PNG.ps1"
 & "C:\www\scripts\Get-JBEREvents.ps1"
 & "C:\www\scripts\Get-AirForceTimesNews.ps1"
 & "C:\www\scripts\Get-Directory.ps1"
