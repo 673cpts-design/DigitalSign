@@ -151,11 +151,17 @@ def main():
         raise ValueError('B2 must contain On/Off or Yes/No.')
     if not selected:
         raise ValueError('Select a voice in B4.')
-    matches = [cell(row, 1) for row in range(10, len(rows)+1) if cell(row, 2).casefold() == selected.casefold()]
+    matches = [row for row in range(10, len(rows)+1) if cell(row, 2).casefold() == selected.casefold()]
     if len(matches) != 1:
         raise ValueError('B4 must match exactly one voice name in B10 downward. Check missing or duplicate names.')
-    result = cache_voice(Path(args.voice_root), selected, matches[0])
-    result.update(message=message, play=play, voice=selected)
+    row = matches[0]
+    model_number = cell(row, 3) or '1'
+    if model_number not in ('1', '2'):
+        raise ValueError(f'C{row} must contain 1 (0.6B) or 2 (1.7B).')
+    model = {'1': '0.6B', '2': '1.7B'}[model_number]
+    result = cache_voice(Path(args.voice_root), selected, cell(row, 1))
+    result.update(message=message, play=play, voice=selected, model=model)
+    print(f'Selected model: {model} (C{row})', file=sys.stderr)
     Path(args.result).write_text(json.dumps(result, ensure_ascii=False), encoding='utf-8')
 
 if __name__ == '__main__':
