@@ -1,9 +1,9 @@
-﻿#Requires -Version 5.1
+#Requires -Version 5.1
 <#
-B4 selects the voice. A10 downward contains ZIP links; B10 downward contains names.
+B4 selects the voice. A10 downward contains ZIP links; B10 downward contains names. C10 downward selects 1=0.6B or 2=1.7B.
 Cached voices are stored in C:\www\QwenVoice\Voice\<name>.
 Requires voice-cache.py beside this script. All existing Qwen settings are preserved
-except reference/reference_transcript, which are updated to the selected voice.
+except reference/reference_transcript/model, which follow the selected voice row.
 Do not run manual generation simultaneously; both use the same settings and script.
 #>
 [CmdletBinding()]
@@ -87,6 +87,13 @@ try {
     $message = [string]$selection.message
     $play = [string]$selection.play
     Write-Status ("Selected voice: " + $selection.voice)
+    $selectedModel = [string]$selection.model
+    if ($selectedModel -notin @('0.6B', '1.7B')) { throw 'Voice selection returned an invalid model.' }
+    $modelPath = Join-Path $QwenFolder ('models\' + $selectedModel)
+    if (-not (Test-Path -LiteralPath (Join-Path $modelPath 'model.safetensors'))) {
+        throw "Selected model $selectedModel is not installed in $modelPath. Run Setup.cmd to provision models."
+    }
+    Write-Status ("Selected model: " + $selectedModel)
     $cfg = Get-Content -LiteralPath $settingsPath -Raw -Encoding UTF8 | ConvertFrom-Json
     $settingsBackup = Join-Path $QwenFolder 'settings.before-voice-selection.json'
     if (-not [IO.File]::Exists($settingsBackup)) {
@@ -94,6 +101,7 @@ try {
     }
     $cfg | Add-Member -NotePropertyName reference -NotePropertyValue ([IO.Path]::Combine('Voice', [string]$selection.voice, [IO.Path]::GetFileName([string]$selection.reference))) -Force
     $cfg | Add-Member -NotePropertyName reference_transcript -NotePropertyValue ([IO.Path]::Combine('Voice', [string]$selection.voice, 'reference.txt')) -Force
+    $cfg | Add-Member -NotePropertyName model -NotePropertyValue $selectedModel -Force
     $settingsTemp = Join-Path $QwenFolder ('.settings-' + $nonce + '.json')
     [IO.File]::WriteAllText($settingsTemp, ($cfg | ConvertTo-Json -Depth 100), $utf8)
     Publish-File $settingsTemp $settingsPath
