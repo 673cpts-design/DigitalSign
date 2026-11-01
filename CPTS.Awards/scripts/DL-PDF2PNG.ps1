@@ -41,6 +41,7 @@ while ($outerCycle -lt $maxOuterCycles -and $pendingPresentations.Count -gt 0) {
 
         if (-not $fileId) {
             Write-Warning "   Invalid URL."
+            $failedThisCycle += $p
             continue
         }
 
@@ -125,7 +126,7 @@ while ($outerCycle -lt $maxOuterCycles -and $pendingPresentations.Count -gt 0) {
             } else {
                 Write-Warning "[$presName] Conversion Failed. Likely corrupt PDF. Tagging for redownload."
                 $failedObj = $pendingPresentations | Where-Object { $_.Name -eq $presName }
-                if ($failedObj -notcontains $failedThisCycle) { $failedThisCycle += $failedObj }
+                if ($failedThisCycle -notcontains $failedObj) { $failedThisCycle += $failedObj }
             }
         }
         $activeJobs | Remove-Job # Cleanup memory
@@ -139,4 +140,25 @@ if ($pendingPresentations.Count -gt 0) {
     Write-Error "`nFinished all cycles, but some presentations still failed: $($pendingPresentations.Name -join ', ')"
 } else {
     Write-Host "`nAll operations completed successfully!" -ForegroundColor Green
+
+    # Allow newly written PNGs to settle before notifying the browser.
+    Start-Sleep -Seconds 10
+
+    # Publish only after ALL background conversions and retries have succeeded.
+    $contentRootPath = Split-Path -Parent $baseOutputPath
+    $version = [guid]::NewGuid().ToString('N')
+    $target = Join-Path $contentRootPath 'content-version.js'
+    $temp = Join-Path $contentRootPath ('content-version.' + $version + '.tmp')
+    try {
+        [System.IO.File]::WriteAllText($temp, "window.awardsContentVersion = '$version';`r`n", [System.Text.UTF8Encoding]::new($false))
+        # Atomic publication: the browser sees either the old complete signal or the new one.
+        if ([System.IO.File]::Exists($target)) {
+            [System.IO.File]::Replace($temp, $target, $null)
+        } else {
+            [System.IO.File]::Move($temp, $target)
+        }
+    } finally {
+        if (Test-Path -LiteralPath $temp) { Remove-Item -LiteralPath $temp -Force }
+    }
+    Write-Host "Presentation refresh signaled: $version"
 }
