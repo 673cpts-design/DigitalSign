@@ -41,6 +41,12 @@ function TargetPath([string]$path, [string]$hash) {
     return $target
 }
 if (!(Test-Path -LiteralPath $AdbPath)) { throw "ADB not found: $AdbPath" }
+# Restart ADB before any phone connection. This prevents reusing a server
+# started under a different Windows account.
+Log 'Restarting ADB server...'
+$null = Adb @('kill-server')
+$null = Adb @('start-server')
+Log 'ADB server restarted.'
 $Destination = [IO.Path]::GetFullPath($Destination)
 $stage = Join-Path $Destination '.phone-import'
 New-Item -ItemType Directory -Force -Path $Destination,$stage | Out-Null
