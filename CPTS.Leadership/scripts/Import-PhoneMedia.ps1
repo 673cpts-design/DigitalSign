@@ -43,10 +43,10 @@ function TargetPath([string]$path, [string]$hash) {
 if (!(Test-Path -LiteralPath $AdbPath)) { throw "ADB not found: $AdbPath" }
 # Restart ADB before any phone connection. This prevents reusing a server
 # started under a different Windows account.
-Log 'Restarting ADB server...'
-$null = Adb @('kill-server')
-$null = Adb @('start-server')
-Log 'ADB server restarted.'
+# Log 'Restarting ADB server...'
+# $null = Adb @('kill-server')
+# $null = Adb @('start-server')
+# Log 'ADB server restarted.'
 $Destination = [IO.Path]::GetFullPath($Destination)
 $stage = Join-Path $Destination '.phone-import'
 New-Item -ItemType Directory -Force -Path $Destination,$stage | Out-Null
@@ -58,7 +58,7 @@ foreach ($file in Get-ChildItem -LiteralPath $Destination -File -Recurse) {
     $null = $hashes.Add((Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash)
 }
 Log "Local index ready: $($hashes.Count) unique hashes."
-$script:serial = (Adb @('-d','get-serialno')).Trim()
+$script:serial = (Adb @('-e','get-serialno')).Trim()
 if ((Adb @('-s',$script:serial,'get-state')).Trim() -ne 'device') { throw 'Phone not authorized' }
 Log "Connected to $script:serial"
 $paths = [Collections.Generic.List[string]]::new()
