@@ -2,7 +2,7 @@
 <# One-time WhatsApp USB import. Regular folders are kept; Private folders are discarded. #>
 [CmdletBinding()]
 param(
-    [string]$AdbPath = 'C:\platform-tools\adb.exe',
+    [string]$AdbPath = 'C:\platform-tools\AndroidSDK\platform-tools\adb.exe',
     [string]$Destination = 'C:\www\pictures'
 )
 $ErrorActionPreference = 'Stop'
