@@ -133,3 +133,5 @@ if ($pendingPresentations.Count -gt 0) {
 } else {
     Write-Host "`nAll operations completed successfully!" -ForegroundColor Green
 }
+
+& "C:\www\scripts\Update-LeadershipCsv.ps1"
