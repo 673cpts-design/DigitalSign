@@ -57,7 +57,7 @@ Dim Layer_Red As Integer = 0 'Red,3
     '=== Helper: run a PowerShell script hidden and wait for completion ===
     Private Function RunPowerShellHidden(ps1Path As String, Optional extraArgs As String = "") As Integer
         Dim psi As New ProcessStartInfo()
-        psi.FileName = "powershell.exe"
+        psi.FileName = "C:\Program Files\PowerShell\7\pwsh.exe"
         psi.Arguments = "-NoProfile -ExecutionPolicy Bypass -File " & """" & ps1Path & """" & If(String.IsNullOrWhiteSpace(extraArgs), "", " " & extraArgs)
         psi.CreateNoWindow = True
         psi.UseShellExecute = False
