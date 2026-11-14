@@ -106,3 +106,4 @@ foreach ($path in $paths) {
     }
 }
 Log 'Finished one-time import. Exiting.'
+& "C:\www\scripts\Update-MediaPlaylist.ps1"
