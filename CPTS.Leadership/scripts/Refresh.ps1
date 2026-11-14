@@ -26,4 +26,3 @@ try {
 & "C:\www\scripts\Get-AirForceTimesNews.ps1"
 & "C:\www\scripts\Get-Directory.ps1"
 & "C:\www\scripts\teams.ps1"
-& "C:\www\scripts\Update-MediaPlaylist.ps1"
