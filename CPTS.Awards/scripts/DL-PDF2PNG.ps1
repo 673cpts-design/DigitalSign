@@ -162,3 +162,4 @@ if ($pendingPresentations.Count -gt 0) {
     }
     Write-Host "Presentation refresh signaled: $version"
 }
+& "C:\www\scripts\Update-LeadershipCsv.ps1"
