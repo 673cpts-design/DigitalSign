@@ -2,4 +2,3 @@
 # DL-PDF2PNG.ps1 publishes the completion signal itself after successful conversion.
 $ErrorActionPreference = 'Stop'
 & "C:\www\scripts\DL-PDF2PNG.ps1"
-& "C:\www\scripts\Update-LeadershipCsv.ps1"
