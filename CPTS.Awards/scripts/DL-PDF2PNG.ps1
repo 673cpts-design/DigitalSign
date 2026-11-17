@@ -153,7 +153,8 @@ if ($pendingPresentations.Count -gt 0) {
         [System.IO.File]::WriteAllText($temp, "window.awardsContentVersion = '$version';`r`n", [System.Text.UTF8Encoding]::new($false))
         # Atomic publication: the browser sees either the old complete signal or the new one.
         if ([System.IO.File]::Exists($target)) {
-            [System.IO.File]::Replace($temp, $target, $null)
+            # Pass a real .NET null string; PowerShell can bind $null as an empty path.
+            [System.IO.File]::Replace($temp, $target, [System.Management.Automation.Language.NullString]::Value)
         } else {
             [System.IO.File]::Move($temp, $target)
         }
