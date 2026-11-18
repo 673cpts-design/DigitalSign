@@ -62,7 +62,7 @@ Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -Ar
 
 
 # ------------------------- Build html file slideshow based on the generated PNG files (previous step) ----------------------------------
-# Use the quarterly images to build the html files for the cubes 
+# Build with timing from Google sheet and slides from previous step 
 & "C:\www\scripts\Build-index-html.ps1"
 
 
