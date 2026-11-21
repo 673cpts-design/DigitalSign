@@ -7,9 +7,9 @@ $maxOuterCycles     = 3   # Max full redownload cycles for failed files
 $retryDelaySeconds  = 10  # Seconds to wait before retrying
 
 $presentations = @(
-    @{ Name = 'TopRight';   Url = 'https://docs.google.com/presentation/d/1jCFz3F6sW9dQal7sFOc3B_SDp7xqV1rrDAK2M4E25sc/edit?' },
+    @{ Name = 'TopRight';   Url = 'https://docs.google.com/presentation/d/177frk7EvdL0D4Ea_iOnYbG5GOvToVkxEpgX_-z2UabQ/edit?usp=sharing' },
     @{ Name = 'BottomLeft';   Url = 'https://docs.google.com/presentation/d/1JHFfUtRZpVK45EEe5agyRMiWRf7f_ZKWIbseQR9i-bE/edit?' },
-    @{ Name = 'BottomRight';   Url = 'https://docs.google.com/presentation/d/1_divCdzgPbeLa0g78mFODvDk2NFj7fPqFtU3-L46ZU8/edit?' },
+    @{ Name = 'BottomRight';   Url = 'https://docs.google.com/presentation/d/1AKjYerowgFVeuL00YhpNe5jlxMxJW5cRgS0ZdSZZJKg/edit?usp=sharing' },
     @{ Name = 'TopLeft';   Url = 'https://docs.google.com/presentation/d/1owPg1QHBMnokEVZXIMEQ87Mu4il2KrNFdCevMQTedbU/edit?' }
 )
 
@@ -134,4 +134,3 @@ if ($pendingPresentations.Count -gt 0) {
 } else {
     Write-Host "`nAll operations completed successfully!" -ForegroundColor Green
 }
-
