@@ -59,7 +59,7 @@ Start-Process "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -Ar
 # ------------------------- Download content from user made Google slides presentations & convert from PDF to PNG ----------------------------------
 # Download google slides and convert to .png files
 & "C:\www\scripts\DL-PDF2PNG.ps1"
-
+& "C:\www\scripts\Update-Winners-Csv.ps1"
 
 # ------------------------- Build html file slideshow based on the generated PNG files (previous step) ----------------------------------
 # Build with timing from Google sheet and slides from previous step 
