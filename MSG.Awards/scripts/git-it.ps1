@@ -54,4 +54,3 @@ Remove-Item $TempRepo -Recurse -Force
 
 Write-Host "Repository files successfully updated in $Destination"
 
-&"C:\www\scripts\refresh.ps1"
